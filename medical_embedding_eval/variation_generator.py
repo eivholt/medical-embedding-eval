@@ -99,9 +99,17 @@ class ManualVariationGenerator(VariationGenerator):
 class SynonymReplacementExample:
     """Example implementation showing how to create variations.
     
-    This is a simple example for demonstration purposes.
-    Real implementations would use NLP tools, medical ontologies,
-    or LLMs for more sophisticated variations.
+    This is a simple example for demonstration purposes only.
+    It uses basic string operations and has known limitations:
+    - Simple substring matching without word boundaries
+    - Case-sensitive replacement
+    - No linguistic analysis
+    
+    Real implementations should use:
+    - NLP libraries (spaCy, NLTK) for proper tokenization
+    - Medical ontologies (SNOMED CT, ICD codes)
+    - LLMs for sophisticated paraphrasing
+    - Word boundary detection for accurate replacement
     """
     
     # Example Norwegian medical synonyms/alternatives
