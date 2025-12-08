@@ -1,0 +1,21 @@
+{
+  "samples": [
+    {
+      "sample_id": "sample_001",
+      "text": "Pasienten har høyt blodtrykk",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "cardiology"
+      }
+    }
+  ],
+  "variations": [
+    {
+      "variation_id": "var_001",
+      "original_id": "sample_001",
+      "variation_text": "Personen lider av forhøyet blodtrykksmåling",
+      "variation_type": "paraphrase",
+      "changes_applied": ["Replaced 'pasienten' with 'personen'"]
+    }
+  ]
+}
