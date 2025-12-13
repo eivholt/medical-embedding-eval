@@ -168,3 +168,75 @@ class AzureOpenAIEmbedder(EmbeddingModel):
 
     def get_cache_key(self) -> str:
         return self._deployment_name
+
+
+class GeminiEmbedder(EmbeddingModel):
+    """Embedding model backed by the Gemini embedding API."""
+
+    def __init__(
+        self,
+        model_name: str,
+        *,
+        api_key: Optional[str] = None,
+        task_type: str = "retrieval_document",
+        embedding_dim: Optional[int] = None,
+        display_name: Optional[str] = None,
+    ) -> None:
+        api_key = api_key or os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise ValueError("Gemini API key must be provided via argument or GEMINI_API_KEY environment variable")
+
+        try:
+            import google.generativeai as genai  # Imported lazily to avoid hard dependency when unused
+        except ImportError as exc:  # pragma: no cover - installation specific
+            raise ImportError(
+                "The google-generativeai package is required to use GeminiEmbedder. Install it via 'pip install google-generativeai'."
+            ) from exc
+
+        genai.configure(api_key=api_key)
+
+        self._genai = genai
+        self._model_name = model_name
+        self._task_type = task_type
+        self._display_name = display_name or model_name
+        self.embedding_dim = embedding_dim
+
+    def embed(self, texts: Union[str, List[str]]) -> np.ndarray:
+        if isinstance(texts, str):
+            texts = [texts]
+        if not texts:
+            return np.empty((0, self.embedding_dim or 0), dtype=np.float32)
+
+        embeddings: List[List[float]] = []
+        for text in texts:
+            response = self._genai.embed_content(
+                model=self._model_name,
+                content=text,
+                task_type=self._task_type,
+            )
+            if isinstance(response, dict):
+                vector = response.get("embedding")
+            else:
+                vector = getattr(response, "embedding", None)
+            if vector is None:
+                raise ValueError("Gemini embedding response did not contain an 'embedding' field")
+            embeddings.append(vector)
+
+        if self.embedding_dim is None and embeddings:
+            self.embedding_dim = len(embeddings[0])
+
+        if self.embedding_dim is None:
+            raise ValueError("Unable to determine embedding dimension from Gemini response")
+
+        return np.asarray(embeddings, dtype=np.float32)
+
+    def get_embedding_dimension(self) -> int:
+        if self.embedding_dim is None:
+            raise ValueError("Embedding dimension unavailable before first embedding call")
+        return self.embedding_dim
+
+    def get_model_name(self) -> str:
+        return self._display_name
+
+    def get_cache_key(self) -> str:
+        return self._model_name

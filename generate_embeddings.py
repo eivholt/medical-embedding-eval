@@ -9,14 +9,20 @@ from typing import Dict, List, Sequence, Tuple
 from dotenv import load_dotenv
 
 from medical_embedding_eval import (
+    EmbeddingModel,
     AzureOpenAIEmbedder,
+    GeminiEmbedder,
     CachedEmbedding,
     DEFAULT_AZURE_EMBEDDING_CONFIGS,
+    DEFAULT_GEMINI_EMBEDDING_CONFIGS,
     MedicalSample,
     SampleVariation,
     compute_text_hash,
     load_samples_from_directory,
     resolve_deployment_name,
+    resolve_gemini_api_key,
+    resolve_gemini_model_name,
+    resolve_gemini_task_type,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
@@ -53,7 +59,7 @@ def collect_payloads(
 
 
 def update_cache_for_model(
-    embedder: AzureOpenAIEmbedder,
+    embedder: EmbeddingModel,
     cache: EmbeddingCache,
     samples: Sequence[MedicalSample],
     variations: Sequence[SampleVariation],
@@ -94,40 +100,76 @@ def main() -> None:
     api_key = os.getenv("AZURE_OPENAI_API_KEY")
     api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
 
-    if not endpoint or not api_key:
-        raise RuntimeError(
-            "Azure OpenAI configuration is missing. Set AZURE_OPENAI_ENDPOINT and AZURE_OPENAI_API_KEY in your .env file."
-        )
-
     data_dir = DATA_DIR.resolve()
     print(f"Scanning {data_dir} for JSON sample definitions...")
     samples, variations = load_samples_from_directory(data_dir)
     print(f"Loaded {len(samples)} samples and {len(variations)} variations from {data_dir}")
 
     cache = EmbeddingCache(CACHE_DIR)
+    processed_any = False
 
-    for config in DEFAULT_AZURE_EMBEDDING_CONFIGS:
-        deployment_name = resolve_deployment_name(config)
+    if not endpoint or not api_key:
+        print("Azure OpenAI configuration not found; skipping Azure deployments.")
+    else:
+        for config in DEFAULT_AZURE_EMBEDDING_CONFIGS:
+            deployment_name = resolve_deployment_name(config)
+            print()
+            print(f"Processing model {config.display_name} (deployment '{deployment_name}')")
+
+            embedder = AzureOpenAIEmbedder(
+                deployment_name=deployment_name,
+                embedding_dim=config.embedding_dim,
+                endpoint=endpoint,
+                api_key=api_key,
+                api_version=api_version,
+                model_name=config.display_name,
+            )
+
+            refreshed = update_cache_for_model(embedder, cache, samples, variations)
+            processed_any = True
+            if refreshed:
+                print(f"Cached {refreshed} embeddings for {config.display_name}.")
+            else:
+                print(f"Cache already up to date for {config.display_name}.")
+
+    for config in DEFAULT_GEMINI_EMBEDDING_CONFIGS:
+        model_name = resolve_gemini_model_name(config)
+        task_type = resolve_gemini_task_type(config)
+        gemini_key = resolve_gemini_api_key(config)
+
         print()
-        print(f"Processing model {config.display_name} (deployment '{deployment_name}')")
+        print(f"Processing model {config.display_name} (Gemini '{model_name}')")
 
-        embedder = AzureOpenAIEmbedder(
-            deployment_name=deployment_name,
-            embedding_dim=config.embedding_dim,
-            endpoint=endpoint,
-            api_key=api_key,
-            api_version=api_version,
-            model_name=config.display_name,
-        )
+        if not gemini_key:
+            print(
+                f"Skipping {config.display_name}: Gemini API key not provided. Set {config.api_key_env_var} in your environment."
+            )
+            continue
+
+        try:
+            embedder = GeminiEmbedder(
+                model_name=model_name,
+                api_key=gemini_key,
+                task_type=task_type,
+                embedding_dim=config.embedding_dim,
+                display_name=config.display_name,
+            )
+        except (ImportError, ValueError) as exc:
+            print(f"Skipping {config.display_name}: {exc}")
+            continue
 
         refreshed = update_cache_for_model(embedder, cache, samples, variations)
+        processed_any = True
         if refreshed:
             print(f"Cached {refreshed} embeddings for {config.display_name}.")
         else:
             print(f"Cache already up to date for {config.display_name}.")
 
     print()
-    print("Done. Cached embeddings stored under data/embeddings.")
+    if processed_any:
+        print("Done. Cached embeddings stored under data/embeddings.")
+    else:
+        print("No embeddings generated. Configure Azure OpenAI or Gemini credentials and try again.")
 
 
 if __name__ == "__main__":

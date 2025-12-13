@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 
 from medical_embedding_eval import (
     DEFAULT_AZURE_EMBEDDING_CONFIGS,
+    DEFAULT_GEMINI_EMBEDDING_CONFIGS,
     BenchmarkMetrics,
     EvaluationMetrics,
     SimilarityMetrics,
@@ -17,6 +18,7 @@ from medical_embedding_eval import (
     compute_text_hash,
     load_samples_from_directory,
     resolve_deployment_name,
+    resolve_gemini_model_name,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
@@ -161,6 +163,26 @@ def main() -> None:
 
         try:
             metrics, benchmark = evaluate_with_cache(config.display_name, deployment_name, cache, records, variations)
+        except (KeyError, ValueError) as exc:
+            print(f"Skipping {config.display_name}: {exc}")
+            continue
+
+        display_results(config.display_name, metrics, benchmark)
+        summary.append((config.display_name, metrics, benchmark))
+        any_success = True
+
+    for config in DEFAULT_GEMINI_EMBEDDING_CONFIGS:
+        model_name = resolve_gemini_model_name(config)
+        records = cache.load(model_name)
+        if not records:
+            print(
+                f"No cached embeddings found for model {config.display_name} (Gemini '{model_name}'). "
+                "Run generate_embeddings.py first."
+            )
+            continue
+
+        try:
+            metrics, benchmark = evaluate_with_cache(config.display_name, model_name, cache, records, variations)
         except (KeyError, ValueError) as exc:
             print(f"Skipping {config.display_name}: {exc}")
             continue
