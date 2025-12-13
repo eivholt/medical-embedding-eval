@@ -28,15 +28,18 @@ def load_samples_from_json(base_path: Path) -> Tuple[List[MedicalSample], List[S
         )
         samples.append(sample)
 
-        for variation_payload in sample_payload.get("variations", []):
+        for idx, variation_payload in enumerate(sample_payload.get("variations", []), start=1):
+            variation_id = variation_payload.get("variation_id") or f"{sample.sample_id}_var_{idx:02d}"
+            label = variation_payload.get("label")
             variations.append(
                 SampleVariation(
                     original_sample=sample,
                     variation_text=variation_payload["variation_text"],
                     variation_type=variation_payload["variation_type"],
-                    variation_id=variation_payload["variation_id"],
+                    variation_id=variation_id,
                     changes_applied=variation_payload.get("changes_applied", []),
                     metadata=variation_payload.get("metadata", {}),
+                    similarity_label=label,
                 )
             )
 

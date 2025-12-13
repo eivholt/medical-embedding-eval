@@ -3,6 +3,7 @@
 from typing import List, Dict, Optional, Tuple
 import numpy as np
 from dataclasses import dataclass, field
+import math
 
 
 @dataclass
@@ -16,6 +17,7 @@ class SimilarityResult:
         sample_id: ID of the original sample
         variation_id: ID of the variation
         variation_type: Type of variation applied
+        human_label: Optional[float]: Human annotated similarity label
     """
     original_text: str
     variation_text: str
@@ -23,6 +25,7 @@ class SimilarityResult:
     sample_id: str
     variation_id: str
     variation_type: str
+    human_label: Optional[float] = None
 
 
 @dataclass
@@ -161,3 +164,112 @@ class SimilarityMetrics:
         }
         
         return metrics
+
+    @staticmethod
+    def compute_benchmark_metrics(
+        results: List[SimilarityResult],
+        positive_label: float = 1.0,
+        k_values: Tuple[int, ...] = (1, 3, 5),
+    ) -> "BenchmarkMetrics":
+        if not results:
+            raise ValueError("Cannot compute metrics from empty results")
+
+        by_sample: Dict[str, List[SimilarityResult]] = {}
+        for result in results:
+            by_sample.setdefault(result.sample_id, []).append(result)
+
+        total_queries = len(by_sample)
+        positive_queries = 0
+        mrr_sum = 0.0
+        recall_hits = {k: 0 for k in k_values}
+
+        for sample_results in by_sample.values():
+            # sort descending by cosine similarity
+            sorted_results = sorted(sample_results, key=lambda r: r.cosine_similarity, reverse=True)
+
+            positive_indices = [idx for idx, res in enumerate(sorted_results) if res.human_label == positive_label]
+            if not positive_indices:
+                continue
+
+            positive_queries += 1
+            best_rank = positive_indices[0] + 1  # convert to 1-based
+            mrr_sum += 1.0 / best_rank
+
+            for k in k_values:
+                if best_rank <= k:
+                    recall_hits[k] += 1
+
+        recall_at_k = {
+            k: (recall_hits[k] / positive_queries if positive_queries else 0.0)
+            for k in k_values
+        }
+
+        labeled_results = [res for res in results if res.human_label is not None]
+        if len(labeled_results) >= 2:
+            similarities = np.array([res.cosine_similarity for res in labeled_results], dtype=float)
+            labels = np.array([res.human_label for res in labeled_results], dtype=float)
+
+            pearson = SimilarityMetrics._pearson_correlation(similarities, labels)
+            spearman = SimilarityMetrics._spearman_correlation(similarities, labels)
+        else:
+            pearson = None
+            spearman = None
+
+        return BenchmarkMetrics(
+            positive_label=positive_label,
+            total_queries=total_queries,
+            evaluated_queries=positive_queries,
+            mean_reciprocal_rank=(mrr_sum / positive_queries if positive_queries else 0.0),
+            recall_at_k=recall_at_k,
+            pearson=pearson,
+            spearman=spearman,
+        )
+
+    @staticmethod
+    def _pearson_correlation(x: np.ndarray, y: np.ndarray) -> Optional[float]:
+        if x.size < 2 or y.size < 2:
+            return None
+        if np.std(x) == 0 or np.std(y) == 0:
+            return None
+        return float(np.corrcoef(x, y)[0, 1])
+
+    @staticmethod
+    def _spearman_correlation(x: np.ndarray, y: np.ndarray) -> Optional[float]:
+        if x.size < 2 or y.size < 2:
+            return None
+        x_ranks = SimilarityMetrics._rankdata(x)
+        y_ranks = SimilarityMetrics._rankdata(y)
+        return SimilarityMetrics._pearson_correlation(x_ranks, y_ranks)
+
+    @staticmethod
+    def _rankdata(values: np.ndarray) -> np.ndarray:
+        order = np.argsort(values, kind="mergesort")
+        ranks = np.empty(len(values), dtype=float)
+        sorted_values = values[order]
+
+        i = 0
+        n = len(values)
+        while i < n:
+            j = i
+            while (
+                j + 1 < n
+                and math.isclose(sorted_values[j + 1], sorted_values[i], rel_tol=1e-9, abs_tol=1e-12)
+            ):
+                j += 1
+            average_rank = (i + j) / 2.0 + 1.0
+            for k in range(i, j + 1):
+                ranks[order[k]] = average_rank
+            i = j + 1
+
+        return ranks
+
+
+@dataclass
+class BenchmarkMetrics:
+    positive_label: float
+    total_queries: int
+    evaluated_queries: int
+    mean_reciprocal_rank: float
+    recall_at_k: Dict[int, float]
+    pearson: Optional[float]
+    spearman: Optional[float]

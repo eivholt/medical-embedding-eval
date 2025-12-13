@@ -52,6 +52,7 @@ class SampleVariation:
     variation_id: str
     changes_applied: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
+    similarity_label: Optional[float] = None
     
     def __post_init__(self):
         """Validate variation data."""
@@ -63,6 +64,13 @@ class SampleVariation:
         # Ensure variation is different from original
         if self.variation_text.strip() == self.original_sample.text.strip():
             raise ValueError("Variation must differ from original sample")
+
+        if self.similarity_label is not None:
+            if not isinstance(self.similarity_label, (int, float)):
+                raise ValueError("similarity_label must be numeric")
+            if not 0.0 <= float(self.similarity_label) <= 1.0:
+                raise ValueError("similarity_label must be between 0 and 1")
+            self.similarity_label = float(self.similarity_label)
 
 
 @dataclass

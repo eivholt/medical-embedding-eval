@@ -93,21 +93,15 @@ cd examples
 python basic_usage.py
 ```
 
-### Norwegian Medical Examples
+### Norwegian Medical Benchmark Data
 
-The framework includes pre-built Norwegian medical examples:
+`data/general_somatic.json` contains labeled Norwegian clinical anchor sentences with nested variations grouped by sample. Each variation includes:
 
-```python
-from examples.norwegian_medical_examples import (
-    get_norwegian_medical_samples,
-    get_norwegian_medical_variations
-)
+- `variation_type` describing the category (e.g., `positive_paraphrase`, `hard_positive`, `related_condition`, `hard_negative`, `easy_negative`)
+- `label` capturing the human similarity score (`1.0`, `0.5`, `0.0`)
+- optional notes in `changes_applied`
 
-samples = get_norwegian_medical_samples()
-variations = get_norwegian_medical_variations()
-```
-
-See `examples/norwegian_medical_examples.py` for details.
+These labels enable calculation of ranking metrics (MRR, Recall@k) and correlation against cosine similarity.
 
 ## Embedding Workflow
 
@@ -127,6 +121,12 @@ python evaluate_norwegian_samples.py
 ```
 
 If any sample text changes, rerun the generation step to refresh the cache before re-evaluating.
+
+The evaluation script now reports:
+
+- Aggregate cosine statistics per model and variation type
+- Ranking metrics (MRR, Recall@k) using the labeled paraphrases
+- Pearson and Spearman correlation between cosine similarity and human similarity scores
 
 ## Framework Components
 

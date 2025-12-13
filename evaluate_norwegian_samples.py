@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List, Tuple
 
 from dotenv import load_dotenv
 
 from medical_embedding_eval import (
     DEFAULT_AZURE_EMBEDDING_CONFIGS,
+    BenchmarkMetrics,
     EvaluationMetrics,
     SimilarityMetrics,
     SimilarityResult,
@@ -25,10 +26,34 @@ DATA_PATH = Path("data/general_somatic.json")
 CACHE_DIR = Path("data/embeddings")
 
 
-def display_results(model_name: str, metrics: EvaluationMetrics) -> None:
+def display_results(model_name: str, metrics: EvaluationMetrics, benchmark: BenchmarkMetrics) -> None:
     print("=" * 80)
     print(f"EVALUATION RESULTS: {model_name}")
     print("=" * 80)
+    print()
+
+    print("=" * 80)
+    print(f"RANKING METRICS: {model_name}")
+    print("=" * 80)
+    print()
+    if benchmark.evaluated_queries:
+        print(f"Queries with positives: {benchmark.evaluated_queries}/{benchmark.total_queries}")
+        print(f"Mean Reciprocal Rank: {benchmark.mean_reciprocal_rank:.4f}")
+        for k, value in sorted(benchmark.recall_at_k.items()):
+            print(f"Recall@{k}: {value:.4f}")
+    else:
+        print("No positive labels available for ranking metrics.")
+
+    print()
+    print("Correlation with human labels:")
+    if benchmark.pearson is not None:
+        print(f"  Pearson:  {benchmark.pearson:.4f}")
+    else:
+        print("  Pearson:  N/A")
+    if benchmark.spearman is not None:
+        print(f"  Spearman: {benchmark.spearman:.4f}")
+    else:
+        print("  Spearman: N/A")
     print()
     print(metrics)
     print()
@@ -61,7 +86,7 @@ def evaluate_with_cache(
     cache: EmbeddingCache,
     records: Dict[str, CachedEmbedding],
     variations,
-) -> EvaluationMetrics:
+) -> Tuple[EvaluationMetrics, BenchmarkMetrics]:
     results = []
     for variation in variations:
         sample = variation.original_sample
@@ -97,11 +122,13 @@ def evaluate_with_cache(
                 sample_id=sample.sample_id,
                 variation_id=variation.variation_id,
                 variation_type=variation.variation_type,
+                human_label=variation.similarity_label,
             )
         )
 
     metrics = SimilarityMetrics.compute_evaluation_metrics(results, model_name=model_name)
-    return metrics
+    benchmark = SimilarityMetrics.compute_benchmark_metrics(results)
+    return metrics, benchmark
 
 
 def main() -> None:
@@ -118,6 +145,7 @@ def main() -> None:
 
     cache = EmbeddingCache(CACHE_DIR)
     any_success = False
+    summary: List[Tuple[str, EvaluationMetrics, BenchmarkMetrics]] = []
 
     for config in DEFAULT_AZURE_EMBEDDING_CONFIGS:
         deployment_name = resolve_deployment_name(config)
@@ -130,16 +158,44 @@ def main() -> None:
             continue
 
         try:
-            metrics = evaluate_with_cache(config.display_name, deployment_name, cache, records, variations)
+            metrics, benchmark = evaluate_with_cache(config.display_name, deployment_name, cache, records, variations)
         except (KeyError, ValueError) as exc:
             print(f"Skipping {config.display_name}: {exc}")
             continue
 
-        display_results(config.display_name, metrics)
+        display_results(config.display_name, metrics, benchmark)
+        summary.append((config.display_name, metrics, benchmark))
         any_success = True
 
     if not any_success:
         print("No models evaluated. Ensure embeddings are generated and cached before running this script.")
+        return
+
+    print("=" * 80)
+    print("MODEL COMPARISON SUMMARY")
+    print("=" * 80)
+    headers = [
+        "Model",
+        "Mean Cosine",
+        "MRR",
+        "Recall@1",
+        "Recall@3",
+        "Pearson",
+        "Spearman",
+    ]
+    print(" | ".join(headers))
+    print("-" * 80)
+
+    for model_name, metrics, benchmark in summary:
+        mean_cos = f"{metrics.mean_similarity:.4f}"
+        mrr = f"{benchmark.mean_reciprocal_rank:.4f}" if benchmark.evaluated_queries else "N/A"
+        recall1 = f"{benchmark.recall_at_k.get(1, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
+        recall3 = f"{benchmark.recall_at_k.get(3, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
+        pearson = f"{benchmark.pearson:.4f}" if benchmark.pearson is not None else "N/A"
+        spearman = f"{benchmark.spearman:.4f}" if benchmark.spearman is not None else "N/A"
+
+        row = [model_name, mean_cos, mrr, recall1, recall3, pearson, spearman]
+        print(" | ".join(row))
 
 
 if __name__ == "__main__":

@@ -53,6 +53,7 @@ class EmbeddingEvaluator:
             sample_id=original.sample_id,
             variation_id=variation.variation_id,
             variation_type=variation.variation_type,
+            human_label=variation.similarity_label,
         )
         
         return result

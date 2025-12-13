@@ -1,27 +1,178 @@
 {
   "samples": [
     {
-      "sample_id": "sample_001",
-      "text": "Pasienten har høyt blodtrykk",
+      "sample_id": "htn_anchor_001",
+      "text": "Pasienten har høyt blodtrykk med gjentatte målinger over 160/95 mmHg til tross for livsstilsendringer.",
       "metadata": {
         "language": "norwegian",
         "domain": "cardiology"
       },
       "variations": [
         {
-          "variation_id": "var_001",
-          "variation_text": "Personen lider av forhøyet blodtrykksmåling",
-          "variation_type": "paraphrase",
+          "variation_id": "htn_anchor_001_pos_01",
+          "variation_text": "Pasientens blodtrykk ligger stabilt på 165/100 mmHg selv etter kostholdsendringer og økt fysisk aktivitet.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
           "changes_applied": [
-            "Erstattet 'pasienten' med 'personen'"
+            "Omskriving med samme kliniske innhold",
+            "Byttet rekkefølgen på deler av setningen"
           ]
         },
         {
-          "variation_id": "var_002",
-          "variation_text": "Pasienten har ikke høyt blodtrykk",
-          "variation_type": "negation",
+          "variation_id": "htn_anchor_001_hard_pos_01",
+          "variation_text": "58 år gammel kvinne med kjent hypertensjon står på maksimal dose kalsiumantagonist, men har fortsatt blodtrykk 170/95 mmHg ved hjemme- og kontormålinger.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
           "changes_applied": [
-            "La til negasjon 'ikke'"
+            "La til alder og medikamentopplysninger",
+            "Brukte begrepet hypertensjon i stedet for høyt blodtrykk"
+          ]
+        },
+        {
+          "variation_id": "htn_anchor_001_related_01",
+          "variation_text": "Pasienten har moderat nyoppdaget hyperlipidemi med LDL 4.8 mmol/L, men blodtrykket er normalt.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Byttet til beslektet risikofaktor (lipider)",
+            "Fjernet hypertensjonsdiagnosen"
+          ]
+        },
+        {
+          "variation_id": "htn_anchor_001_hard_neg_01",
+          "variation_text": "Pasienten beskriver svimmelhet og målinger rundt 85/55 mmHg etter oppstart med ny blodtrykksmedisin.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Endret til hypotensjonsproblem",
+            "Beholdt blodtrykksrelatert vokabular"
+          ]
+        },
+        {
+          "variation_id": "htn_anchor_001_easy_neg_01",
+          "variation_text": "Pasienten har et lukket håndleddsbrudd etter fall på isen.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Byttet til helt annen problemstilling"
+          ]
+        }
+      ]
+    },
+    {
+      "sample_id": "chest_pain_acute_mi",
+      "text": "Pasienten beskriver trykkende brystsmerter som stråler til venstre arm, ledsaget av kvalme og kaldsvette. EKG viser ST-elevasjoner anterolateralt.",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "cardiology"
+      },
+      "variations": [
+        {
+          "variation_id": "chest_pain_acute_mi_pos_01",
+          "variation_text": "Pasienten opplever et tungt trykk i brystet med utstråling mot venstre arm, kvalme og klam hud. EKG viser ST-hevninger i fremre avledninger.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Synonymbruk for symptomene",
+            "Endret formulering av EKG-funn"
+          ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_hard_pos_01",
+          "variation_text": "67 år gammel mann våknet med knugende brystubehag som gikk i kjeven og armen. Han er kvalm, diaforetisk og har ST-elevasjoner i V2–V5.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til alder og symptomstart",
+            "Brukte andre anatomiske beskrivelser"
+          ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_related_01",
+          "variation_text": "Pasienten får brystsmerter ved anstrengelse som slipper etter hvile. Ingen ST-forandringer, men lett troponinstigning.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endret til stabil angina",
+            "Beholdt koronar kontekst"
+          ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_hard_neg_01",
+          "variation_text": "Pasienten har stikkende brystsmerter som oppstår ved stress og ledsages av hyperventilasjon. EKG er normalt.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Endret årsak til angstrelatert",
+            "Beholdt brystsmerter som hovedsymptom"
+          ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_easy_neg_01",
+          "variation_text": "Pasienten innlegges med akutte magesmerter og oppkast etter inntak av bedervet mat.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Byttet til gastrointestinal problemstilling"
+          ]
+        }
+      ]
+    },
+    {
+      "sample_id": "pneumonia_suspicion_001",
+      "text": "83 år gammel pasient innlegges med feber 38.6 °C, produktiv hoste og nedsatt metning 91 % på romluft. Rtg thorax viser infiltrat basalt høyre.",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "pulmonology"
+      },
+      "variations": [
+        {
+          "variation_id": "pneumonia_suspicion_001_pos_01",
+          "variation_text": "Eldre pasient med hoste, feber og oksygenmetning 90 % på romluft. Røntgen thorax bekrefter høyresidig nedre lapp-infiltrat.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskriving og bruk av synonymer",
+            "Små endringer i måleverdier"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_hard_pos_01",
+          "variation_text": "75 år gammel mann fra sykehjemmet med 24 timers høy feber, purulent ekspektorat og hypoksi 89 % til tross for 2 l O2. CT thorax viser konsolidering i høyre underlapp.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Endret alder og miljø",
+            "Brukte CT i stedet for røntgen"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_related_01",
+          "variation_text": "Pasient med kjent KOLS har økende ekspektorat og tung pust, men er afebril og har ingen nye infiltrater på røntgen.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Skiftet til KOLS-forverring",
+            "Beholdt respiratoriske symptomer"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_hard_neg_01",
+          "variation_text": "Pasienten innlegges med akutt hjertesvikt, tachypné og lungeødem på røntgen. Temperatur er normal.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Byttet til kardial årsak",
+            "Beholdt lungerealterte funn"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_easy_neg_01",
+          "variation_text": "Pasienten oppsøker legevakt for nyoppståtte nyrekolikksmerter og synlig hematuri.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Flyttet fokus til urologisk problem"
           ]
         }
       ]

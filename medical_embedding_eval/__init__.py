@@ -14,7 +14,12 @@ from .model_config import (
     resolve_deployment_name,
 )
 from .evaluator import EmbeddingEvaluator
-from .metrics import SimilarityMetrics, SimilarityResult, EvaluationMetrics
+from .metrics import (
+    SimilarityMetrics,
+    SimilarityResult,
+    EvaluationMetrics,
+    BenchmarkMetrics,
+)
 
 __version__ = "0.1.0"
 
@@ -32,6 +37,7 @@ __all__ = [
     "SimilarityMetrics",
     "SimilarityResult",
     "EvaluationMetrics",
+    "BenchmarkMetrics",
     "load_samples_from_json",
     "AzureEmbeddingConfig",
     "DEFAULT_AZURE_EMBEDDING_CONFIGS",
