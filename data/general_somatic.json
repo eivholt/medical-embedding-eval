@@ -5,7 +5,8 @@
       "text": "Pasienten har høyt blodtrykk med gjentatte målinger over 160/95 mmHg til tross for livsstilsendringer.",
       "metadata": {
         "language": "norwegian",
-        "domain": "cardiology"
+        "domain": "kardiologi",
+        "purpose": "klinisk notat"
       },
       "variations": [
         {
@@ -64,7 +65,8 @@
       "text": "Pasienten beskriver trykkende brystsmerter som stråler til venstre arm, ledsaget av kvalme og kaldsvette. EKG viser ST-elevasjoner anterolateralt.",
       "metadata": {
         "language": "norwegian",
-        "domain": "cardiology"
+        "domain": "kardiologi",
+        "purpose": "akuttmottaksnotat"
       },
       "variations": [
         {
@@ -123,7 +125,8 @@
       "text": "83 år gammel pasient innlegges med feber 38.6 °C, produktiv hoste og nedsatt metning 91 % på romluft. Rtg thorax viser infiltrat basalt høyre.",
       "metadata": {
         "language": "norwegian",
-        "domain": "pulmonology"
+        "domain": "lungemedisin",
+        "purpose": "innleggelsesnotat"
       },
       "variations": [
         {

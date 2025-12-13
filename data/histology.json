@@ -1,0 +1,214 @@
+{
+  "samples": [
+    {
+      "sample_id": "histology_plica_fimbriata_001",
+      "text": "Klinisk diagnose: uspes. utvekst plica fimbriata venstre side. Kort sykehistorie: over en lang periode residiverende smerter og hevelse underside av tunge venstre side på plica fimbriata. Man ser en liten utvekst direkte på plica, cyste-lignende, palperes hardt og er øm. Materialet består av: 1 glass. Tatt fra (organ, region, side): Plica fimbriata, underside tunge venstre side.",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "dermatologi",
+        "purpose": "histologisvar"
+      },
+      "variations": [
+        {
+          "variation_id": "histology_plica_fimbriata_001_pos_01",
+          "variation_text": "Klinisk vurdering: uspesifisert utvekst på plica fimbriata venstre. Sykehistorie viser langvarige residiverende smerter og hevelse under tungen på plica fimbriata. Man observerer en liten, cystelignende lesjon på plicaen som palperes hard og øm. Materialet omfatter ett objektglass tatt fra plica fimbriata på venstre tunges underside.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskriving med synonymer",
+            "Normaliserte forkortelser"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_pos_02",
+          "variation_text": "Langvarige gjentatte smerter og hevelse i venstre plica fimbriata med liten fast, øm, cystelignende utvekst. Klinisk diagnose: uspesifisert plica-fimbriata-lesjon. Prøvemateriale: ett glass fra venstre tunges underside.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Kortfattet oppsummering av funn",
+            "Reorganiserte setningsledd"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_hard_pos_01",
+          "variation_text": "Pasienten beskriver måneder med tilbakevendende ømhet og hevelse i venstre plica fimbriata. Klinisk sees en liten, fast cystisk struktur langs plicaen. Histologiprøven består av ett objektglass fra venstre tunges underside.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til pasientreferanse",
+            "Forenklet klinisk beskrivelse"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_related_01",
+          "variation_text": "Pasienten har gjentatte episoder med hevelse i venstre sublinguale region, men klinisk vurderes en mukocele. Prøvematerialet er ett glass fra venstre tunges underside.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endret diagnose til mukocele",
+            "Beholdt anatomisk område"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_hard_neg_01",
+          "variation_text": "Pasienten har residiverende sårdannelser på høyre tungespiss uten palperbare knuter; biopsi fra tungespiss sendes på ett objektglass.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Skiftet side og lokalisasjon",
+            "Beholdt histologisk kontekst"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_easy_neg_01",
+          "variation_text": "Hudbiopsi fra venstre underarm viser inflammatoriske forandringer; innsendt materiale består av ett glass.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Flyttet til helt annet organ"
+          ]
+        }
+      ]
+    },
+    {
+      "sample_id": "histology_cecum_biopsy_001",
+      "text": "Kort sykehistorie: episoder med friskt blod på papiret og i avføringen. Koloskopi uten patologiske funn. I coekum sees et lite punkt, usikkert om sugepolypp fra scopet eller tidlig polyppanlegg, og det tas biopsi. Spørsmål om neoplasi? Materialet består av biopsi fra cøkum ved valvula Bauhini, fiksert i formalin. Preparatbeskrivelsen skal ikke brukes til publisering uten samtykke fra laboratoriet.",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "gastroenterologi",
+        "purpose": "histologisvar"
+      },
+      "variations": [
+        {
+          "variation_id": "histology_cecum_biopsy_001_pos_01",
+          "variation_text": "Pasienten har perioder med friskt blod på toalettpapiret og blandet i avføringen. Koloskopien viser ellers normale forhold. I cøkum observeres et lite fokus som kan representere sugepolypp eller begynnende polypose; biopsi tas for å avklare eventuell neoplasi. Materialet er en formalinfiksert biopsi fra valvula Bauhini.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Synonymbruk og normaliserte termer",
+            "Reorganiserte setningsledd"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_pos_02",
+          "variation_text": "Tilfeldige episoder med rødt blod på papir og avføring. Koloskopi er uten andre avvik. Et lite område i coekum mistenkes for å være enten sugepolypp fra instrumentet eller et lite polyppanlegg, og biopsi tas for neoplastisk vurdering. Prøven er en formalinfiksert biopsi fra cøkum nær valvula Bauhini.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Kortfattet gjengivelse av sykehistorien",
+            "Bruk av alternative formuleringer"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_hard_pos_01",
+          "variation_text": "Pasienten har hatt sporadiske rektalblødninger, men koloskopi er normal bortsett fra et lite cøkumfokus som kan være sugepolypp. Biopsi fra området tas for å utelukke tidlig neoplasi. Prøven er en formalinfiksert cøkum-biopsi ved Bauhinis klaff.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Mer komprimert presentasjon",
+            "Synonymer for anatomiske landemerker"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_related_01",
+          "variation_text": "Pasienten opplever tidvis mørkt blod i avføringen, og koloskopi avslører et lite adenom i sigmoideum som biopsieres. Materialet er formalinfiksert biopsi fra sigmoideum.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Flyttet lokalisasjonen til sigmoideum",
+            "Beholdt koloskopisk og histologisk kontekst"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_hard_neg_01",
+          "variation_text": "Pasienten har kronisk diare uten blødning. Koloskopi viser diffuse inflammatoriske forandringer i kolon, og flere biopsier tas til vurdering av inflammatorisk tarmsykdom.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Endret klinisk problemstilling til inflammatorisk tarmsykdom",
+            "Beholdt endoskopisk setting"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_easy_neg_01",
+          "variation_text": "Hudbiopsi fra høyre skulder viser basalcellekarsinom; materialet er formalinfiksert.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Skiftet til dermatologisk diagnose"
+          ]
+        }
+      ]
+    },
+    {
+      "sample_id": "histology_mirena_menometroragia_001",
+      "text": "Klinisk diagnose: menometroragi til tross for Mirena (N92.4). Kort sykehistorie: Mirena innsatt for over fem år siden, fortsatt menometroragi. Materialet består av endometriespåner tatt fra uterus. Spesielle ønsker: obs adenomyose eller karforandringer? Fiksert i formalin.",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "gynekologi",
+        "purpose": "histologisvar"
+      },
+      "variations": [
+        {
+          "variation_id": "histology_mirena_menometroragia_001_pos_01",
+          "variation_text": "Pasienten har vedvarende menometroragi (N92.4) til tross for Mirena i mer enn fem år. Det sendes inn endometriespåner fra uterus for histologisk vurdering med tanke på adenomyose eller vaskulære forandringer. Prøven er formalinfiksert.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Normaliserte ICD-kode og beskrivelser",
+            "Omskriving av sykehistorie"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_pos_02",
+          "variation_text": "Til tross for Mirena spiral i over fem år har pasienten fortsatt kraftige og uregelmessige menstruasjoner. Endometriespåner fra uterus sendes for å vurdere adenomyose og eventuelle karforandringer. Materialet er fiksert i formalin.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Fjernet forkortelser",
+            "Endret rekkefølgen på opplysninger"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_hard_pos_01",
+          "variation_text": "Pasient med Mirena-spiral i seks år har persisterende menometroragi. Uterine endometriespåner sendes inn for histologi med fokus på adenomyose og vaskulære anomalier, prøven er formalinfiksert.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Endret tidsangivelse",
+            "Brukte alternative formuleringer"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_related_01",
+          "variation_text": "Pasient med Mirena i fire år har utviklet menometroragi på grunn av submukøst myom. Det sendes endometriebiopsi fra uterus for vurdering. Materialet er formalinfiksert.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endret årsak til myom",
+            "Beholdt menstruasjonsproblematikk og Mirena"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_hard_neg_01",
+          "variation_text": "Pasient uten spiral har amenoré og hypoestrogen endometrium. Endometriespåner tas for vurdering av atrofiske forandringer.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Endret til motsatt klinisk problem (amenoré)",
+            "Fjern Mirena og menometroragi"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_easy_neg_01",
+          "variation_text": "Hudbiopsi fra venstre legg viser lipom; materialet er fiksert i formalin.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Flyttet problemstilling til dermatologi"
+          ]
+        }
+      ]
+    }
+  ]
+}
