@@ -7,7 +7,7 @@ semantic similarity of original samples with their variations.
 from .sample import MedicalSample, SampleVariation, SamplePair
 from .embedder import EmbeddingModel, DummyEmbedder, AzureOpenAIEmbedder
 from .embedding_cache import EmbeddingCache, CachedEmbedding, compute_text_hash
-from .data_loader import load_samples_from_json
+from .data_loader import load_samples_from_json, load_samples_from_directory
 from .model_config import (
     AzureEmbeddingConfig,
     DEFAULT_AZURE_EMBEDDING_CONFIGS,
@@ -39,6 +39,7 @@ __all__ = [
     "EvaluationMetrics",
     "BenchmarkMetrics",
     "load_samples_from_json",
+    "load_samples_from_directory",
     "AzureEmbeddingConfig",
     "DEFAULT_AZURE_EMBEDDING_CONFIGS",
     "resolve_deployment_name",

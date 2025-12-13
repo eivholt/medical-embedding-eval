@@ -15,14 +15,14 @@ from medical_embedding_eval import (
     SimilarityResult,
     CachedEmbedding,
     compute_text_hash,
-    load_samples_from_json,
+    load_samples_from_directory,
     resolve_deployment_name,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
 load_dotenv()
 
-DATA_PATH = Path("data/general_somatic.json")
+DATA_DIR = Path("data")
 CACHE_DIR = Path("data/embeddings")
 
 
@@ -137,9 +137,9 @@ def main() -> None:
     print("=" * 80)
     print()
 
-    data_path = DATA_PATH.resolve()
-    print(f"Loading samples from {data_path}...")
-    samples, variations = load_samples_from_json(data_path)
+    data_dir = DATA_DIR.resolve()
+    print(f"Scanning {data_dir} for JSON sample definitions...")
+    samples, variations = load_samples_from_directory(data_dir)
     print(f"Loaded {len(samples)} samples and {len(variations)} variations")
     print()
 

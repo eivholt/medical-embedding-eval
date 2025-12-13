@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Set, Tuple
 
 from .sample import MedicalSample, SampleVariation
 
@@ -44,3 +44,36 @@ def load_samples_from_json(base_path: Path) -> Tuple[List[MedicalSample], List[S
             )
 
     return samples, variations
+
+
+def load_samples_from_directory(directory: Path) -> Tuple[List[MedicalSample], List[SampleVariation]]:
+    """Load samples and variations from every JSON file in a directory."""
+
+    if not directory.exists():
+        raise FileNotFoundError(f"Directory {directory} does not exist")
+
+    json_files = sorted(path for path in directory.glob("*.json") if path.is_file())
+    if not json_files:
+        raise FileNotFoundError(f"No JSON files found in {directory}")
+
+    all_samples: List[MedicalSample] = []
+    all_variations: List[SampleVariation] = []
+    seen_sample_ids: Set[str] = set()
+    seen_variation_ids: Set[str] = set()
+
+    for file_path in json_files:
+        samples, variations = load_samples_from_json(file_path)
+
+        for sample in samples:
+            if sample.sample_id in seen_sample_ids:
+                raise ValueError(f"Duplicate sample_id '{sample.sample_id}' found in {file_path}")
+            seen_sample_ids.add(sample.sample_id)
+            all_samples.append(sample)
+
+        for variation in variations:
+            if variation.variation_id in seen_variation_ids:
+                raise ValueError(f"Duplicate variation_id '{variation.variation_id}' found in {file_path}")
+            seen_variation_ids.add(variation.variation_id)
+            all_variations.append(variation)
+
+    return all_samples, all_variations

@@ -67,6 +67,46 @@
           "changes_applied": [
             "Flyttet til helt annet organ"
           ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_pos_03",
+          "variation_text": "Langvarige residiverende smerter i venstre plica fimbriata med liten fast lesjon; materialet er ett glass med mucosa fra venstre tunges underside.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Komprimerte sykehistorien",
+            "Brukte alternative ordvalg"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_hard_pos_02",
+          "variation_text": "Tannlege har observert liten fibrøs knute på venstre plica fimbriata hos pasienten med kronisk ømhet. Det sendes inn et formalinfiksert glass for å avklare eventuell fibrom vs cyste.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Inkluderte henviser",
+            "Endret differensialdiagnose"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_related_02",
+          "variation_text": "Pasienten har smerter under tungen med gjentatte spyttstenser i Whartons gang; det sendes inn glass med ductusmateriale for undersøkelse.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endret til spyttkjertelproblematikk",
+            "Beholdt sublingual lokalisasjon"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_hard_neg_02",
+          "variation_text": "Pasienten har papillomatøs lesjon på høyre kinnslimhinne uten smerter; biopsi sendes på ett glass for vurdering av HPV-assosiasjon.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Flyttet til motsatt side og annet vev",
+            "Beholdt slimhinne-terminologi"
+          ]
         }
       ]
     },
@@ -137,6 +177,46 @@
           "changes_applied": [
             "Skiftet til dermatologisk diagnose"
           ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_pos_03",
+          "variation_text": "Pasienten rapporterer lyst blod ved avføring, men koloskopi er normal bortsett fra et lite punkt i cøkum som kan være instrumentrelatert. Biopsi fra området sendes, formalinfiksert, for å vurdere tidlig neoplasi.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Endret ordvalg og struktur",
+            "Presiserte instrumentrelatert mistanke"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_hard_pos_02",
+          "variation_text": "Under koloskopi hos pasient med intermitterende hematochezi sees et millimeterstort punkt i cøkum som biopsieres for å utelukke tidlig lesjon. Prøven er formalinfiksert biopsi ved Bauhinis klaff.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Brukte latinsk terminologi",
+            "Endret blødningstilfeller til hematochezi"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_related_02",
+          "variation_text": "Pasienten har frisk rektalblødning, og koloskopi viser en liten villøs polyp i rektum som fjernes og sendes i formalin.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Flyttet til annet tarmsegment",
+            "Beholdt blødningssymptom og histologiprosess"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_hard_neg_02",
+          "variation_text": "Pasienten har jernmangelanemi uten gastrointestinal blødning; kapselendoskopi viser normale funn og ingen biopsier tas.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Endret til anemiutredning uten funn",
+            "Fjernet biopsi fra prosessen"
+          ]
         }
       ]
     },
@@ -206,6 +286,46 @@
           "label": 0.0,
           "changes_applied": [
             "Flyttet problemstilling til dermatologi"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_pos_03",
+          "variation_text": "Pasienten med langvarig Mirena-bruk har fortsatt kraftige blødninger og sender inn endometrieskrap for vurdering av adenomyose eller vaskulære forandringer.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Forkortet teksten",
+            "Brukte ordet endometrieskrap"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_hard_pos_02",
+          "variation_text": "Til tross for LNG-spiral i over fem år har pasienten persisterende menometroragi. Formalinfiksert endometriespåne sendes for å se etter adenomyose og vaskulære anomalier.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Brukte LNG-spiral som betegnelse",
+            "Fokus på histologiske mål"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_related_02",
+          "variation_text": "Mirena-bruker med hypermenoré grunnet endometriumpolypper; det sendes polypmateriale fra uterus for analyse.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endret årsak til polypp",
+            "Beholdt Mirena og blødningsproblematikk"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_hard_neg_02",
+          "variation_text": "Pasient med kobberspiral har hypomenoré og sender inn endometrieskrap for å utelukke endometritt.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Byttet spiraltype og blødningsmønster",
+            "Endret indikasjon til infeksjon"
           ]
         }
       ]

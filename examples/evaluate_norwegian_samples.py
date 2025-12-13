@@ -1,5 +1,4 @@
-import json
-from medical_embedding_eval import MedicalSample, SampleVariation
+from pathlib import Path
 
 """Complete evaluation example using Norwegian medical samples.
 
@@ -13,10 +12,7 @@ from medical_embedding_eval import (
     EmbeddingEvaluator,
     DummyEmbedder,
     SamplePair,
-)
-from norwegian_medical_examples import (
-    get_norwegian_medical_samples,
-    get_norwegian_medical_variations,
+    load_samples_from_directory,
 )
 
 
@@ -28,42 +24,11 @@ def main():
     print()
     
     # Step 1: Load samples and variations
-    # print("Loading Norwegian medical samples...")
-    # samples = get_norwegian_medical_samples()
-    # variations = get_norwegian_medical_variations()
-    # print(f"Loaded {len(samples)} samples with {len(variations)} variations")
-    # print()
-
-
-
-    # Load from JSON
-    with open("data/general_somatic.json", encoding="utf-8") as fh:
-        data = json.load(fh)
-
-    samples = [
-        MedicalSample(
-            text=item["text"],
-            sample_id=item["sample_id"],
-            metadata=item.get("metadata", {}),
-        )
-        for item in data["samples"]
-    ]
-
-    sample_lookup = {sample.sample_id: sample for sample in samples}
-
-    variations = []
-    for item in data["variations"]:
-        original = sample_lookup[item["original_id"]]
-        variations.append(
-            SampleVariation(
-                original_sample=original,
-                variation_text=item["variation_text"],
-                variation_type=item["variation_type"],
-                variation_id=item["variation_id"],
-                changes_applied=item.get("changes_applied", []),
-                metadata=item.get("metadata", {}),
-            )
-        )
+    data_dir = Path("data").resolve()
+    print(f"Scanning {data_dir} for JSON sample definitions...")
+    samples, variations = load_samples_from_directory(data_dir)
+    print(f"Loaded {len(samples)} samples with {len(variations)} variations")
+    print()
     
     # Step 2: Create sample pairs
     print("Creating sample pairs...")

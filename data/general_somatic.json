@@ -57,6 +57,46 @@
           "changes_applied": [
             "Byttet til helt annen problemstilling"
           ]
+        },
+        {
+          "variation_id": "htn_anchor_001_pos_02",
+          "variation_text": "Til tross for streng saltrestriksjon og redusert alkoholbruk ligger blodtrykket fast på 168/98 mmHg ved døgnmåling.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Fremhevet livsstilstiltak",
+            "Brukte døgnmåling i stedet for enkeltmåling"
+          ]
+        },
+        {
+          "variation_id": "htn_anchor_001_hard_pos_02",
+          "variation_text": "Langtidsoppfølging viser at pasienten, som allerede bruker ACE-hemmer og tiazid, fortsatt har målinger 172/96 mmHg ved flere kontroller.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til kombinasjonsbehandling",
+            "Flyttet fokus til langtidsoppfølging"
+          ]
+        },
+        {
+          "variation_id": "htn_anchor_001_related_02",
+          "variation_text": "Pasienten har vedvarende mikroalbuminuri og lett hypertrofi av venstre ventrikkel, men blodtrykket ligger rundt 135/85 mmHg.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "La til organskade uten ukontrollert trykk",
+            "Beholdt kardiovaskulær risiko"
+          ]
+        },
+        {
+          "variation_id": "htn_anchor_001_hard_neg_02",
+          "variation_text": "Pasienten har ortostatisk hypotensjon med blodtrykk 150/95 mmHg liggende som faller til 95/60 mmHg stående.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Kontrasterte med ortostatisk problem",
+            "Beholdt hypertensjonsverdier i enkelte posisjoner"
+          ]
         }
       ]
     },
@@ -117,6 +157,46 @@
           "changes_applied": [
             "Byttet til gastrointestinal problemstilling"
           ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_pos_02",
+          "variation_text": "Pasienten rapporterer tungt press bak brystbenet som går ut i venstre skulder, ledsaget av kvalme og kalde hender. EKG viser forandringer forenlig med fremre STEMI.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Endret ordstilling og symptombeskrivelse",
+            "Tydeliggjorde STEMI-diagnose"
+          ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_hard_pos_02",
+          "variation_text": "Kvinne på 62 år får plutselig klemmende brysttrykk under trappetrinn, blir kvalm og diaforetisk. EKG viser ST-elevasjon i anterolaterale avledninger med speilbilder inferiort.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til utløsende aktivitet",
+            "Varierte EKG-beskrivelsen"
+          ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_related_02",
+          "variation_text": "Pasienten har atypiske brystsmerter og lett forhøyet troponin, men CT coronar angiografi viser ingen betydelig stenose.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Brukte troponinstigning uten ST-elevasjon",
+            "Endret utredning til CT"
+          ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_hard_neg_02",
+          "variation_text": "Pasienten beskriver kortvarige stikk i brystet som forverres ved innpust og lindres av NSAIDs; EKG viser perikardittforandringer.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Skiftet til perikarditt",
+            "Beholdt brystsmerter men endret karakter"
+          ]
         }
       ]
     },
@@ -176,6 +256,46 @@
           "label": 0.0,
           "changes_applied": [
             "Flyttet fokus til urologisk problem"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_pos_02",
+          "variation_text": "Eldre kvinne med feber rundt 39 grader, produktiv hoste og saturasjon 90 % på romluft. Røntgen thorax viser infiltrasjon basalt til høyre.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Endret kjønn og temperatur",
+            "Synonym for bildebeskrivelse"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_hard_pos_02",
+          "variation_text": "Langtidsboende på institusjon med 3 dagers hoste, purulent ekspektorat og PaO2 7.8 kPa på romluft; UL thorax viser konsolidering posteriort høyre.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til blodgassverdi",
+            "Byttet bildeundersøkelse til ultralyd"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_related_02",
+          "variation_text": "Pasient med hypoksi og bilateral knatrelyder, men CT viser interstitiell lungesykdom uten klare infiltrater.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Byttet til ILD-diagnose",
+            "Beholdt respirasjonssymptomer"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_hard_neg_02",
+          "variation_text": "Pasienten innlegges med anfallsvise pipelyder, tørrhoste og bedring etter inhalasjon; røntgen er upåfallende.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Endret til astmaanfall",
+            "Beholdt hoste men annen etiologi"
           ]
         }
       ]

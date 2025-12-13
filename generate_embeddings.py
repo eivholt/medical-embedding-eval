@@ -15,14 +15,14 @@ from medical_embedding_eval import (
     MedicalSample,
     SampleVariation,
     compute_text_hash,
-    load_samples_from_json,
+    load_samples_from_directory,
     resolve_deployment_name,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
 load_dotenv()
 
-DATA_PATH = Path("data/general_somatic.json")
+DATA_DIR = Path("data")
 CACHE_DIR = Path("data/embeddings")
 
 
@@ -99,9 +99,10 @@ def main() -> None:
             "Azure OpenAI configuration is missing. Set AZURE_OPENAI_ENDPOINT and AZURE_OPENAI_API_KEY in your .env file."
         )
 
-    data_path = DATA_PATH.resolve()
-    samples, variations = load_samples_from_json(data_path)
-    print(f"Loaded {len(samples)} samples and {len(variations)} variations from {data_path}")
+    data_dir = DATA_DIR.resolve()
+    print(f"Scanning {data_dir} for JSON sample definitions...")
+    samples, variations = load_samples_from_directory(data_dir)
+    print(f"Loaded {len(samples)} samples and {len(variations)} variations from {data_dir}")
 
     cache = EmbeddingCache(CACHE_DIR)
 
