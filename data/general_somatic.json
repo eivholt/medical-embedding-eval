@@ -6,16 +6,25 @@
       "metadata": {
         "language": "norwegian",
         "domain": "cardiology"
-      }
-    }
-  ],
-  "variations": [
-    {
-      "variation_id": "var_001",
-      "original_id": "sample_001",
-      "variation_text": "Personen lider av forhøyet blodtrykksmåling",
-      "variation_type": "paraphrase",
-      "changes_applied": ["Replaced 'pasienten' with 'personen'"]
+      },
+      "variations": [
+        {
+          "variation_id": "var_001",
+          "variation_text": "Personen lider av forhøyet blodtrykksmåling",
+          "variation_type": "paraphrase",
+          "changes_applied": [
+            "Erstattet 'pasienten' med 'personen'"
+          ]
+        },
+        {
+          "variation_id": "var_002",
+          "variation_text": "Pasienten har ikke høyt blodtrykk",
+          "variation_type": "negation",
+          "changes_applied": [
+            "La til negasjon 'ikke'"
+          ]
+        }
+      ]
     }
   ]
 }

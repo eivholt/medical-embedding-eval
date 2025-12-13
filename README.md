@@ -109,6 +109,25 @@ variations = get_norwegian_medical_variations()
 
 See `examples/norwegian_medical_examples.py` for details.
 
+## Embedding Workflow
+
+1. Configure Azure OpenAI credentials by copying `.env.example` to `.env` and filling in the endpoint, API key, and deployment names.
+2. Generate and cache embeddings locally:
+
+```bash
+python generate_embeddings.py
+```
+
+This script stores embeddings per deployment under `data/embeddings/`, along with the original text and a hash so changes can be detected automatically.
+
+3. Evaluate cached embeddings without re-querying the API:
+
+```bash
+python evaluate_norwegian_samples.py
+```
+
+If any sample text changes, rerun the generation step to refresh the cache before re-evaluating.
+
 ## Framework Components
 
 ### 1. Medical Samples (`MedicalSample`)

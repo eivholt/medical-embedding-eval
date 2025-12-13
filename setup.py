@@ -27,6 +27,8 @@ setup(
     install_requires=[
         "numpy>=1.20.0",
         "scikit-learn>=1.0.0",
+        "openai>=1.0.0",
+        "python-dotenv>=1.0.0",
     ],
     extras_require={
         "dev": [

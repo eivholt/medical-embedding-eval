@@ -1,8 +1,13 @@
 """Abstract interface for embedding models."""
 
+import os
 from abc import ABC, abstractmethod
-from typing import List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
+
 import numpy as np
+
+if TYPE_CHECKING:  # pragma: no cover - imported for type hints only
+    from openai import AzureOpenAI
 
 
 class EmbeddingModel(ABC):
@@ -40,6 +45,10 @@ class EmbeddingModel(ABC):
             String name of the model
         """
         return self.__class__.__name__
+
+    def get_cache_key(self) -> str:
+        """Return identifier used for embedding cache segregation."""
+        return self.get_model_name()
 
 
 class DummyEmbedder(EmbeddingModel):
@@ -95,3 +104,67 @@ class DummyEmbedder(EmbeddingModel):
             Model name string
         """
         return f"DummyEmbedder(dim={self.embedding_dim})"
+
+
+class AzureOpenAIEmbedder(EmbeddingModel):
+    """Embedding model backed by an Azure OpenAI deployment."""
+
+    def __init__(
+        self,
+        deployment_name: str,
+        embedding_dim: int,
+        *,
+        endpoint: Optional[str] = None,
+        api_key: Optional[str] = None,
+        api_version: Optional[str] = None,
+        model_name: Optional[str] = None,
+        client: Optional["AzureOpenAI"] = None,
+    ) -> None:
+        if client is None:
+            endpoint = endpoint or os.getenv("AZURE_OPENAI_ENDPOINT")
+            api_key = api_key or os.getenv("AZURE_OPENAI_API_KEY")
+            api_version = api_version or os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
+
+            if not endpoint or not api_key:
+                raise ValueError("Azure OpenAI endpoint and API key must be provided")
+
+            try:
+                from openai import AzureOpenAI  # Imported lazily to avoid hard dependency by default
+            except ImportError as exc:  # pragma: no cover - import error is configuration specific
+                raise ImportError(
+                    "The openai package is required to use AzureOpenAIEmbedder. Install it via 'pip install openai'."
+                ) from exc
+
+            client = AzureOpenAI(
+                azure_endpoint=endpoint,
+                api_key=api_key,
+                api_version=api_version,
+            )
+
+        self._client = client
+        self._deployment_name = deployment_name
+        self.embedding_dim = embedding_dim
+        self._model_name = model_name or deployment_name
+
+    def embed(self, texts: Union[str, List[str]]) -> np.ndarray:
+        if isinstance(texts, str):
+            texts = [texts]
+        if not texts:
+            return np.empty((0, self.embedding_dim), dtype=np.float32)
+
+        response = self._client.embeddings.create(
+            model=self._deployment_name,
+            input=texts,
+        )
+
+        vectors = [item.embedding for item in response.data]
+        return np.asarray(vectors, dtype=np.float32)
+
+    def get_embedding_dimension(self) -> int:
+        return self.embedding_dim
+
+    def get_model_name(self) -> str:
+        return self._model_name
+
+    def get_cache_key(self) -> str:
+        return self._deployment_name

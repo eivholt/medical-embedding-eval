@@ -1,95 +1,40 @@
-"""Run a full evaluation on Norwegian medical samples defined in data files."""
+"""Evaluate Norwegian medical samples using cached embeddings."""
 
-import json
+from __future__ import annotations
+
 from pathlib import Path
-from typing import List, Tuple
+from typing import Dict
+
+from dotenv import load_dotenv
 
 from medical_embedding_eval import (
-    EmbeddingEvaluator,
-    DummyEmbedder,
-    MedicalSample,
-    SamplePair,
-    SampleVariation,
+    DEFAULT_AZURE_EMBEDDING_CONFIGS,
+    EvaluationMetrics,
+    SimilarityMetrics,
+    SimilarityResult,
+    CachedEmbedding,
+    compute_text_hash,
+    load_samples_from_json,
+    resolve_deployment_name,
 )
+from medical_embedding_eval.embedding_cache import EmbeddingCache
+
+load_dotenv()
+
+DATA_PATH = Path("data/general_somatic.json")
+CACHE_DIR = Path("data/embeddings")
 
 
-def load_samples(base_path: Path) -> Tuple[List[MedicalSample], List[SampleVariation]]:
-    """Load samples and variations from a JSON definition file."""
-    with base_path.open(encoding="utf-8") as fh:
-        try:
-            payload = json.load(fh)
-        except json.JSONDecodeError as exc:
-            raise ValueError(f"{base_path} is empty or invalid JSON") from exc
-
-    samples = [
-        MedicalSample(
-            text=item["text"],
-            sample_id=item["sample_id"],
-            metadata=item.get("metadata", {}),
-        )
-        for item in payload.get("samples", [])
-    ]
-
-    sample_lookup = {sample.sample_id: sample for sample in samples}
-
-    variations: List[SampleVariation] = []
-    for item in payload.get("variations", []):
-        original_id = item["original_id"]
-        if original_id not in sample_lookup:
-            raise ValueError(f"Unknown original sample id: {original_id}")
-        variations.append(
-            SampleVariation(
-                original_sample=sample_lookup[original_id],
-                variation_text=item["variation_text"],
-                variation_type=item["variation_type"],
-                variation_id=item["variation_id"],
-                changes_applied=item.get("changes_applied", []),
-                metadata=item.get("metadata", {}),
-            )
-        )
-
-    return samples, variations
-
-
-def main() -> None:
-    """Evaluate Norwegian medical samples using the dummy embedder."""
+def display_results(model_name: str, metrics: EvaluationMetrics) -> None:
     print("=" * 80)
-    print("Norwegian Medical Embedding Evaluation")
-    print("=" * 80)
-    print()
-
-    data_path = Path("data/general_somatic.json").resolve()
-    print(f"Loading samples from {data_path}...")
-    samples, variations = load_samples(data_path)
-    print(f"Loaded {len(samples)} samples and {len(variations)} variations")
-    print()
-
-    print("Creating sample pairs...")
-    pairs = [SamplePair(original=variation.original_sample, variation=variation) for variation in variations]
-    print(f"Created {len(pairs)} pairs for evaluation")
-    print()
-
-    print("Initializing embedding model...")
-    embedder = DummyEmbedder(embedding_dim=384, seed=42)
-    print(f"Model: {embedder.get_model_name()}")
-    print(f"Embedding dimension: {embedder.get_embedding_dimension()}")
-    print()
-
-    print("Running evaluation...")
-    evaluator = EmbeddingEvaluator(embedder)
-    metrics = evaluator.evaluate_pairs(pairs)
-    print("Evaluation complete!")
-    print()
-
-    print("=" * 80)
-    print("EVALUATION RESULTS")
+    print(f"EVALUATION RESULTS: {model_name}")
     print("=" * 80)
     print()
     print(metrics)
     print()
 
     print("=" * 80)
-    print("DETAILED ANALYSIS BY VARIATION TYPE")
+    print(f"DETAILED ANALYSIS BY VARIATION TYPE: {model_name}")
     print("=" * 80)
     print()
 
@@ -107,17 +52,94 @@ def main() -> None:
             print(f"    Similarity: {result.cosine_similarity:.4f}")
         if len(type_results) > 2:
             print(f"\n  ... and {len(type_results) - 2} more")
+    print()
 
-    print()
+
+def evaluate_with_cache(
+    model_name: str,
+    deployment_name: str,
+    cache: EmbeddingCache,
+    records: Dict[str, CachedEmbedding],
+    variations,
+) -> EvaluationMetrics:
+    results = []
+    for variation in variations:
+        sample = variation.original_sample
+        sample_key = cache.record_key("sample", sample.sample_id)
+        variation_key = cache.record_key("variation", variation.variation_id)
+
+        sample_record = records.get(sample_key)
+        variation_record = records.get(variation_key)
+        if sample_record is None or variation_record is None:
+            raise KeyError(
+                f"Missing cached embedding for {sample_key if sample_record is None else variation_key} in {deployment_name}"
+            )
+
+        if sample_record.text_hash != compute_text_hash(sample.text):
+            raise ValueError(
+                f"Sample {sample.sample_id} text changed since embeddings were cached for {deployment_name}."
+            )
+        if variation_record.text_hash != compute_text_hash(variation.variation_text):
+            raise ValueError(
+                f"Variation {variation.variation_id} text changed since embeddings were cached for {deployment_name}."
+            )
+
+        similarity = SimilarityMetrics.cosine_similarity(
+            sample_record.embedding,
+            variation_record.embedding,
+        )
+
+        results.append(
+            SimilarityResult(
+                original_text=sample_record.text,
+                variation_text=variation_record.text,
+                cosine_similarity=similarity,
+                sample_id=sample.sample_id,
+                variation_id=variation.variation_id,
+                variation_type=variation.variation_type,
+            )
+        )
+
+    metrics = SimilarityMetrics.compute_evaluation_metrics(results, model_name=model_name)
+    return metrics
+
+
+def main() -> None:
     print("=" * 80)
-    print("NEXT STEPS")
+    print("Norwegian Medical Embedding Evaluation")
     print("=" * 80)
     print()
-    print("1. Replace DummyEmbedder with your actual embedding model")
-    print("2. Expand data/general_somatic.json with richer sample sets")
-    print("3. Compare multiple models with evaluator.compare_models")
+
+    data_path = DATA_PATH.resolve()
+    print(f"Loading samples from {data_path}...")
+    samples, variations = load_samples_from_json(data_path)
+    print(f"Loaded {len(samples)} samples and {len(variations)} variations")
     print()
-    print("=" * 80)
+
+    cache = EmbeddingCache(CACHE_DIR)
+    any_success = False
+
+    for config in DEFAULT_AZURE_EMBEDDING_CONFIGS:
+        deployment_name = resolve_deployment_name(config)
+        records = cache.load(deployment_name)
+        if not records:
+            print(
+                f"No cached embeddings found for model {config.display_name} (deployment '{deployment_name}'). "
+                "Run generate_embeddings.py first."
+            )
+            continue
+
+        try:
+            metrics = evaluate_with_cache(config.display_name, deployment_name, cache, records, variations)
+        except (KeyError, ValueError) as exc:
+            print(f"Skipping {config.display_name}: {exc}")
+            continue
+
+        display_results(config.display_name, metrics)
+        any_success = True
+
+    if not any_success:
+        print("No models evaluated. Ensure embeddings are generated and cached before running this script.")
 
 
 if __name__ == "__main__":
