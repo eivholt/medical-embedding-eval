@@ -107,6 +107,36 @@
             "Flyttet til motsatt side og annet vev",
             "Beholdt slimhinne-terminologi"
           ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_pos_04",
+          "variation_text": "Pasienten beskriver at en liten hard knute på venstre plica fimbriata har plaget henne ved spising og gir episodisk hevelse. Det sendes ett glass med slimhinnebiopsi fra venstre underside av tungen for vurdering av benign utvekst.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Flyttet fokus til funksjonelle plager",
+            "Parafraserte spørsmålet om benign lesjon"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_hard_pos_03",
+          "variation_text": "Kjevekirurg beskriver en fast, øm mucosal lesjon på venstre plica fimbriata hos pasient med gjentatte hevelser siste året. Det innsendes formalinfiksert glass med eksisjon for å skille fibrom fra cystisk prosess.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Innførte henviser fra kjevekirurg",
+            "Vektla differensialdiagnostisk problemstilling"
+          ]
+        },
+        {
+          "variation_id": "histology_plica_fimbriata_001_hard_neg_03",
+          "variation_text": "Pasienten har lignende smerter under tungen, men ultralyd viser en liten ranula fra gll. sublingualis. Det sendes væskefylt cystemateriale i glass for bekreftelse.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder sublingualt område men endrer til ranula",
+            "Introduksjon av bildediagnostikk som peker mot annen etiologi"
+          ]
         }
       ]
     },
@@ -217,6 +247,36 @@
             "Endret til anemiutredning uten funn",
             "Fjernet biopsi fra prosessen"
           ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_pos_04",
+          "variation_text": "Pasienten har episodiske skvetter av friskt blod i avføringen, men koloskopi er ellers normal. Et millimeterstort punkt i cøkum, mistenkt for instrumenttraume vs tidlig polypplese, biopsieres og sendes i formalin for neoplastisk avklaring.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Presiserte størrelsen på fokuset",
+            "Brukte alternative formuleringer for mistanken"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_hard_pos_03",
+          "variation_text": "Gastroenterolog rapporterer normal koloskopi bortsett fra lite erytematøst område ved valvula Bauhini som kan representere sugeartefakt. For å utelukke tidlig dysplasi sendes målrettet cøkum-biopsi i formalin.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Flyttet beskrivelsen til spesialistens vurdering",
+            "Endret ordvalg rundt dysplasimisstanke"
+          ]
+        },
+        {
+          "variation_id": "histology_cecum_biopsy_001_hard_neg_03",
+          "variation_text": "Pasienten har friskt blod på papiret, men fleksibel sigmoidoskopi avslører analfissur og ingen cøkumlesjoner; konservativ behandling anbefales og ingen biopsi tas.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder blødningssymptom men finner ikke lesjon i cøkum",
+            "Endret prosedyre til sigmoidoskopi uten biopsi"
+          ]
         }
       ]
     },
@@ -326,6 +386,36 @@
           "changes_applied": [
             "Byttet spiraltype og blødningsmønster",
             "Endret indikasjon til infeksjon"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_pos_04",
+          "variation_text": "Pasient som har brukt Mirena i seks år rapporterer fortsatt kraftige og langvarige blødninger. Det sendes endometriespåner fra uterus i formalin for å avklare adenomyose og vaskulære forandringer.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Oppdaterte tidsaspektet og styrken av blødningene",
+            "Parafraserte bestillingen til laboratoriet"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_hard_pos_03",
+          "variation_text": "Gynekolog noterer vedvarende menometroragi til tross for LNG-spiral og tidligere endometrieablasjon. Nytt endometrieskrap sendes i formalin for å lete etter adenomyotiske drag og uvanlige karstrukturer.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til tidligere behandling med ablasjon",
+            "Spesifiserte histologiske mål"
+          ]
+        },
+        {
+          "variation_id": "histology_mirena_menometroragia_001_hard_neg_03",
+          "variation_text": "Pasienten har postmenopausal blødning uten spiral. Transvaginal ultralyd viser tynn endometrielinje, og pipelle tas kun for å utelukke malignitet.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Skiftet til postmenopausal problemstilling",
+            "Beholdt histologisk prosedyre men uten Mirena-relasjon"
           ]
         }
       ]

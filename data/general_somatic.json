@@ -97,6 +97,36 @@
             "Kontrasterte med ortostatisk problem",
             "Beholdt hypertensjonsverdier i enkelte posisjoner"
           ]
+        },
+        {
+          "variation_id": "htn_anchor_001_pos_03",
+          "variation_text": "Til tross for trippelbehandling med ACE-hemmer, kalsiumantagonist og tiazid viser 24-timers ambulatorisk måling et snitt på 170/100 mmHg og vedvarende morgenstigning.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "La til konkret farmakologisk regime",
+            "Beskrev døgnprofil i stedet for enkeltmålinger"
+          ]
+        },
+        {
+          "variation_id": "htn_anchor_001_hard_pos_03",
+          "variation_text": "Pasienten har dokumentert målorganskade med papilleødem og gjentatte blodtrykksmålinger på 175/105 mmHg under kontrollopphold, selv etter nylig doseøkning av antihypertensiva.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Innførte hypertensiv organskade",
+            "Plasserte pasienten i overvåket sykehussetting"
+          ]
+        },
+        {
+          "variation_id": "htn_anchor_001_hard_neg_03",
+          "variation_text": "Pasienten har klinikk for hvitfrakk-hypertensjon med kontormålinger rundt 165/100 mmHg, men døgnmåling viser gjennomsnitt 128/78 mmHg og ingen nattlig belastning.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Angir høye kontorverdier men normale døgnverdier",
+            "Beholder blodtrykksfokus uten persisterende hypertensjon"
+          ]
         }
       ]
     },
@@ -197,6 +227,36 @@
             "Skiftet til perikarditt",
             "Beholdt brystsmerter men endret karakter"
           ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_pos_03",
+          "variation_text": "Ambulanse rapporterer sterk klemfølelse retrosternalt med utstråling til venstre arm og kjeve, kvalme og kaldsvette. Første EKG fra felt viser ST-elevasjon i fremre vegg, bekreftet ved ankomst.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Flyttet scenario til prehospital fase",
+            "Omformulerte symptomer og EKG-beskrivelse"
+          ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_hard_pos_03",
+          "variation_text": "Pasienten har plutselig vedvarende trykk bak brystbenet med diaforese, kvalme og ST-elevasjon i anterolaterale avledninger kombinert med nyoppstått venstre grenblokk.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til komplikasjon med grenblokk",
+            "Utvide symptombildet uten å endre etiologi"
+          ]
+        },
+        {
+          "variation_id": "chest_pain_acute_mi_hard_neg_03",
+          "variation_text": "Pasienten har trykkende brystsmerter og kaldsvette, men CT angiografi viser aortadisseksjon type A uten koronare stenoser, og EKG har kun uspesifikke ST-forandringer.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder dramatiske symptomer men endrer diagnose til disseksjon",
+            "Innfører bildeundersøkelse som utelukker infarkt"
+          ]
         }
       ]
     },
@@ -296,6 +356,36 @@
           "changes_applied": [
             "Endret til astmaanfall",
             "Beholdt hoste men annen etiologi"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_pos_03",
+          "variation_text": "Eldre pasient bringes inn fra hjemmetjenesten med fire dagers febertopper 38.8 °C, tykk grønnlig ekspektorat, respirasjonsfrekvens 28 og oksygenmetning 89 % på romluft; røntgen thorax viser ny konsolidering basal høyre.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Utvidet tidslinje og vitale tegn",
+            "Beholdt høyresidig infeksjonsfokus"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_hard_pos_03",
+          "variation_text": "Pasienten har CRP 230 mg/L, prokalsitonin 5.1 og hypoksi 88 % til tross for 3 l oksygen. Høyoppløselig CT viser lobær konsolidering i høyre underlapp og pleuravæske.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til laboratoriemarkører",
+            "Endret billedmodalitet til CT med pleurakomplikasjon"
+          ]
+        },
+        {
+          "variation_id": "pneumonia_suspicion_001_hard_neg_03",
+          "variation_text": "Pasienten har langvarig feber og hoste, men bronkoskopi viser soppkolonisering uten bakteriell infeksjon og CT thorax viser diffus bronkiektasi uten akutte infiltrater.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Presenterer lignende symptomer men ikke pneumoni",
+            "Bruker avansert diagnostikk som peker mot alternativ årsak"
           ]
         }
       ]
