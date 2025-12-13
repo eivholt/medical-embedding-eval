@@ -41,6 +41,8 @@ def display_results(model_name: str, metrics: EvaluationMetrics, benchmark: Benc
         print(f"Mean Reciprocal Rank: {benchmark.mean_reciprocal_rank:.4f}")
         for k, value in sorted(benchmark.recall_at_k.items()):
             print(f"Recall@{k}: {value:.4f}")
+        print(f"nDCG: {benchmark.ndcg:.4f}")
+        print(f"Average Precision: {benchmark.average_precision:.4f}")
     else:
         print("No positive labels available for ranking metrics.")
 
@@ -180,6 +182,8 @@ def main() -> None:
         "MRR",
         "Recall@1",
         "Recall@3",
+        "nDCG",
+        "AvgPrec",
         "Pearson",
         "Spearman",
     ]
@@ -191,10 +195,12 @@ def main() -> None:
         mrr = f"{benchmark.mean_reciprocal_rank:.4f}" if benchmark.evaluated_queries else "N/A"
         recall1 = f"{benchmark.recall_at_k.get(1, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
         recall3 = f"{benchmark.recall_at_k.get(3, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
+        ndcg = f"{benchmark.ndcg:.4f}" if benchmark.evaluated_queries else "N/A"
+        avg_prec = f"{benchmark.average_precision:.4f}" if benchmark.evaluated_queries else "N/A"
         pearson = f"{benchmark.pearson:.4f}" if benchmark.pearson is not None else "N/A"
         spearman = f"{benchmark.spearman:.4f}" if benchmark.spearman is not None else "N/A"
 
-        row = [model_name, mean_cos, mrr, recall1, recall3, pearson, spearman]
+        row = [model_name, mean_cos, mrr, recall1, recall3, ndcg, avg_prec, pearson, spearman]
         print(" | ".join(row))
 
 

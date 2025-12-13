@@ -182,6 +182,8 @@ class SimilarityMetrics:
         positive_queries = 0
         mrr_sum = 0.0
         recall_hits = {k: 0 for k in k_values}
+        ndcg_sum = 0.0
+        average_precision_sum = 0.0
 
         for sample_results in by_sample.values():
             # sort descending by cosine similarity
@@ -198,6 +200,9 @@ class SimilarityMetrics:
             for k in k_values:
                 if best_rank <= k:
                     recall_hits[k] += 1
+
+            ndcg_sum += SimilarityMetrics._ndcg(sorted_results)
+            average_precision_sum += SimilarityMetrics._average_precision(sorted_results, positive_label)
 
         recall_at_k = {
             k: (recall_hits[k] / positive_queries if positive_queries else 0.0)
@@ -223,6 +228,8 @@ class SimilarityMetrics:
             recall_at_k=recall_at_k,
             pearson=pearson,
             spearman=spearman,
+            ndcg=(ndcg_sum / positive_queries if positive_queries else 0.0),
+            average_precision=(average_precision_sum / positive_queries if positive_queries else 0.0),
         )
 
     @staticmethod
@@ -263,6 +270,44 @@ class SimilarityMetrics:
 
         return ranks
 
+    @staticmethod
+    def _gain(label: Optional[float]) -> float:
+        if label is None:
+            return 0.0
+        return float(2**label - 1)
+
+    @staticmethod
+    def _ndcg(sorted_results: List[SimilarityResult]) -> float:
+        gains = [SimilarityMetrics._gain(res.human_label) for res in sorted_results]
+        dcg = 0.0
+        for idx, gain in enumerate(gains, start=1):
+            if gain == 0.0:
+                continue
+            dcg += gain / math.log2(idx + 1)
+
+        ideal_gains = sorted(gains, reverse=True)
+        idcg = 0.0
+        for idx, gain in enumerate(ideal_gains, start=1):
+            if gain == 0.0:
+                continue
+            idcg += gain / math.log2(idx + 1)
+
+        if idcg == 0.0:
+            return 0.0
+        return dcg / idcg
+
+    @staticmethod
+    def _average_precision(sorted_results: List[SimilarityResult], positive_label: float) -> float:
+        hits = 0
+        precision_sum = 0.0
+        for idx, res in enumerate(sorted_results, start=1):
+            if res.human_label == positive_label:
+                hits += 1
+                precision_sum += hits / idx
+        if hits == 0:
+            return 0.0
+        return precision_sum / hits
+
 
 @dataclass
 class BenchmarkMetrics:
@@ -273,3 +318,5 @@ class BenchmarkMetrics:
     recall_at_k: Dict[int, float]
     pearson: Optional[float]
     spearman: Optional[float]
+    ndcg: float
+    average_precision: float
