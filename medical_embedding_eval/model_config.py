@@ -49,18 +49,29 @@ class GeminiEmbeddingConfig:
     task_type_env_var: str
     default_task_type: str
     embedding_dim: int
+    output_dimensionality: Optional[int] = None
     api_key_env_var: str = "GEMINI_API_KEY"
 
 
 DEFAULT_GEMINI_EMBEDDING_CONFIGS: List[GeminiEmbeddingConfig] = [
     GeminiEmbeddingConfig(
-        display_name="gemini-embedding-001",
+        display_name="gemini-embedding-001 (dim=768)",
         model_env_var="GEMINI_EMBEDDING_MODEL",
         default_model="models/gemini-embedding-001",
         task_type_env_var="GEMINI_EMBEDDING_TASK_TYPE",
         default_task_type="retrieval_document",
         embedding_dim=768,
-    )
+        output_dimensionality=768,
+    ),
+    GeminiEmbeddingConfig(
+        display_name="gemini-embedding-001 (dim=3072)",
+        model_env_var="GEMINI_EMBEDDING_MODEL",
+        default_model="models/gemini-embedding-001",
+        task_type_env_var="GEMINI_EMBEDDING_TASK_TYPE",
+        default_task_type="retrieval_document",
+        embedding_dim=3072,
+        output_dimensionality=3072,
+    ),
 ]
 
 
@@ -87,3 +98,16 @@ def resolve_gemini_task_type(config: GeminiEmbeddingConfig) -> str:
 def resolve_gemini_api_key(config: GeminiEmbeddingConfig) -> Optional[str]:
     """Return the API key for Gemini embeddings, if configured."""
     return os.getenv(config.api_key_env_var)
+
+
+def resolve_gemini_output_dimensionality(config: GeminiEmbeddingConfig) -> Optional[int]:
+    """Return the requested output dimensionality for Gemini embeddings."""
+    return config.output_dimensionality
+
+
+def resolve_gemini_cache_key(config: GeminiEmbeddingConfig) -> str:
+    """Return cache key combining model and output dimensionality."""
+    model_name = resolve_gemini_model_name(config)
+    suffix = config.output_dimensionality if config.output_dimensionality is not None else "default"
+    safe_model = model_name.replace(":", "-")
+    return f"{safe_model}-{suffix}"

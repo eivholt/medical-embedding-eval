@@ -19,6 +19,7 @@ from medical_embedding_eval import (
     load_samples_from_directory,
     resolve_deployment_name,
     resolve_gemini_model_name,
+    resolve_gemini_cache_key,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
@@ -200,7 +201,8 @@ def main() -> None:
 
     for config in DEFAULT_GEMINI_EMBEDDING_CONFIGS:
         model_name = resolve_gemini_model_name(config)
-        records = cache.load(model_name)
+        cache_key = resolve_gemini_cache_key(config)
+        records = cache.load(cache_key)
         if not records:
             print(
                 f"No cached embeddings found for model {config.display_name} (Gemini '{model_name}'). "
@@ -209,7 +211,7 @@ def main() -> None:
             continue
 
         try:
-            metrics, benchmark = evaluate_with_cache(config.display_name, model_name, cache, records, variations)
+            metrics, benchmark = evaluate_with_cache(config.display_name, cache_key, cache, records, variations)
         except (KeyError, ValueError) as exc:
             print(f"Skipping {config.display_name}: {exc}")
             continue
@@ -227,10 +229,6 @@ def main() -> None:
     print("=" * 80)
     headers = [
         "Model",
-        "Mean Cosine",
-        "Mean Cos Pos",
-        "Mean Cos Rel",
-        "Mean Cos Neg",
         "MRR",
         "Recall@1",
         "Recall@3",
@@ -242,6 +240,10 @@ def main() -> None:
         "Prec@3 Pos",
         "Prec@3 Rel",
         "Prec@3 Neg",
+        "Mean Cosine",
+        "Mean Cos Pos",
+        "Mean Cos Rel",
+        "Mean Cos Neg",
         "Pearson",
         "Spearman",
     ]
@@ -249,13 +251,6 @@ def main() -> None:
     print("-" * 80)
 
     for model_name, metrics, benchmark in summary:
-        mean_cos = f"{metrics.mean_similarity:.4f}"
-        mean_pos = metrics.similarity_by_label.get("positive")
-        mean_rel = metrics.similarity_by_label.get("related")
-        mean_neg = metrics.similarity_by_label.get("negative")
-        mean_pos_str = f"{mean_pos:.4f}" if mean_pos is not None else "N/A"
-        mean_rel_str = f"{mean_rel:.4f}" if mean_rel is not None else "N/A"
-        mean_neg_str = f"{mean_neg:.4f}" if mean_neg is not None else "N/A"
         mrr = f"{benchmark.mean_reciprocal_rank:.4f}" if benchmark.evaluated_queries else "N/A"
         recall1 = f"{benchmark.recall_at_k.get(1, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
         recall3 = f"{benchmark.recall_at_k.get(3, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
@@ -269,12 +264,16 @@ def main() -> None:
             value = precision_lookup.get(label, {}).get(k)
             return f"{value:.4f}" if value is not None else "N/A"
 
+        mean_cos = f"{metrics.mean_similarity:.4f}"
+        mean_pos = metrics.similarity_by_label.get("positive")
+        mean_rel = metrics.similarity_by_label.get("related")
+        mean_neg = metrics.similarity_by_label.get("negative")
+        mean_pos_str = f"{mean_pos:.4f}" if mean_pos is not None else "N/A"
+        mean_rel_str = f"{mean_rel:.4f}" if mean_rel is not None else "N/A"
+        mean_neg_str = f"{mean_neg:.4f}" if mean_neg is not None else "N/A"
+
         row = [
             model_name,
-            mean_cos,
-            mean_pos_str,
-            mean_rel_str,
-            mean_neg_str,
             mrr,
             recall1,
             recall3,
@@ -286,6 +285,10 @@ def main() -> None:
             fmt_precision("positive", 3),
             fmt_precision("related", 3),
             fmt_precision("negative", 3),
+            mean_cos,
+            mean_pos_str,
+            mean_rel_str,
+            mean_neg_str,
             pearson,
             spearman,
         ]

@@ -181,6 +181,7 @@ class GeminiEmbedder(EmbeddingModel):
         task_type: str = "retrieval_document",
         embedding_dim: Optional[int] = None,
         display_name: Optional[str] = None,
+        output_dimensionality: Optional[int] = None,
     ) -> None:
         api_key = api_key or os.getenv("GEMINI_API_KEY")
         if not api_key:
@@ -200,6 +201,10 @@ class GeminiEmbedder(EmbeddingModel):
         self._task_type = task_type
         self._display_name = display_name or model_name
         self.embedding_dim = embedding_dim
+        self._output_dimensionality = output_dimensionality
+        suffix = output_dimensionality if output_dimensionality is not None else "default"
+        safe_model = self._model_name.replace(":", "-")
+        self._cache_key = f"{safe_model}-{suffix}"
 
     def embed(self, texts: Union[str, List[str]]) -> np.ndarray:
         if isinstance(texts, str):
@@ -209,11 +214,15 @@ class GeminiEmbedder(EmbeddingModel):
 
         embeddings: List[List[float]] = []
         for text in texts:
-            response = self._genai.embed_content(
-                model=self._model_name,
-                content=text,
-                task_type=self._task_type,
-            )
+            payload = {
+                "model": self._model_name,
+                "content": text,
+                "task_type": self._task_type,
+            }
+            if self._output_dimensionality is not None:
+                payload["output_dimensionality"] = self._output_dimensionality
+
+            response = self._genai.embed_content(**payload)
             if isinstance(response, dict):
                 vector = response.get("embedding")
             else:
@@ -239,4 +248,4 @@ class GeminiEmbedder(EmbeddingModel):
         return self._display_name
 
     def get_cache_key(self) -> str:
-        return self._model_name
+        return self._cache_key

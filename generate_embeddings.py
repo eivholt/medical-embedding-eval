@@ -23,6 +23,7 @@ from medical_embedding_eval import (
     resolve_gemini_api_key,
     resolve_gemini_model_name,
     resolve_gemini_task_type,
+    resolve_gemini_output_dimensionality,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
@@ -153,6 +154,7 @@ def main() -> None:
                 task_type=task_type,
                 embedding_dim=config.embedding_dim,
                 display_name=config.display_name,
+                output_dimensionality=resolve_gemini_output_dimensionality(config),
             )
         except (ImportError, ValueError) as exc:
             print(f"Skipping {config.display_name}: {exc}")

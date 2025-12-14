@@ -17,6 +17,8 @@ from .model_config import (
     resolve_gemini_model_name,
     resolve_gemini_task_type,
     resolve_gemini_api_key,
+    resolve_gemini_output_dimensionality,
+    resolve_gemini_cache_key,
 )
 from .evaluator import EmbeddingEvaluator
 from .metrics import (
@@ -54,4 +56,6 @@ __all__ = [
     "resolve_gemini_model_name",
     "resolve_gemini_task_type",
     "resolve_gemini_api_key",
+    "resolve_gemini_output_dimensionality",
+    "resolve_gemini_cache_key",
 ]
