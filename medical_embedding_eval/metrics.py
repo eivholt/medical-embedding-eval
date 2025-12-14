@@ -49,6 +49,7 @@ class EvaluationMetrics:
     min_similarity: float
     max_similarity: float
     similarity_by_type: Dict[str, float] = field(default_factory=dict)
+    similarity_by_label: Dict[str, float] = field(default_factory=dict)
     model_name: str = "Unknown"
     
     def __str__(self) -> str:
@@ -66,6 +67,17 @@ class EvaluationMetrics:
             lines.append("\nSimilarity by Variation Type:")
             for vtype, sim in sorted(self.similarity_by_type.items()):
                 lines.append(f"  {vtype}: {sim:.4f}")
+
+        if self.similarity_by_label:
+            lines.append("\nSimilarity by Label:")
+            for label in ("positive", "related", "negative"):
+                if label in self.similarity_by_label:
+                    lines.append(f"  {label}: {self.similarity_by_label[label]:.4f}")
+            remaining = sorted(
+                (key for key in self.similarity_by_label if key not in {"positive", "related", "negative"})
+            )
+            for label in remaining:
+                lines.append(f"  {label}: {self.similarity_by_label[label]:.4f}")
         
         return "\n".join(lines)
 
@@ -152,15 +164,26 @@ class SimilarityMetrics:
         
         # Group by variation type
         type_groups: Dict[str, List[float]] = {}
+        label_groups: Dict[str, List[float]] = {}
+
         for result in results:
             if result.variation_type not in type_groups:
                 type_groups[result.variation_type] = []
             type_groups[result.variation_type].append(result.cosine_similarity)
+
+            if result.human_label is not None:
+                bucket = SimilarityMetrics._label_bucket(result.human_label)
+                label_groups.setdefault(bucket, []).append(result.cosine_similarity)
         
         # Compute mean for each type
         metrics.similarity_by_type = {
             vtype: float(np.mean(sims))
             for vtype, sims in type_groups.items()
+        }
+
+        metrics.similarity_by_label = {
+            bucket: float(np.mean(sims))
+            for bucket, sims in label_groups.items()
         }
         
         return metrics
@@ -269,6 +292,20 @@ class SimilarityMetrics:
             i = j + 1
 
         return ranks
+
+    @staticmethod
+    def _label_bucket(label: float) -> str:
+        if math.isclose(label, 1.0, abs_tol=1e-6):
+            return "positive"
+        if math.isclose(label, 0.5, abs_tol=1e-6):
+            return "related"
+        if math.isclose(label, 0.0, abs_tol=1e-6):
+            return "negative"
+        if label >= 0.75:
+            return "positive"
+        if label >= 0.25:
+            return "related"
+        return "negative"
 
     @staticmethod
     def _gain(label: Optional[float]) -> float:

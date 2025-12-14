@@ -62,6 +62,23 @@ def display_results(model_name: str, metrics: EvaluationMetrics, benchmark: Benc
     print(metrics)
     print()
 
+    if metrics.similarity_by_label:
+        print("=" * 80)
+        print(f"MEAN COSINE BY LABEL: {model_name}")
+        print("=" * 80)
+        print()
+        for label in ("positive", "related", "negative"):
+            value = metrics.similarity_by_label.get(label)
+            if value is not None:
+                print(f"{label.title()}: {value:.4f}")
+        remaining = sorted(
+            key for key in metrics.similarity_by_label
+            if key not in {"positive", "related", "negative"}
+        )
+        for label in remaining:
+            print(f"{label.title()}: {metrics.similarity_by_label[label]:.4f}")
+        print()
+
     print("=" * 80)
     print(f"DETAILED ANALYSIS BY VARIATION TYPE: {model_name}")
     print("=" * 80)
@@ -201,6 +218,9 @@ def main() -> None:
     headers = [
         "Model",
         "Mean Cosine",
+        "Mean Cos Pos",
+        "Mean Cos Rel",
+        "Mean Cos Neg",
         "MRR",
         "Recall@1",
         "Recall@3",
@@ -214,6 +234,12 @@ def main() -> None:
 
     for model_name, metrics, benchmark in summary:
         mean_cos = f"{metrics.mean_similarity:.4f}"
+        mean_pos = metrics.similarity_by_label.get("positive")
+        mean_rel = metrics.similarity_by_label.get("related")
+        mean_neg = metrics.similarity_by_label.get("negative")
+        mean_pos_str = f"{mean_pos:.4f}" if mean_pos is not None else "N/A"
+        mean_rel_str = f"{mean_rel:.4f}" if mean_rel is not None else "N/A"
+        mean_neg_str = f"{mean_neg:.4f}" if mean_neg is not None else "N/A"
         mrr = f"{benchmark.mean_reciprocal_rank:.4f}" if benchmark.evaluated_queries else "N/A"
         recall1 = f"{benchmark.recall_at_k.get(1, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
         recall3 = f"{benchmark.recall_at_k.get(3, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
@@ -222,7 +248,20 @@ def main() -> None:
         pearson = f"{benchmark.pearson:.4f}" if benchmark.pearson is not None else "N/A"
         spearman = f"{benchmark.spearman:.4f}" if benchmark.spearman is not None else "N/A"
 
-        row = [model_name, mean_cos, mrr, recall1, recall3, ndcg, avg_prec, pearson, spearman]
+        row = [
+            model_name,
+            mean_cos,
+            mean_pos_str,
+            mean_rel_str,
+            mean_neg_str,
+            mrr,
+            recall1,
+            recall3,
+            ndcg,
+            avg_prec,
+            pearson,
+            spearman,
+        ]
         print(" | ".join(row))
 
 
