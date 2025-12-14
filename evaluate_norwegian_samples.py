@@ -45,6 +45,16 @@ def display_results(model_name: str, metrics: EvaluationMetrics, benchmark: Benc
             print(f"Recall@{k}: {value:.4f}")
         print(f"nDCG: {benchmark.ndcg:.4f}")
         print(f"Average Precision: {benchmark.average_precision:.4f}")
+        if benchmark.precision_at_k_by_label:
+            print("Precision@k by label:")
+            for label in ("positive", "related", "negative"):
+                values = benchmark.precision_at_k_by_label.get(label)
+                if not values:
+                    continue
+                formatted = ", ".join(
+                    f"@{k}: {values[k]:.4f}" for k in sorted(values)
+                )
+                print(f"  {label.title()}: {formatted}")
     else:
         print("No positive labels available for ranking metrics.")
 
@@ -226,6 +236,12 @@ def main() -> None:
         "Recall@3",
         "nDCG",
         "AvgPrec",
+        "Prec@1 Pos",
+        "Prec@1 Rel",
+        "Prec@1 Neg",
+        "Prec@3 Pos",
+        "Prec@3 Rel",
+        "Prec@3 Neg",
         "Pearson",
         "Spearman",
     ]
@@ -247,6 +263,11 @@ def main() -> None:
         avg_prec = f"{benchmark.average_precision:.4f}" if benchmark.evaluated_queries else "N/A"
         pearson = f"{benchmark.pearson:.4f}" if benchmark.pearson is not None else "N/A"
         spearman = f"{benchmark.spearman:.4f}" if benchmark.spearman is not None else "N/A"
+        precision_lookup = benchmark.precision_at_k_by_label or {}
+
+        def fmt_precision(label: str, k: int) -> str:
+            value = precision_lookup.get(label, {}).get(k)
+            return f"{value:.4f}" if value is not None else "N/A"
 
         row = [
             model_name,
@@ -259,6 +280,12 @@ def main() -> None:
             recall3,
             ndcg,
             avg_prec,
+            fmt_precision("positive", 1),
+            fmt_precision("related", 1),
+            fmt_precision("negative", 1),
+            fmt_precision("positive", 3),
+            fmt_precision("related", 3),
+            fmt_precision("negative", 3),
             pearson,
             spearman,
         ]

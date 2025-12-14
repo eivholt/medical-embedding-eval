@@ -243,6 +243,37 @@ class SimilarityMetrics:
             pearson = None
             spearman = None
 
+        precision_sums: Dict[str, Dict[int, float]] = {
+            bucket: {k: 0.0 for k in k_values}
+            for bucket in ("positive", "related", "negative")
+        }
+
+        for sample_results in by_sample.values():
+            sorted_results = sorted(sample_results, key=lambda r: r.cosine_similarity, reverse=True)
+            for k in k_values:
+                top_k = sorted_results[:k]
+                if not top_k:
+                    continue
+                total = len(top_k)
+                bucket_counts: Dict[str, int] = {}
+                for res in top_k:
+                    if res.human_label is None:
+                        continue
+                    bucket = SimilarityMetrics._label_bucket(res.human_label)
+                    bucket_counts[bucket] = bucket_counts.get(bucket, 0) + 1
+
+                for bucket in precision_sums:
+                    hits = bucket_counts.get(bucket, 0)
+                    precision_sums[bucket][k] += hits / total
+
+        precision_at_k_by_label = {
+            bucket: {
+                k: (precision_sums[bucket][k] / total_queries if total_queries else 0.0)
+                for k in k_values
+            }
+            for bucket in precision_sums
+        }
+
         return BenchmarkMetrics(
             positive_label=positive_label,
             total_queries=total_queries,
@@ -253,6 +284,7 @@ class SimilarityMetrics:
             spearman=spearman,
             ndcg=(ndcg_sum / positive_queries if positive_queries else 0.0),
             average_precision=(average_precision_sum / positive_queries if positive_queries else 0.0),
+            precision_at_k_by_label=precision_at_k_by_label,
         )
 
     @staticmethod
@@ -357,3 +389,4 @@ class BenchmarkMetrics:
     spearman: Optional[float]
     ndcg: float
     average_precision: float
+    precision_at_k_by_label: Dict[str, Dict[int, float]]
