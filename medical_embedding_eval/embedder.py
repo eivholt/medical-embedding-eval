@@ -204,7 +204,8 @@ class GeminiEmbedder(EmbeddingModel):
         self._output_dimensionality = output_dimensionality
         suffix = output_dimensionality if output_dimensionality is not None else "default"
         safe_model = self._model_name.replace(":", "-")
-        self._cache_key = f"{safe_model}-{suffix}"
+        safe_task = self._task_type.replace(":", "-").replace("/", "-")
+        self._cache_key = f"{safe_model}-{safe_task}-{suffix}"
 
     def embed(self, texts: Union[str, List[str]]) -> np.ndarray:
         if isinstance(texts, str):

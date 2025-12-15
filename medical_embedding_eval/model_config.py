@@ -46,7 +46,7 @@ class GeminiEmbeddingConfig:
     display_name: str
     model_env_var: str
     default_model: str
-    task_type_env_var: str
+    task_type_env_var: Optional[str]
     default_task_type: str
     embedding_dim: int
     output_dimensionality: Optional[int] = None
@@ -64,11 +64,20 @@ DEFAULT_GEMINI_EMBEDDING_CONFIGS: List[GeminiEmbeddingConfig] = [
         output_dimensionality=768,
     ),
     GeminiEmbeddingConfig(
-        display_name="gemini-embedding-001 (dim=3072)",
+        display_name="gemini-embedding-001 (dim=3072, task=retrieval)",
         model_env_var="GEMINI_EMBEDDING_MODEL",
         default_model="models/gemini-embedding-001",
         task_type_env_var="GEMINI_EMBEDDING_TASK_TYPE",
         default_task_type="retrieval_document",
+        embedding_dim=3072,
+        output_dimensionality=3072,
+    ),
+    GeminiEmbeddingConfig(
+        display_name="gemini-embedding-001 (dim=3072, task=similarity)",
+        model_env_var="GEMINI_EMBEDDING_MODEL",
+        default_model="models/gemini-embedding-001",
+        task_type_env_var=None,
+        default_task_type="semantic_similarity",
         embedding_dim=3072,
         output_dimensionality=3072,
     ),
@@ -92,7 +101,9 @@ def resolve_gemini_model_name(config: GeminiEmbeddingConfig) -> str:
 
 def resolve_gemini_task_type(config: GeminiEmbeddingConfig) -> str:
     """Return the task type to use for Gemini embeddings."""
-    return os.getenv(config.task_type_env_var, config.default_task_type)
+    if config.task_type_env_var:
+        return os.getenv(config.task_type_env_var, config.default_task_type)
+    return config.default_task_type
 
 
 def resolve_gemini_api_key(config: GeminiEmbeddingConfig) -> Optional[str]:
@@ -108,6 +119,8 @@ def resolve_gemini_output_dimensionality(config: GeminiEmbeddingConfig) -> Optio
 def resolve_gemini_cache_key(config: GeminiEmbeddingConfig) -> str:
     """Return cache key combining model and output dimensionality."""
     model_name = resolve_gemini_model_name(config)
+    task_type = resolve_gemini_task_type(config)
     suffix = config.output_dimensionality if config.output_dimensionality is not None else "default"
     safe_model = model_name.replace(":", "-")
-    return f"{safe_model}-{suffix}"
+    safe_task = task_type.replace(":", "-").replace("/", "-")
+    return f"{safe_model}-{safe_task}-{suffix}"
