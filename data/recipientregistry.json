@@ -1,0 +1,96 @@
+{
+  "samples": [
+    {
+      "sample_id": "recipient_registry_fauske_001",
+      "text": "fauske legevakt",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "recipient_registry",
+        "purpose": "entity_matching_test"
+      },
+      "variations": [
+        {
+          "variation_id": "recipient_registry_fauske_001_var_01",
+          "variation_text": "Legevakt,Indre Salten Legevakt,Interkommunal virksomhet,1841,Fauske - Fuossko,FAUSKE,,8200,Helsetunet 1",
+          "variation_type": "registry_exact_match",
+          "label": 1.0,
+          "changes_applied": [
+            "Structured recipient registry entry for identical facility"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_02",
+          "variation_text": "Legetjeneste ved sykehjem mv.,Fauske kommune,Kommune,1841,Fauske - Fuossko,FAUSKE,,8200,Torggata 21",
+          "variation_type": "registry_related_service",
+          "label": 0.5,
+          "changes_applied": [
+            "Related municipal healthcare service in same municipality"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_03",
+          "variation_text": "Vaksinasjon,Fauske legesenter,Fastlege og annen privat virksomhet som yter helsetjenester,1841,Fauske - Fuossko,FAUSKE,,8200,Industriveien 1",
+          "variation_type": "registry_related_service",
+          "label": 0.5,
+          "changes_applied": [
+            "Clinic-level service within same municipality"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_04",
+          "variation_text": "Smittevern,Indre Salten Legevakt,Interkommunal virksomhet,1841,Fauske - Fuossko,FAUSKE,,8200,Helsetunet 9",
+          "variation_type": "registry_exact_match",
+          "label": 1.0,
+          "changes_applied": [
+            "Structured entry covering same intermunicipal legevakt"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_05",
+          "variation_text": "Legevakt,FARSUND KOMMUNE,Kommune,4206,Farsund,FARSUND,,4550,Brogaten 7",
+          "variation_type": "registry_different_municipality",
+          "label": 0.0,
+          "changes_applied": [
+            "Different municipality's emergency clinic"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_06",
+          "variation_text": "Sykepleietjeneste,Fauske kommune,Kommune,1841,Fauske - Fuossko,FAUSKE,,8200,Torggata 21",
+          "variation_type": "registry_related_service",
+          "label": 0.0,
+          "changes_applied": [
+            "Non-legevakt municipal nursing service"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_07",
+          "variation_text": "Legevakt,Nordre Follo kommune,Kommune,3207,Nordre Follo,SKI,,1400,Vardåsveien 3",
+          "variation_type": "registry_different_municipality",
+          "label": 0.0,
+          "changes_applied": [
+            "Emergency clinic located in another region"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_08",
+          "variation_text": "Legevakt,FEDJE KOMMUNE,Kommune,4633,Fedje,FEDJE,,5947,Stormarkvegen 49",
+          "variation_type": "registry_different_municipality",
+          "label": 0.0,
+          "changes_applied": [
+            "Different coastal municipality legevakt"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_09",
+          "variation_text": "Legevakt,Kåfjord kommune Gaivuona Suohkan,Kommune,5540,Gáivuotna - Kåfjord - Kaivuono,OLDERDALEN,,9146,Øvervegen 2",
+          "variation_type": "registry_different_municipality",
+          "label": 0.0,
+          "changes_applied": [
+            "Another municipality's emergency clinic"
+          ]
+        }
+      ]
+    }
+  ]
+}
