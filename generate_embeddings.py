@@ -12,9 +12,11 @@ from medical_embedding_eval import (
     EmbeddingModel,
     AzureOpenAIEmbedder,
     GeminiEmbedder,
+    NvidiaEmbedder,
     CachedEmbedding,
     DEFAULT_AZURE_EMBEDDING_CONFIGS,
     DEFAULT_GEMINI_EMBEDDING_CONFIGS,
+    DEFAULT_NVIDIA_EMBEDDING_CONFIGS,
     MedicalSample,
     SampleVariation,
     compute_text_hash,
@@ -24,6 +26,12 @@ from medical_embedding_eval import (
     resolve_gemini_model_name,
     resolve_gemini_task_type,
     resolve_gemini_output_dimensionality,
+    resolve_nvidia_model_name,
+    resolve_nvidia_api_key,
+    resolve_nvidia_base_url,
+    resolve_nvidia_input_type,
+    resolve_nvidia_truncate,
+    resolve_nvidia_encoding_format,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
@@ -155,6 +163,45 @@ def main() -> None:
                 embedding_dim=config.embedding_dim,
                 display_name=config.display_name,
                 output_dimensionality=resolve_gemini_output_dimensionality(config),
+            )
+        except (ImportError, ValueError) as exc:
+            print(f"Skipping {config.display_name}: {exc}")
+            continue
+
+        refreshed = update_cache_for_model(embedder, cache, samples, variations)
+        processed_any = True
+        if refreshed:
+            print(f"Cached {refreshed} embeddings for {config.display_name}.")
+        else:
+            print(f"Cache already up to date for {config.display_name}.")
+
+    for config in DEFAULT_NVIDIA_EMBEDDING_CONFIGS:
+        model_name = resolve_nvidia_model_name(config)
+        api_key = resolve_nvidia_api_key(config)
+        base_url = resolve_nvidia_base_url(config)
+        input_type = resolve_nvidia_input_type(config)
+        truncate = resolve_nvidia_truncate(config)
+        encoding_format = resolve_nvidia_encoding_format(config)
+
+        print()
+        print(f"Processing model {config.display_name} (NVIDIA '{model_name}')")
+
+        if not api_key:
+            print(
+                f"Skipping {config.display_name}: NVIDIA API key not provided. Set {config.api_key_env_var} in your environment."
+            )
+            continue
+
+        try:
+            embedder = NvidiaEmbedder(
+                model_name=model_name,
+                api_key=api_key,
+                base_url=base_url,
+                embedding_dim=config.embedding_dim,
+                display_name=config.display_name,
+                encoding_format=encoding_format,
+                input_type=input_type,
+                truncate=truncate,
             )
         except (ImportError, ValueError) as exc:
             print(f"Skipping {config.display_name}: {exc}")

@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from medical_embedding_eval import (
     DEFAULT_AZURE_EMBEDDING_CONFIGS,
     DEFAULT_GEMINI_EMBEDDING_CONFIGS,
+    DEFAULT_NVIDIA_EMBEDDING_CONFIGS,
     BenchmarkMetrics,
     EvaluationMetrics,
     SimilarityMetrics,
@@ -20,6 +21,8 @@ from medical_embedding_eval import (
     resolve_deployment_name,
     resolve_gemini_model_name,
     resolve_gemini_cache_key,
+    resolve_nvidia_model_name,
+    resolve_nvidia_cache_key,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
@@ -206,6 +209,27 @@ def main() -> None:
         if not records:
             print(
                 f"No cached embeddings found for model {config.display_name} (Gemini '{model_name}'). "
+                "Run generate_embeddings.py first."
+            )
+            continue
+
+        try:
+            metrics, benchmark = evaluate_with_cache(config.display_name, cache_key, cache, records, variations)
+        except (KeyError, ValueError) as exc:
+            print(f"Skipping {config.display_name}: {exc}")
+            continue
+
+        display_results(config.display_name, metrics, benchmark)
+        summary.append((config.display_name, metrics, benchmark))
+        any_success = True
+
+    for config in DEFAULT_NVIDIA_EMBEDDING_CONFIGS:
+        model_name = resolve_nvidia_model_name(config)
+        cache_key = resolve_nvidia_cache_key(config)
+        records = cache.load(cache_key)
+        if not records:
+            print(
+                f"No cached embeddings found for model {config.display_name} (NVIDIA '{model_name}'). "
                 "Run generate_embeddings.py first."
             )
             continue

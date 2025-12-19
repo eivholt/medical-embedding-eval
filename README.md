@@ -106,6 +106,7 @@ These labels enable calculation of ranking metrics (MRR, Recall@k) and correlati
 ## Embedding Workflow
 
 1. Configure Azure OpenAI credentials by copying `.env.example` to `.env` and filling in the endpoint, API key, and deployment names.
+    - Optional: add NVIDIA credentials (`NVIDIA_API_KEY`, and optionally `NVIDIA_API_BASE_URL`, `NVIDIA_EMBED_MODEL`, `NVIDIA_EMBED_INPUT_TYPE`, `NVIDIA_EMBED_TRUNCATE`, `NVIDIA_EMBED_ENCODING`) to enable the `nvidia/nv-embed-v1` integration. The default base URL targets `https://integrate.api.nvidia.com/v1`.
 2. Generate and cache embeddings locally:
 
 ```bash

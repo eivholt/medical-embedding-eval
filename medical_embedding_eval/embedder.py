@@ -250,3 +250,83 @@ class GeminiEmbedder(EmbeddingModel):
 
     def get_cache_key(self) -> str:
         return self._cache_key
+
+
+class NvidiaEmbedder(EmbeddingModel):
+    """Embedding model backed by NVIDIA's integrate API."""
+
+    def __init__(
+        self,
+        model_name: str,
+        *,
+        api_key: Optional[str] = None,
+        base_url: Optional[str] = None,
+        embedding_dim: Optional[int] = None,
+        display_name: Optional[str] = None,
+        encoding_format: str = "float",
+        input_type: str = "query",
+        truncate: str = "NONE",
+    ) -> None:
+        api_key = api_key or os.getenv("NVIDIA_API_KEY")
+        if not api_key:
+            raise ValueError("NVIDIA API key must be provided via argument or NVIDIA_API_KEY environment variable")
+
+        base_url = base_url or os.getenv("NVIDIA_API_BASE_URL", "https://integrate.api.nvidia.com/v1")
+
+        try:
+            from openai import OpenAI  # Imported lazily to avoid hard dependency when unused
+        except ImportError as exc:  # pragma: no cover - installation specific
+            raise ImportError(
+                "The openai package is required to use NvidiaEmbedder. Install it via 'pip install openai'."
+            ) from exc
+
+        self._client = OpenAI(api_key=api_key, base_url=base_url)
+        self._model_name = model_name
+        self._display_name = display_name or model_name
+        self._encoding_format = encoding_format
+        self._input_type = input_type
+        self._truncate = truncate
+        self.embedding_dim = embedding_dim
+
+        safe_model = model_name.replace("/", "-").replace(":", "-")
+        safe_input = input_type.replace("/", "-")
+        safe_truncate = truncate.replace("/", "-")
+        safe_format = encoding_format.replace("/", "-")
+        self._cache_key = f"{safe_model}-{safe_input}-{safe_truncate}-{safe_format}"
+
+    def embed(self, texts: Union[str, List[str]]) -> np.ndarray:
+        if isinstance(texts, str):
+            texts = [texts]
+        if not texts:
+            return np.empty((0, self.embedding_dim or 0), dtype=np.float32)
+
+        response = self._client.embeddings.create(
+            input=texts,
+            model=self._model_name,
+            encoding_format=self._encoding_format,
+            extra_body={
+                "input_type": self._input_type,
+                "truncate": self._truncate,
+            },
+        )
+
+        vectors = [item.embedding for item in response.data]
+
+        if self.embedding_dim is None and vectors:
+            self.embedding_dim = len(vectors[0])
+
+        if self.embedding_dim is None:
+            raise ValueError("Unable to determine embedding dimension from NVIDIA response")
+
+        return np.asarray(vectors, dtype=np.float32)
+
+    def get_embedding_dimension(self) -> int:
+        if self.embedding_dim is None:
+            raise ValueError("Embedding dimension unavailable before first embedding call")
+        return self.embedding_dim
+
+    def get_model_name(self) -> str:
+        return self._display_name
+
+    def get_cache_key(self) -> str:
+        return self._cache_key

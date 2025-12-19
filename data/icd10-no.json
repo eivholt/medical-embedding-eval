@@ -1,0 +1,277 @@
+{
+  "samples": [
+    {
+      "sample_id": "icd10_no_breast_cancer_001",
+      "text": "Infiltrerende duktalt adenokarscinom i venstre bryst, HER2-positivt",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "icd10",
+        "purpose": "classification_test",
+        "notes": "Primær invasiv brystkreft med HER2-positiv status"
+      },
+      "variations": [
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_01",
+          "variation_text": "C509 Ondartet svulst med uspesifisert lokalisasjon i bryst",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 beskrivelse av samme diagnose"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_02",
+          "variation_text": "D051 Intraduktalt carcinoma in situ i bryst",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for in situ sykdom"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_03",
+          "variation_text": "D057 Annet spesifisert carcinoma in situ i bryst",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for beslektet carcinoma in situ"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_04",
+          "variation_text": "C503 Ondartet svulst i nedre indre kvadrant av bryst",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 kode for invasiv malignitet i bryst"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_05",
+          "variation_text": "C502 Ondartet svulst i øvre indre kvadrant av bryst",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 kode for invasiv malignitet i bryst"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_06",
+          "variation_text": "D059 Uspesifisert carcinoma in situ i bryst",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for carcinoma in situ"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_07",
+          "variation_text": "C505 Ondartet svulst i nedre ytre kvadrant av bryst",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 kode for invasiv malignitet i bryst"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_08",
+          "variation_text": "C508 Overlappende ondartet svulst i bryst",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 kode for invasiv malignitet i bryst"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_09",
+          "variation_text": "C504 Ondartet svulst i øvre ytre kvadrant av bryst",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 kode for invasiv malignitet i bryst"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_10",
+          "variation_text": "D4861 Svulst med klinisk usikkert malignitetspotensial i bryst",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for usikkert malignitetspotensial"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_11",
+          "variation_text": "C509 Ondartet svulst med uspesifisert lokalisasjon i bryst",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 kode for invasiv malignitet i bryst"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_12",
+          "variation_text": "C782 Metastase i brysthinne",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for metastatisk utbredelse"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_13",
+          "variation_text": "D4860 Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i bryst",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for usikkert malignitetspotensial"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_14",
+          "variation_text": "D050 Lobulært carcinoma in situ i bryst",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for lobulær carcinoma in situ"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_15",
+          "variation_text": "C506 Ondartet svulst i aksillær del av bryst",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 kode for invasiv malignitet i bryst"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_16",
+          "variation_text": "C500 Ondartet svulst i brystvorte eller areola mammae",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 kode for invasiv malignitet i bryst"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_17",
+          "variation_text": "C501 Ondartet svulst i sentral del av bryst",
+          "variation_type": "icd10_direct_malignancy",
+          "label": 1.0,
+          "changes_applied": [
+            "ICD-10 kode for invasiv malignitet i bryst"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_18",
+          "variation_text": "D24 Godartet svulst i bryst",
+          "variation_type": "icd10_non_malignant_or_remote",
+          "label": 0.0,
+          "changes_applied": [
+            "ICD-10 kode for benign brysttilstand"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_19",
+          "variation_text": "C7820 Mikrometastase i brysthinne",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for metastatisk utbredelse"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_20",
+          "variation_text": "Z803 Opplysning om ondartet svulst i bryst i familieanamnesen",
+          "variation_type": "icd10_non_malignant_or_remote",
+          "label": 0.0,
+          "changes_applied": [
+            "ICD-10 kode for familieanamnese"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_21",
+          "variation_text": "Z853 Opplysning om ondartet svulst i bryst i egen sykehistorie",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for tidligere sykdomshistorie"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_22",
+          "variation_text": "N648 Annen spesifisert tilstand i bryst",
+          "variation_type": "icd10_non_malignant_or_remote",
+          "label": 0.0,
+          "changes_applied": [
+            "ICD-10 kode for ikke-malign brysttilstand"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_23",
+          "variation_text": "N602 Fibroadenomatose i bryst",
+          "variation_type": "icd10_non_malignant_or_remote",
+          "label": 0.0,
+          "changes_applied": [
+            "ICD-10 kode for benign brysttilstand"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_24",
+          "variation_text": "C796 Metastase i eggstokk",
+          "variation_type": "icd10_non_malignant_or_remote",
+          "label": 0.0,
+          "changes_applied": [
+            "ICD-10 kode for metastase til annet organ"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_25",
+          "variation_text": "N63 Uspesifisert klump i bryst",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for brystsymptom"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_26",
+          "variation_text": "N61 Betennelsestilstand i bryst",
+          "variation_type": "icd10_non_malignant_or_remote",
+          "label": 0.0,
+          "changes_applied": [
+            "ICD-10 kode for inflammatorisk tilstand"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_27",
+          "variation_text": "N609 Uspesifisert godartet mammadysplasi",
+          "variation_type": "icd10_non_malignant_or_remote",
+          "label": 0.0,
+          "changes_applied": [
+            "ICD-10 kode for benign brysttilstand"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_28",
+          "variation_text": "C384 Ondartet svulst i brysthinne",
+          "variation_type": "icd10_non_malignant_or_remote",
+          "label": 0.0,
+          "changes_applied": [
+            "ICD-10 kode for malignitet i annet organ"
+          ]
+        },
+        {
+          "variation_id": "icd10_no_breast_cancer_001_var_29",
+          "variation_text": "C7710 Mikrometastase i intratorakal lymfeknute",
+          "variation_type": "icd10_related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "ICD-10 kode for regional metastase"
+          ]
+        }
+      ]
+    }
+  ]
+}

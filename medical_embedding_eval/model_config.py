@@ -84,6 +84,35 @@ DEFAULT_GEMINI_EMBEDDING_CONFIGS: List[GeminiEmbeddingConfig] = [
 ]
 
 
+@dataclass(frozen=True)
+class NvidiaEmbeddingConfig:
+    """Configuration for an NVIDIA embedding model."""
+
+    display_name: str
+    model_env_var: str
+    default_model: str
+    embedding_dim: int
+    api_key_env_var: str = "NVIDIA_API_KEY"
+    base_url_env_var: str = "NVIDIA_API_BASE_URL"
+    default_base_url: str = "https://integrate.api.nvidia.com/v1"
+    input_type: str = "query"
+    input_type_env_var: Optional[str] = "NVIDIA_EMBED_INPUT_TYPE"
+    truncate: str = "NONE"
+    truncate_env_var: Optional[str] = "NVIDIA_EMBED_TRUNCATE"
+    encoding_format: str = "float"
+    encoding_format_env_var: Optional[str] = "NVIDIA_EMBED_ENCODING"
+
+
+DEFAULT_NVIDIA_EMBEDDING_CONFIGS: List[NvidiaEmbeddingConfig] = [
+    NvidiaEmbeddingConfig(
+        display_name="nvidia/nv-embed-v1",
+        model_env_var="NVIDIA_EMBED_MODEL",
+        default_model="nvidia/nv-embed-v1",
+        embedding_dim=1024,
+    ),
+]
+
+
 def iter_deployments(configs: Iterable[AzureEmbeddingConfig]) -> Iterable[AzureEmbeddingConfig]:
     """Yield configurations as-is; helper kept for future filtering."""
     return configs
@@ -124,3 +153,52 @@ def resolve_gemini_cache_key(config: GeminiEmbeddingConfig) -> str:
     safe_model = model_name.replace(":", "-")
     safe_task = task_type.replace(":", "-").replace("/", "-")
     return f"{safe_model}-{safe_task}-{suffix}"
+
+
+def resolve_nvidia_model_name(config: NvidiaEmbeddingConfig) -> str:
+    """Return the NVIDIA model identifier for a given configuration."""
+    return os.getenv(config.model_env_var, config.default_model)
+
+
+def resolve_nvidia_api_key(config: NvidiaEmbeddingConfig) -> Optional[str]:
+    """Return the NVIDIA API key for embeddings, if configured."""
+    return os.getenv(config.api_key_env_var)
+
+
+def resolve_nvidia_base_url(config: NvidiaEmbeddingConfig) -> str:
+    """Return the NVIDIA endpoint base URL."""
+    return os.getenv(config.base_url_env_var, config.default_base_url)
+
+
+def resolve_nvidia_input_type(config: NvidiaEmbeddingConfig) -> str:
+    """Return the input_type parameter for the NVIDIA embedding request."""
+    if config.input_type_env_var:
+        return os.getenv(config.input_type_env_var, config.input_type)
+    return config.input_type
+
+
+def resolve_nvidia_truncate(config: NvidiaEmbeddingConfig) -> str:
+    """Return the truncate parameter for the NVIDIA embedding request."""
+    if config.truncate_env_var:
+        return os.getenv(config.truncate_env_var, config.truncate)
+    return config.truncate
+
+
+def resolve_nvidia_encoding_format(config: NvidiaEmbeddingConfig) -> str:
+    """Return the encoding_format parameter for the NVIDIA embedding request."""
+    if config.encoding_format_env_var:
+        return os.getenv(config.encoding_format_env_var, config.encoding_format)
+    return config.encoding_format
+
+
+def resolve_nvidia_cache_key(config: NvidiaEmbeddingConfig) -> str:
+    """Return cache key combining model and request modifiers."""
+    model_name = resolve_nvidia_model_name(config)
+    input_type = resolve_nvidia_input_type(config)
+    truncate = resolve_nvidia_truncate(config)
+    encoding_format = resolve_nvidia_encoding_format(config)
+    safe_model = model_name.replace("/", "-").replace(":", "-")
+    safe_input = input_type.replace("/", "-")
+    safe_truncate = truncate.replace("/", "-")
+    safe_format = encoding_format.replace("/", "-")
+    return f"{safe_model}-{safe_input}-{safe_truncate}-{safe_format}"
