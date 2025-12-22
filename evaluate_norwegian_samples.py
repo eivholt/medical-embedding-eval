@@ -375,6 +375,13 @@ def main() -> None:
         "Spearman": True,
     }
 
+    header_display: Dict[str, str] = {}
+    for header in headers:
+        if header in column_preferences:
+            header_display[header] = f"{header} {'↑' if column_preferences[header] else '↓'}"
+        else:
+            header_display[header] = header
+
     best_values: Dict[str, Optional[float]] = {}
     worst_values: Dict[str, Optional[float]] = {}
     for column, higher_is_better in column_preferences.items():
@@ -420,7 +427,7 @@ def main() -> None:
             text = colorize(text, RED)
         return plain_text, text
 
-    column_widths: Dict[str, int] = {header: len(header) for header in headers}
+    column_widths: Dict[str, int] = {header: len(header_display[header]) for header in headers}
     table_rows: List[Tuple[Dict[str, str], Dict[str, str]]] = []
 
     for row in summary_data:
@@ -439,7 +446,8 @@ def main() -> None:
     header_cells = []
     for idx, header in enumerate(headers):
         align_right = idx != 0
-        header_cells.append(pad_text(header, header, column_widths[header], align_right=align_right))
+        display_label = header_display[header]
+        header_cells.append(pad_text(display_label, display_label, column_widths[header], align_right=align_right))
     print(" | ".join(header_cells))
     print("-" * sum(column_widths[header] + (3 if i < len(headers) - 1 else 0) for i, header in enumerate(headers)))
 
