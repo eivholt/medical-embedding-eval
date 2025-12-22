@@ -91,6 +91,80 @@
           ]
         }
       ]
+    },
+    {
+      "sample_id": "recipient_registry_fauske_002",
+      "text": "fauske vaksinesenter",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "recipient_registry",
+        "purpose": "entity_matching_test"
+      },
+      "variations": [
+        {
+          "variation_id": "recipient_registry_fauske_001_var_01",
+          "variation_text": "Legevakt,Indre Salten Legevakt,Interkommunal virksomhet,1841,Fauske - Fuossko,FAUSKE,,8200,Helsetunet 1",
+          "variation_type": "registry_unrelated_service",
+          "label": 0.0,
+          "changes_applied": [
+            "Unrelated municipal healthcare service in same municipality"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_02",
+          "variation_text": "Legetjeneste ved sykehjem mv.,Fauske kommune,Kommune,1841,Fauske - Fuossko,FAUSKE,,8200,Torggata 21",
+          "variation_type": "registry_unrelated_service",
+          "label": 0.0,
+          "changes_applied": [
+            "Unrelated municipal healthcare service in same municipality"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_03",
+          "variation_text": "Vaksinasjon,Fauske legesenter,Fastlege og annen privat virksomhet som yter helsetjenester,1841,Fauske - Fuossko,FAUSKE,,8200,Industriveien 1",
+          "variation_type": "registry_exact_match",
+          "label": 1.0,
+          "changes_applied": [
+            "Structured recipient registry entry for identical facility"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_04",
+          "variation_text": "Smittevern,Indre Salten Legevakt,Interkommunal virksomhet,1841,Fauske - Fuossko,FAUSKE,,8200,Helsetunet 9",
+          "variation_type": "registry_related_service",
+          "label": 0.5,
+          "changes_applied": [
+            "Structured entry covering same intermunicipal legevakt"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_05",
+          "variation_text": "Vaksinasjon,Voss Herad,Kommune,4621,Voss,VOSS,,5700,Uttrågata 9",
+          "variation_type": "registry_different_municipality",
+          "label": 0.0,
+          "changes_applied": [
+            "Vaccination clinic located in another region"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_06",
+          "variation_text": "Sykepleietjeneste,Fauske kommune,Kommune,1841,Fauske - Fuossko,FAUSKE,,8200,Torggata 21",
+          "variation_type": "registry_related_service",
+          "label": 0.0,
+          "changes_applied": [
+            "Non-legevakt municipal nursing service"
+          ]
+        },
+        {
+          "variation_id": "recipient_registry_fauske_001_var_07",
+          "variation_text": "Vaksinasjon,FARSUND KOMMUNE,Kommune,4206,Farsund,FARSUND,,4550,Brogaten 7",
+          "variation_type": "registry_different_municipality",
+          "label": 0.0,
+          "changes_applied": [
+            "Vaccination clinic located in another region"
+          ]
+        }
+      ]
     }
   ]
 }

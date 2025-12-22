@@ -84,8 +84,8 @@ def main():
         print("\nExamples:")
         for i, result in enumerate(type_results[:2], 1):  # Show first 2 examples
             print(f"\n  Example {i}:")
-            print(f"    Original:  {result.original_text[:60]}...")
-            print(f"    Variation: {result.variation_text[:60]}...")
+            print(f"    Original:  {result.original_text}")
+            print(f"    Variation: {result.variation_text}")
             print(f"    Similarity: {result.cosine_similarity:.4f}")
         if len(type_results) > 2:
             print(f"\n  ... and {len(type_results) - 2} more")

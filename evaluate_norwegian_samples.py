@@ -107,8 +107,8 @@ def display_results(model_name: str, metrics: EvaluationMetrics, benchmark: Benc
         print("\nExamples:")
         for idx, result in enumerate(type_results[:2], start=1):
             print(f"\n  Example {idx}:")
-            print(f"    Original:  {result.original_text[:60]}...")
-            print(f"    Variation: {result.variation_text[:60]}...")
+            print(f"    Original:  {result.original_text}")
+            print(f"    Variation: {result.variation_text}")
             print(f"    Similarity: {result.cosine_similarity:.4f}")
         if len(type_results) > 2:
             print(f"\n  ... and {len(type_results) - 2} more")
