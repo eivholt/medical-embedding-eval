@@ -19,19 +19,19 @@ class AzureEmbeddingConfig:
 
 DEFAULT_AZURE_EMBEDDING_CONFIGS: List[AzureEmbeddingConfig] = [
     AzureEmbeddingConfig(
-        display_name="text-embedding-3-large",
+        display_name="text-embedding-3-large 3072",
         deployment_env_var="AZURE_OPENAI_EMBEDDING_3_LARGE_DEPLOYMENT",
         default_deployment="text-embedding-3-large",
         embedding_dim=3072,
     ),
     AzureEmbeddingConfig(
-        display_name="text-embedding-3-small",
+        display_name="text-embedding-3-small 1536",
         deployment_env_var="AZURE_OPENAI_EMBEDDING_3_SMALL_DEPLOYMENT",
         default_deployment="text-embedding-3-small",
         embedding_dim=1536,
     ),
     AzureEmbeddingConfig(
-        display_name="text-embedding-ada-002",
+        display_name="text-embedding-ada-002 1536",
         deployment_env_var="AZURE_OPENAI_EMBEDDING_ADA_DEPLOYMENT",
         default_deployment="text-embedding-ada-002",
         embedding_dim=1536,
@@ -55,7 +55,7 @@ class GeminiEmbeddingConfig:
 
 DEFAULT_GEMINI_EMBEDDING_CONFIGS: List[GeminiEmbeddingConfig] = [
     GeminiEmbeddingConfig(
-        display_name="gemini-embedding-001 (dim=768)",
+        display_name="gemini-embedding-001 768",
         model_env_var="GEMINI_EMBEDDING_MODEL",
         default_model="models/gemini-embedding-001",
         task_type_env_var="GEMINI_EMBEDDING_TASK_TYPE",
@@ -64,7 +64,7 @@ DEFAULT_GEMINI_EMBEDDING_CONFIGS: List[GeminiEmbeddingConfig] = [
         output_dimensionality=768,
     ),
     GeminiEmbeddingConfig(
-        display_name="gemini-embedding-001 (dim=3072, task=retrieval)",
+        display_name="gemini-embedding-001 3072,retrieval",
         model_env_var="GEMINI_EMBEDDING_MODEL",
         default_model="models/gemini-embedding-001",
         task_type_env_var="GEMINI_EMBEDDING_TASK_TYPE",
@@ -73,7 +73,7 @@ DEFAULT_GEMINI_EMBEDDING_CONFIGS: List[GeminiEmbeddingConfig] = [
         output_dimensionality=3072,
     ),
     GeminiEmbeddingConfig(
-        display_name="gemini-embedding-001 (dim=3072, task=similarity)",
+        display_name="gemini-embedding-001 3072,similarity",
         model_env_var="GEMINI_EMBEDDING_MODEL",
         default_model="models/gemini-embedding-001",
         task_type_env_var=None,
@@ -105,7 +105,7 @@ class NvidiaEmbeddingConfig:
 
 DEFAULT_NVIDIA_EMBEDDING_CONFIGS: List[NvidiaEmbeddingConfig] = [
     NvidiaEmbeddingConfig(
-        display_name="nvidia/nv-embed-v1",
+        display_name="nvidia/nv-embed-v1 1024",
         model_env_var="NVIDIA_EMBED_MODEL",
         default_model="nvidia/nv-embed-v1",
         embedding_dim=1024,
