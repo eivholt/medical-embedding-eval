@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from dotenv import load_dotenv
 
@@ -30,6 +31,34 @@ load_dotenv()
 
 DATA_DIR = Path("data")
 CACHE_DIR = Path("data/embeddings")
+
+try:  # pragma: no cover - optional dependency
+    from colorama import Fore, Style, init as colorama_init
+except ImportError:  # pragma: no cover - optional dependency
+    colorama_init = None
+    COLOR_ENABLED = False
+    GREEN = CYAN = YELLOW = RED = RESET = ""
+else:  # pragma: no cover - optional dependency
+    colorama_init(autoreset=False)
+    COLOR_ENABLED = True
+    GREEN = Fore.GREEN
+    CYAN = Fore.CYAN
+    YELLOW = Fore.YELLOW
+    RED = Fore.RED
+    RESET = Style.RESET_ALL
+
+
+def colorize(text: str, color: str) -> str:
+    if COLOR_ENABLED and color:
+        return f"{color}{text}{RESET}"
+    return text
+
+
+def pad_text(display: str, plain: str, width: int, *, align_right: bool) -> str:
+    padding = max(width - len(plain), 0)
+    if align_right:
+        return " " * padding + display
+    return display + " " * padding
 
 
 def display_results(model_name: str, metrics: EvaluationMetrics, benchmark: BenchmarkMetrics) -> None:
@@ -264,6 +293,42 @@ def main() -> None:
         print("No models evaluated. Ensure embeddings are generated and cached before running this script.")
         return
 
+    summary_data: List[Dict[str, object]] = []
+    for model_name, metrics, benchmark in summary:
+        precision_lookup = benchmark.precision_at_k_by_label or {}
+
+        def lookup_precision(label: str, k: int) -> Optional[float]:
+            return precision_lookup.get(label, {}).get(k)
+
+        values: Dict[str, Optional[float]] = {
+            "MRR": benchmark.mean_reciprocal_rank if benchmark.evaluated_queries else None,
+            "Recall@1": benchmark.recall_at_k.get(1) if benchmark.evaluated_queries else None,
+            "Recall@3": benchmark.recall_at_k.get(3) if benchmark.evaluated_queries else None,
+            "nDCG": benchmark.ndcg if benchmark.evaluated_queries else None,
+            "AvgPrec": benchmark.average_precision if benchmark.evaluated_queries else None,
+            "Prec@1 Pos": lookup_precision("positive", 1),
+            "Prec@1 Rel": lookup_precision("related", 1),
+            "Prec@1 Neg": lookup_precision("negative", 1),
+            "Prec@3 Pos": lookup_precision("positive", 3),
+            "Prec@3 Rel": lookup_precision("related", 3),
+            "Prec@3 Neg": lookup_precision("negative", 3),
+            "Mean Cosine": metrics.mean_similarity,
+            "Mean Cos Pos": metrics.similarity_by_label.get("positive"),
+            "Mean Cos Rel": metrics.similarity_by_label.get("related"),
+            "Mean Cos Neg": metrics.similarity_by_label.get("negative"),
+            "Pearson": benchmark.pearson,
+            "Spearman": benchmark.spearman,
+        }
+
+        summary_data.append(
+            {
+                "model": model_name,
+                "metrics": metrics,
+                "benchmark": benchmark,
+                "values": values,
+            }
+        )
+
     print("=" * 80)
     print("MODEL COMPARISON SUMMARY")
     print("=" * 80)
@@ -290,65 +355,177 @@ def main() -> None:
     print(" | ".join(headers))
     print("-" * 80)
 
-    for model_name, metrics, benchmark in summary:
-        mrr = f"{benchmark.mean_reciprocal_rank:.4f}" if benchmark.evaluated_queries else "N/A"
-        recall1 = f"{benchmark.recall_at_k.get(1, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
-        recall3 = f"{benchmark.recall_at_k.get(3, 0.0):.4f}" if benchmark.evaluated_queries else "N/A"
-        ndcg = f"{benchmark.ndcg:.4f}" if benchmark.evaluated_queries else "N/A"
-        avg_prec = f"{benchmark.average_precision:.4f}" if benchmark.evaluated_queries else "N/A"
-        pearson = f"{benchmark.pearson:.4f}" if benchmark.pearson is not None else "N/A"
-        spearman = f"{benchmark.spearman:.4f}" if benchmark.spearman is not None else "N/A"
-        precision_lookup = benchmark.precision_at_k_by_label or {}
+    column_preferences = {
+        "MRR": True,
+        "Recall@1": True,
+        "Recall@3": True,
+        "nDCG": True,
+        "AvgPrec": True,
+        "Prec@1 Pos": True,
+        "Prec@1 Rel": True,
+        "Prec@1 Neg": False,
+        "Prec@3 Pos": True,
+        "Prec@3 Rel": True,
+        "Prec@3 Neg": False,
+        "Mean Cosine": True,
+        "Mean Cos Pos": True,
+        "Mean Cos Rel": True,
+        "Mean Cos Neg": False,
+        "Pearson": True,
+        "Spearman": True,
+    }
 
-        def fmt_precision(label: str, k: int) -> str:
-            value = precision_lookup.get(label, {}).get(k)
-            return f"{value:.4f}" if value is not None else "N/A"
+    best_values: Dict[str, Optional[float]] = {}
+    worst_values: Dict[str, Optional[float]] = {}
+    for column, higher_is_better in column_preferences.items():
+        values = [row["values"].get(column) for row in summary_data if row["values"].get(column) is not None]
+        if values:
+            if higher_is_better:
+                best_values[column] = max(values)
+                worst_values[column] = min(values)
+            else:
+                best_values[column] = min(values)
+                worst_values[column] = max(values)
+        else:
+            best_values[column] = None
+            worst_values[column] = None
 
-        mean_cos = f"{metrics.mean_similarity:.4f}"
-        mean_pos = metrics.similarity_by_label.get("positive")
-        mean_rel = metrics.similarity_by_label.get("related")
-        mean_neg = metrics.similarity_by_label.get("negative")
-        mean_pos_str = f"{mean_pos:.4f}" if mean_pos is not None else "N/A"
-        mean_rel_str = f"{mean_rel:.4f}" if mean_rel is not None else "N/A"
-        mean_neg_str = f"{mean_neg:.4f}" if mean_neg is not None else "N/A"
+    tolerance = 1e-9
 
-        row = [
-            model_name,
-            mrr,
-            recall1,
-            recall3,
-            ndcg,
-            avg_prec,
-            fmt_precision("positive", 1),
-            fmt_precision("related", 1),
-            fmt_precision("negative", 1),
-            fmt_precision("positive", 3),
-            fmt_precision("related", 3),
-            fmt_precision("negative", 3),
-            mean_cos,
-            mean_pos_str,
-            mean_rel_str,
-            mean_neg_str,
-            pearson,
-            spearman,
-        ]
-        print(" | ".join(row))
+    def format_metric_cell(column: str, value: Optional[float]) -> Tuple[str, str]:
+        if value is None:
+            plain_text = "N/A"
+            text = plain_text
+            best = best_values.get(column)
+            worst = worst_values.get(column)
+            highlight_best = False
+            highlight_worst = False
+        else:
+            plain_text = f"{value:.4f}"
+            text = plain_text
+            best = best_values.get(column)
+            worst = worst_values.get(column)
+            highlight_best = best is not None and math.isclose(value, best, rel_tol=tolerance, abs_tol=tolerance)
+            highlight_worst = (
+                worst is not None
+                and best is not None
+                and not math.isclose(best, worst, rel_tol=tolerance, abs_tol=tolerance)
+                and math.isclose(value, worst, rel_tol=tolerance, abs_tol=tolerance)
+            )
+        best = best_values.get(column)
+        worst = worst_values.get(column)
+        if highlight_best:
+            text = colorize(text, GREEN)
+        if highlight_worst:
+            text = colorize(text, RED)
+        return plain_text, text
+
+    column_widths: Dict[str, int] = {header: len(header) for header in headers}
+    table_rows: List[Tuple[Dict[str, str], Dict[str, str]]] = []
+
+    for row in summary_data:
+        model_name = row["model"]
+        values = row["values"]
+        plain_row: Dict[str, str] = {"Model": model_name}
+        display_row: Dict[str, str] = {"Model": model_name}
+        column_widths["Model"] = max(column_widths["Model"], len(model_name))
+        for header in headers[1:]:
+            plain_value, display_value = format_metric_cell(header, values.get(header))
+            plain_row[header] = plain_value
+            display_row[header] = display_value
+            column_widths[header] = max(column_widths[header], len(plain_value))
+        table_rows.append((plain_row, display_row))
+
+    header_cells = []
+    for idx, header in enumerate(headers):
+        align_right = idx != 0
+        header_cells.append(pad_text(header, header, column_widths[header], align_right=align_right))
+    print(" | ".join(header_cells))
+    print("-" * sum(column_widths[header] + (3 if i < len(headers) - 1 else 0) for i, header in enumerate(headers)))
+
+    for plain_row, display_row in table_rows:
+        cells = []
+        for idx, header in enumerate(headers):
+            align_right = idx != 0
+            cells.append(
+                pad_text(
+                    display_row[header],
+                    plain_row[header],
+                    column_widths[header],
+                    align_right=align_right,
+                )
+            )
+        print(" | ".join(cells))
 
     if dataset_comparison:
         print()
         print("=" * 80)
         print("DATASET MEAN COSINE SUMMARY")
         print("=" * 80)
-        model_order = [model_name for model_name, _metrics, _benchmark in summary]
+        model_order = [row["model"] for row in summary_data]
         header = ["Dataset"] + model_order
-        print(" | ".join(header))
-        print("-" * 80)
+        dataset_column_widths: Dict[str, int] = {col: len(col) for col in header}
+        dataset_best: Dict[str, Optional[float]] = {}
+        dataset_worst: Dict[str, Optional[float]] = {}
+        for dataset_name, model_scores in dataset_comparison.items():
+            values = [score for score in model_scores.values() if score is not None]
+            if values:
+                dataset_best[dataset_name] = max(values)
+                dataset_worst[dataset_name] = min(values)
+            else:
+                dataset_best[dataset_name] = None
+                dataset_worst[dataset_name] = None
+
+        dataset_rows: List[Tuple[Dict[str, str], Dict[str, str]]] = []
         for dataset_name in sorted(dataset_comparison):
-            row = [dataset_name]
+            plain_row = {"Dataset": dataset_name}
+            display_dataset = colorize(dataset_name, CYAN) if COLOR_ENABLED else dataset_name
+            display_row = {"Dataset": display_dataset}
+            dataset_column_widths["Dataset"] = max(dataset_column_widths["Dataset"], len(dataset_name))
             for model_name in model_order:
                 value = dataset_comparison[dataset_name].get(model_name)
-                row.append(f"{value:.4f}" if value is not None else "N/A")
-            print(" | ".join(row))
+                if value is None:
+                    plain = "N/A"
+                    display = plain
+                else:
+                    best = dataset_best.get(dataset_name)
+                    worst = dataset_worst.get(dataset_name)
+                    plain = f"{value:.4f}"
+                    display = plain
+                    if best is not None and math.isclose(value, best, rel_tol=tolerance, abs_tol=tolerance):
+                        display = colorize(display, GREEN)
+                    elif (
+                        best is not None
+                        and worst is not None
+                        and not math.isclose(best, worst, rel_tol=tolerance, abs_tol=tolerance)
+                        and math.isclose(value, worst, rel_tol=tolerance, abs_tol=tolerance)
+                    ):
+                        display = colorize(display, RED)
+                plain_row[model_name] = plain
+                display_row[model_name] = display
+                dataset_column_widths[model_name] = max(dataset_column_widths.get(model_name, 0), len(plain))
+            dataset_rows.append((plain_row, display_row))
+
+        header_cells = []
+        for idx, col in enumerate(header):
+            align_right = idx != 0
+            header_cells.append(pad_text(col, col, dataset_column_widths[col], align_right=align_right))
+        print(" | ".join(header_cells))
+        print("-" * sum(dataset_column_widths[col] + (3 if i < len(header) - 1 else 0) for i, col in enumerate(header)))
+
+        for plain_row, display_row in dataset_rows:
+            cells = []
+            for idx, col in enumerate(header):
+                align_right = idx != 0
+                cells.append(
+                    pad_text(
+                        display_row[col],
+                        plain_row[col],
+                        dataset_column_widths[col],
+                        align_right=align_right,
+                    )
+                )
+            print(" | ".join(cells))
 
 
 if __name__ == "__main__":
