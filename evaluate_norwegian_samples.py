@@ -150,8 +150,9 @@ def evaluate_with_cache(
     cache: EmbeddingCache,
     records: Dict[str, CachedEmbedding],
     variations,
-) -> Tuple[EvaluationMetrics, BenchmarkMetrics]:
+) -> Tuple[EvaluationMetrics, BenchmarkMetrics, Dict[str, Optional[float]]]:
     results = []
+    dataset_results: Dict[str, List[SimilarityResult]] = {}
     for variation in variations:
         sample = variation.original_sample
         sample_key = cache.record_key("sample", sample.sample_id)
@@ -185,23 +186,31 @@ def evaluate_with_cache(
             variation_record.embedding,
         )
 
-        results.append(
-            SimilarityResult(
-                original_text=sample_record.text,
-                variation_text=variation_record.text,
-                cosine_similarity=similarity,
-                sample_id=sample.sample_id,
-                variation_id=variation.variation_id,
-                variation_type=variation.variation_type,
-                human_label=variation.similarity_label,
-                dataset_id=dataset_id,
-                dataset_display_name=dataset_display,
-            )
+        dataset_name = dataset_display or dataset_id or "Uncategorized Dataset"
+
+        result = SimilarityResult(
+            original_text=sample_record.text,
+            variation_text=variation_record.text,
+            cosine_similarity=similarity,
+            sample_id=sample.sample_id,
+            variation_id=variation.variation_id,
+            variation_type=variation.variation_type,
+            human_label=variation.similarity_label,
+            dataset_id=dataset_id,
+            dataset_display_name=dataset_display,
         )
+
+        results.append(result)
+        dataset_results.setdefault(dataset_name, []).append(result)
 
     metrics = SimilarityMetrics.compute_evaluation_metrics(results, model_name=model_name)
     benchmark = SimilarityMetrics.compute_benchmark_metrics(results)
-    return metrics, benchmark
+    dataset_mrr: Dict[str, Optional[float]] = {}
+    for dataset_name, dataset_res in dataset_results.items():
+        dataset_benchmark = SimilarityMetrics.compute_benchmark_metrics(dataset_res)
+        value = dataset_benchmark.mean_reciprocal_rank if dataset_benchmark.evaluated_queries else None
+        dataset_mrr[dataset_name] = value
+    return metrics, benchmark, dataset_mrr
 
 
 def main() -> None:
@@ -218,8 +227,8 @@ def main() -> None:
 
     cache = EmbeddingCache(CACHE_DIR)
     any_success = False
-    summary: List[Tuple[str, EvaluationMetrics, BenchmarkMetrics]] = []
-    dataset_comparison: Dict[str, Dict[str, float]] = {}
+    summary: List[Tuple[str, EvaluationMetrics, BenchmarkMetrics, Dict[str, Optional[float]]]] = []
+    dataset_comparison: Dict[str, Dict[str, Optional[float]]] = {}
 
     for config in DEFAULT_AZURE_EMBEDDING_CONFIGS:
         deployment_name = resolve_deployment_name(config)
@@ -232,14 +241,16 @@ def main() -> None:
             continue
 
         try:
-            metrics, benchmark = evaluate_with_cache(config.display_name, deployment_name, cache, records, variations)
+            metrics, benchmark, dataset_mrr = evaluate_with_cache(
+                config.display_name, deployment_name, cache, records, variations
+            )
         except (KeyError, ValueError) as exc:
             print(f"Skipping {config.display_name}: {exc}")
             continue
 
         display_results(config.display_name, metrics, benchmark)
-        summary.append((config.display_name, metrics, benchmark))
-        for dataset_name, value in metrics.similarity_by_dataset.items():
+        summary.append((config.display_name, metrics, benchmark, dataset_mrr))
+        for dataset_name, value in dataset_mrr.items():
             dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
         any_success = True
 
@@ -255,14 +266,16 @@ def main() -> None:
             continue
 
         try:
-            metrics, benchmark = evaluate_with_cache(config.display_name, cache_key, cache, records, variations)
+            metrics, benchmark, dataset_mrr = evaluate_with_cache(
+                config.display_name, cache_key, cache, records, variations
+            )
         except (KeyError, ValueError) as exc:
             print(f"Skipping {config.display_name}: {exc}")
             continue
 
         display_results(config.display_name, metrics, benchmark)
-        summary.append((config.display_name, metrics, benchmark))
-        for dataset_name, value in metrics.similarity_by_dataset.items():
+        summary.append((config.display_name, metrics, benchmark, dataset_mrr))
+        for dataset_name, value in dataset_mrr.items():
             dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
         any_success = True
 
@@ -278,14 +291,16 @@ def main() -> None:
             continue
 
         try:
-            metrics, benchmark = evaluate_with_cache(config.display_name, cache_key, cache, records, variations)
+            metrics, benchmark, dataset_mrr = evaluate_with_cache(
+                config.display_name, cache_key, cache, records, variations
+            )
         except (KeyError, ValueError) as exc:
             print(f"Skipping {config.display_name}: {exc}")
             continue
 
         display_results(config.display_name, metrics, benchmark)
-        summary.append((config.display_name, metrics, benchmark))
-        for dataset_name, value in metrics.similarity_by_dataset.items():
+        summary.append((config.display_name, metrics, benchmark, dataset_mrr))
+        for dataset_name, value in dataset_mrr.items():
             dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
         any_success = True
 
@@ -294,7 +309,7 @@ def main() -> None:
         return
 
     summary_data: List[Dict[str, object]] = []
-    for model_name, metrics, benchmark in summary:
+    for model_name, metrics, benchmark, dataset_mrr in summary:
         precision_lookup = benchmark.precision_at_k_by_label or {}
 
         def lookup_precision(label: str, k: int) -> Optional[float]:
@@ -468,7 +483,7 @@ def main() -> None:
     if dataset_comparison:
         print()
         print("=" * 80)
-        print("DATASET MEAN COSINE SUMMARY")
+        print("DATASET MRR SUMMARY")
         print("=" * 80)
         model_order = [row["model"] for row in summary_data]
         datasets = sorted(dataset_comparison.keys())
