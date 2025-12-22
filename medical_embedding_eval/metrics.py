@@ -26,6 +26,8 @@ class SimilarityResult:
     variation_id: str
     variation_type: str
     human_label: Optional[float] = None
+    dataset_id: Optional[str] = None
+    dataset_display_name: Optional[str] = None
 
 
 @dataclass
@@ -50,6 +52,7 @@ class EvaluationMetrics:
     max_similarity: float
     similarity_by_type: Dict[str, float] = field(default_factory=dict)
     similarity_by_label: Dict[str, float] = field(default_factory=dict)
+    similarity_by_dataset: Dict[str, float] = field(default_factory=dict)
     model_name: str = "Unknown"
     
     def __str__(self) -> str:
@@ -78,6 +81,11 @@ class EvaluationMetrics:
             )
             for label in remaining:
                 lines.append(f"  {label}: {self.similarity_by_label[label]:.4f}")
+
+        if self.similarity_by_dataset:
+            lines.append("\nSimilarity by Dataset:")
+            for dataset_name, sim in sorted(self.similarity_by_dataset.items()):
+                lines.append(f"  {dataset_name}: {sim:.4f}")
         
         return "\n".join(lines)
 
@@ -165,6 +173,7 @@ class SimilarityMetrics:
         # Group by variation type
         type_groups: Dict[str, List[float]] = {}
         label_groups: Dict[str, List[float]] = {}
+        dataset_groups: Dict[str, List[float]] = {}
 
         for result in results:
             if result.variation_type not in type_groups:
@@ -174,6 +183,10 @@ class SimilarityMetrics:
             if result.human_label is not None:
                 bucket = SimilarityMetrics._label_bucket(result.human_label)
                 label_groups.setdefault(bucket, []).append(result.cosine_similarity)
+
+            dataset_label = result.dataset_display_name or result.dataset_id
+            if dataset_label:
+                dataset_groups.setdefault(dataset_label, []).append(result.cosine_similarity)
         
         # Compute mean for each type
         metrics.similarity_by_type = {
@@ -184,6 +197,11 @@ class SimilarityMetrics:
         metrics.similarity_by_label = {
             bucket: float(np.mean(sims))
             for bucket, sims in label_groups.items()
+        }
+
+        metrics.similarity_by_dataset = {
+            dataset: float(np.mean(sims))
+            for dataset, sims in dataset_groups.items()
         }
         
         return metrics

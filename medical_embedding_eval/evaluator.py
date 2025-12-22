@@ -45,6 +45,15 @@ class EmbeddingEvaluator:
         # Compute cosine similarity
         similarity = SimilarityMetrics.cosine_similarity(embeddings[0], embeddings[1])
         
+        dataset_id = (
+            variation.metadata.get("dataset_id")
+            if variation.metadata else None
+        ) or original.metadata.get("dataset_id")
+        dataset_display = (
+            variation.metadata.get("dataset_display_name")
+            if variation.metadata else None
+        ) or original.metadata.get("dataset_display_name")
+
         # Create result
         result = SimilarityResult(
             original_text=original.text,
@@ -54,6 +63,8 @@ class EmbeddingEvaluator:
             variation_id=variation.variation_id,
             variation_type=variation.variation_type,
             human_label=variation.similarity_label,
+            dataset_id=dataset_id,
+            dataset_display_name=dataset_display,
         )
         
         return result

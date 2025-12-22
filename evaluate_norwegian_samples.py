@@ -144,6 +144,13 @@ def evaluate_with_cache(
                 f"Variation {variation.variation_id} text changed since embeddings were cached for {deployment_name}."
             )
 
+        dataset_id = variation.metadata.get("dataset_id") if variation.metadata else None
+        if not dataset_id:
+            dataset_id = sample.metadata.get("dataset_id")
+        dataset_display = variation.metadata.get("dataset_display_name") if variation.metadata else None
+        if not dataset_display:
+            dataset_display = sample.metadata.get("dataset_display_name")
+
         similarity = SimilarityMetrics.cosine_similarity(
             sample_record.embedding,
             variation_record.embedding,
@@ -158,6 +165,8 @@ def evaluate_with_cache(
                 variation_id=variation.variation_id,
                 variation_type=variation.variation_type,
                 human_label=variation.similarity_label,
+                dataset_id=dataset_id,
+                dataset_display_name=dataset_display,
             )
         )
 
@@ -181,6 +190,7 @@ def main() -> None:
     cache = EmbeddingCache(CACHE_DIR)
     any_success = False
     summary: List[Tuple[str, EvaluationMetrics, BenchmarkMetrics]] = []
+    dataset_comparison: Dict[str, Dict[str, float]] = {}
 
     for config in DEFAULT_AZURE_EMBEDDING_CONFIGS:
         deployment_name = resolve_deployment_name(config)
@@ -200,6 +210,8 @@ def main() -> None:
 
         display_results(config.display_name, metrics, benchmark)
         summary.append((config.display_name, metrics, benchmark))
+        for dataset_name, value in metrics.similarity_by_dataset.items():
+            dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
         any_success = True
 
     for config in DEFAULT_GEMINI_EMBEDDING_CONFIGS:
@@ -221,6 +233,8 @@ def main() -> None:
 
         display_results(config.display_name, metrics, benchmark)
         summary.append((config.display_name, metrics, benchmark))
+        for dataset_name, value in metrics.similarity_by_dataset.items():
+            dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
         any_success = True
 
     for config in DEFAULT_NVIDIA_EMBEDDING_CONFIGS:
@@ -242,6 +256,8 @@ def main() -> None:
 
         display_results(config.display_name, metrics, benchmark)
         summary.append((config.display_name, metrics, benchmark))
+        for dataset_name, value in metrics.similarity_by_dataset.items():
+            dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
         any_success = True
 
     if not any_success:
@@ -317,6 +333,22 @@ def main() -> None:
             spearman,
         ]
         print(" | ".join(row))
+
+    if dataset_comparison:
+        print()
+        print("=" * 80)
+        print("DATASET MEAN COSINE SUMMARY")
+        print("=" * 80)
+        model_order = [model_name for model_name, _metrics, _benchmark in summary]
+        header = ["Dataset"] + model_order
+        print(" | ".join(header))
+        print("-" * 80)
+        for dataset_name in sorted(dataset_comparison):
+            row = [dataset_name]
+            for model_name in model_order:
+                value = dataset_comparison[dataset_name].get(model_name)
+                row.append(f"{value:.4f}" if value is not None else "N/A")
+            print(" | ".join(row))
 
 
 if __name__ == "__main__":
