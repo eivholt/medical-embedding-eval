@@ -55,11 +55,20 @@ class GeminiEmbeddingConfig:
 
 DEFAULT_GEMINI_EMBEDDING_CONFIGS: List[GeminiEmbeddingConfig] = [
     GeminiEmbeddingConfig(
-        display_name="gemini-embedding-001 768",
+        display_name="gemini-embedding-001 128,similarity",
         model_env_var="GEMINI_EMBEDDING_MODEL",
         default_model="models/gemini-embedding-001",
-        task_type_env_var="GEMINI_EMBEDDING_TASK_TYPE",
-        default_task_type="retrieval_document",
+        task_type_env_var=None,
+        default_task_type="semantic_similarity",
+        embedding_dim=128,
+        output_dimensionality=128,
+    ),
+    GeminiEmbeddingConfig(
+        display_name="gemini-embedding-001 768,similarity",
+        model_env_var="GEMINI_EMBEDDING_MODEL",
+        default_model="models/gemini-embedding-001",
+        task_type_env_var=None,
+        default_task_type="semantic_similarity",
         embedding_dim=768,
         output_dimensionality=768,
     ),

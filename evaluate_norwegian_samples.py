@@ -471,12 +471,14 @@ def main() -> None:
         print("DATASET MEAN COSINE SUMMARY")
         print("=" * 80)
         model_order = [row["model"] for row in summary_data]
-        header = ["Dataset"] + model_order
-        dataset_column_widths: Dict[str, int] = {col: len(col) for col in header}
+        datasets = sorted(dataset_comparison.keys())
+        header = ["Model"] + datasets
+        model_row_widths: Dict[str, int] = {col: len(col) for col in header}
+
         dataset_best: Dict[str, Optional[float]] = {}
         dataset_worst: Dict[str, Optional[float]] = {}
-        for dataset_name, model_scores in dataset_comparison.items():
-            values = [score for score in model_scores.values() if score is not None]
+        for dataset_name in datasets:
+            values = [dataset_comparison[dataset_name].get(model) for model in model_order if dataset_comparison[dataset_name].get(model) is not None]
             if values:
                 dataset_best[dataset_name] = max(values)
                 dataset_worst[dataset_name] = min(values)
@@ -484,22 +486,21 @@ def main() -> None:
                 dataset_best[dataset_name] = None
                 dataset_worst[dataset_name] = None
 
-        dataset_rows: List[Tuple[Dict[str, str], Dict[str, str]]] = []
-        for dataset_name in sorted(dataset_comparison):
-            plain_row = {"Dataset": dataset_name}
-            display_dataset = colorize(dataset_name, CYAN) if COLOR_ENABLED else dataset_name
-            display_row = {"Dataset": display_dataset}
-            dataset_column_widths["Dataset"] = max(dataset_column_widths["Dataset"], len(dataset_name))
-            for model_name in model_order:
-                value = dataset_comparison[dataset_name].get(model_name)
+        table_rows: List[Tuple[Dict[str, str], Dict[str, str]]] = []
+        for model_name in model_order:
+            plain_row = {"Model": model_name}
+            display_row = {"Model": model_name}
+            model_row_widths["Model"] = max(model_row_widths["Model"], len(model_name))
+            for dataset_name in datasets:
+                value = dataset_comparison.get(dataset_name, {}).get(model_name)
                 if value is None:
                     plain = "N/A"
                     display = plain
                 else:
-                    best = dataset_best.get(dataset_name)
-                    worst = dataset_worst.get(dataset_name)
                     plain = f"{value:.4f}"
                     display = plain
+                    best = dataset_best.get(dataset_name)
+                    worst = dataset_worst.get(dataset_name)
                     if best is not None and math.isclose(value, best, rel_tol=tolerance, abs_tol=tolerance):
                         display = colorize(display, GREEN)
                     elif (
@@ -509,19 +510,20 @@ def main() -> None:
                         and math.isclose(value, worst, rel_tol=tolerance, abs_tol=tolerance)
                     ):
                         display = colorize(display, RED)
-                plain_row[model_name] = plain
-                display_row[model_name] = display
-                dataset_column_widths[model_name] = max(dataset_column_widths.get(model_name, 0), len(plain))
-            dataset_rows.append((plain_row, display_row))
+                plain_row[dataset_name] = plain
+                display_row[dataset_name] = display
+                model_row_widths[dataset_name] = max(model_row_widths.get(dataset_name, len(dataset_name)), len(plain))
+            table_rows.append((plain_row, display_row))
 
         header_cells = []
         for idx, col in enumerate(header):
             align_right = idx != 0
-            header_cells.append(pad_text(col, col, dataset_column_widths[col], align_right=align_right))
+            label = colorize(col, CYAN) if idx != 0 and COLOR_ENABLED else col
+            header_cells.append(pad_text(label, col, model_row_widths[col], align_right=align_right))
         print(" | ".join(header_cells))
-        print("-" * sum(dataset_column_widths[col] + (3 if i < len(header) - 1 else 0) for i, col in enumerate(header)))
+        print("-" * sum(model_row_widths[col] + (3 if i < len(header) - 1 else 0) for i, col in enumerate(header)))
 
-        for plain_row, display_row in dataset_rows:
+        for plain_row, display_row in table_rows:
             cells = []
             for idx, col in enumerate(header):
                 align_right = idx != 0
@@ -529,7 +531,7 @@ def main() -> None:
                     pad_text(
                         display_row[col],
                         plain_row[col],
-                        dataset_column_widths[col],
+                        model_row_widths[col],
                         align_right=align_right,
                     )
                 )
