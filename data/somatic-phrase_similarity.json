@@ -389,6 +389,118 @@
           ]
         }
       ]
-    }
-  ]
+    },
+    {
+      "sample_id": "lungeemboli_aktuelt_001",
+      "text": "33 år gammel kvinne med 3 dagers sykehistorie med stikkende smerter i brystet og ryggen, litt dyspne og hoste. Bruker p-piller.",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "lungemedisin",
+        "purpose": "innleggelsesnotat"
+      },
+      "variations": [
+        {
+          "variation_id": "lungeemboli_aktuelt_001_pos_01",
+          "variation_text": "28 år gammel kvinne med brystsmerter, pustebesvær og blodtilblandet ekspektorat. Bruker hormonell prevensjon",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskriving og bruk av synonymer"
+          ]
+        },{
+          "variation_id": "lungeemboli_aktuelt_001_rel_01",
+          "variation_text": "58 år gammel mann, operert med protese i høyre hofte for 3 uker siden. Nå smerter i brystet, dyspné og hemoptyse. Smerter og hevelse i høyre underekstremitet med positiv d-dimer",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endret pasient, samme symptomer"
+          ]
+        },
+        {
+          "variation_id": "lungeemboli_aktuelt_001_hard_neg_01",
+          "variation_text": "33 år gammel kvinne med stikkende smerter i høyre hemithorax, smerter ved respirasjon, øm ved palpasjon. Ribbensbrudd høyre side med hematom. Ingen skader på columna.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beskrivelse av traume"
+          ]
+        },{
+          "variation_id": "lungeemboli_aktuelt_001_hard_pos_01",
+          "variation_text": "33 år gammel kvinne med langvarig tørr hoste og feber, smerter i brystet ved hoste. Bruker paracet stikkpiller. Lungefortetninger på røntgen thorax forenelig med pneumoni.",
+          "variation_type": "hard_positive",
+          "label": 0.0,
+          "changes_applied": [
+            "Endret alder og miljø",
+            "Brukte CT i stedet for røntgen"
+          ]
+        },{
+          "variation_id": "lungeemboli_aktuelt_001_rel_02",
+          "variation_text": "40 år gammel mann, overvektig, mye stillesittende, lite fysisk aktivitet. Uføretrygdet. Innlagt med brystsmerter og påvist lungeemboli på CT thorax." ,
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endre pasient, liknende symptomer men mulig annen årsak"
+          ]
+        },{
+          "variation_id": "lungeemboli_aktuelt_001_rel_03",
+          "variation_text": "40 år gammel mann, overvektig, mye stillesittende, røyker mye. Uføretrygdet. Innlagt med akutt dyspnø og hemoptyse. " ,
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endre pasient, anndre symptomer"
+          ]
+        }
+  ]},
+    {
+      "sample_id": "binyreblødning_obduksjonsrapport_001",
+      "text": "67 år gammel mann, tidligere frisk, innlagt med sepsis og et infisert sår på leggen etter bitt fra hund. kort sykdomsforløp og rask forverring, døde 2 dager etter innkomst. Ved obduksjon ble det påvist binyreblødning, Waterhouse-Friderichsens syndrom.",
+      "metadata": {
+        "language": "norwegian",
+        "domain": "lungemedisin",
+        "purpose": "innleggelsesnotat"
+      },
+      "variations": [
+        {
+          "variation_id": "binyreblødning_obduksjonsrapport_001_pos_01",
+          "variation_text": "mann i 60-årene med hundebitt på underekstremitet. utviklet raskt sepsis og døde på sykehuset. Blodkultur viste oppvekst av Capnocytophaga canimorsus. Obduksjon avdekket bilaterale binyreblødninger. DIC med petekkier og ecchymoser.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskriving og bruk av synonymer"
+          ]
+        },{
+          "variation_id": "binyreblødning_obduksjonsrapport_001_rel_01",
+          "variation_text": "60 år gammel mann innlagt med urosepsis, overført fra annet sykehus. Døde på avdelingen etter noen dager. Obduksjon viste omfattended DIC-forandringer i hud og indre organer. Normale binyrer uten blødning.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endret til relatert dødsårsak, sepsis, ikke binyreblødning"
+          ]
+        },
+        {
+          "variation_id": "binyreblødning_obduksjonsrapport_001_easy_neg_01",
+          "variation_text": "62 år gammel mann ble funnet død ved bunnen av en trapp i sitt hjem. Han hadde bittskader på leggen etter hundebitt. Blåmerker i huden, men ingen petekkier. Obduksjon avdekker brudd i C2, som sannsynlig har oppstått etter fall ned trapp. Ingen tegn til sepsis eller binyreblødning.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Endret til urelatert dødsårsak, ikke sepsis"
+          ]
+        },{
+          "variation_id": "binyreblødning_obduksjonsrapport_001_hard_neg_01",
+          "variation_text": "70 år gammel mann var ute og gikk tur med hund. Hadde hatt flankesmerter i flere dager og blod i urinen. Døde plutselig, og obduksjon viste blødning i nyrene med nyrestener.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Endret symptomer og dødsårsak, ikke sepsis"
+          ]
+        },{
+          "variation_id": "binyreblødning_obduksjonsrapport_001_rel_02",
+          "variation_text": "49 år gammel kvinne med redusert immunforsvar pga immunsuppresiv behandling etter nyretransplantasjon. Innlagt med feber og frostrier etter katteskrap. Døde raskt, og obduksjon viste petekkier og ekkhymoser i huden, med normale binyrer uten blødning." ,
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Annen årsak til sepsis uten binyreblødning"
+          ]
+        }
+  ]}]
 }
