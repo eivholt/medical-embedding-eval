@@ -12,6 +12,7 @@ from medical_embedding_eval import (
     DEFAULT_AZURE_EMBEDDING_CONFIGS,
     DEFAULT_GEMINI_EMBEDDING_CONFIGS,
     DEFAULT_NVIDIA_EMBEDDING_CONFIGS,
+    DEFAULT_HUGGINGFACE_EMBEDDING_CONFIGS,
     BenchmarkMetrics,
     EvaluationMetrics,
     SimilarityMetrics,
@@ -24,6 +25,8 @@ from medical_embedding_eval import (
     resolve_gemini_cache_key,
     resolve_nvidia_model_name,
     resolve_nvidia_cache_key,
+    resolve_huggingface_model_name,
+    resolve_huggingface_cache_key,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
@@ -286,6 +289,31 @@ def main() -> None:
         if not records:
             print(
                 f"No cached embeddings found for model {config.display_name} (NVIDIA '{model_name}'). "
+                "Run generate_embeddings.py first."
+            )
+            continue
+
+        try:
+            metrics, benchmark, dataset_mrr = evaluate_with_cache(
+                config.display_name, cache_key, cache, records, variations
+            )
+        except (KeyError, ValueError) as exc:
+            print(f"Skipping {config.display_name}: {exc}")
+            continue
+
+        display_results(config.display_name, metrics, benchmark)
+        summary.append((config.display_name, metrics, benchmark, dataset_mrr))
+        for dataset_name, value in dataset_mrr.items():
+            dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
+        any_success = True
+
+    for config in DEFAULT_HUGGINGFACE_EMBEDDING_CONFIGS:
+        model_name = resolve_huggingface_model_name(config)
+        cache_key = resolve_huggingface_cache_key(config)
+        records = cache.load(cache_key)
+        if not records:
+            print(
+                f"No cached embeddings found for model {config.display_name} (HuggingFace '{model_name}'). "
                 "Run generate_embeddings.py first."
             )
             continue

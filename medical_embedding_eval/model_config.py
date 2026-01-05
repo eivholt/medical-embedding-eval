@@ -122,6 +122,30 @@ DEFAULT_NVIDIA_EMBEDDING_CONFIGS: List[NvidiaEmbeddingConfig] = [
 ]
 
 
+@dataclass(frozen=True)
+class HuggingFaceEmbeddingConfig:
+    """Configuration for a Hugging Face hosted embedding model."""
+
+    display_name: str
+    model_env_var: str
+    default_model: str
+    embedding_dim: int
+    pooling_strategy: str = "mean"
+    max_length: int = 512
+    batch_size: int = 16
+    device_env_var: str = "HUGGINGFACE_DEVICE"
+
+
+DEFAULT_HUGGINGFACE_EMBEDDING_CONFIGS: List[HuggingFaceEmbeddingConfig] = [
+    HuggingFaceEmbeddingConfig(
+        display_name="nb-bert-large 1024,mean",
+        model_env_var="HF_EMBED_MODEL",
+        default_model="NbAiLab/nb-bert-large",
+        embedding_dim=1024,
+    ),
+]
+
+
 def iter_deployments(configs: Iterable[AzureEmbeddingConfig]) -> Iterable[AzureEmbeddingConfig]:
     """Yield configurations as-is; helper kept for future filtering."""
     return configs
@@ -211,3 +235,38 @@ def resolve_nvidia_cache_key(config: NvidiaEmbeddingConfig) -> str:
     safe_truncate = truncate.replace("/", "-")
     safe_format = encoding_format.replace("/", "-")
     return f"{safe_model}-{safe_input}-{safe_truncate}-{safe_format}"
+
+
+def resolve_huggingface_model_name(config: HuggingFaceEmbeddingConfig) -> str:
+    """Return the Hugging Face model identifier for a given configuration."""
+    return os.getenv(config.model_env_var, config.default_model)
+
+
+def resolve_huggingface_device(config: HuggingFaceEmbeddingConfig) -> Optional[str]:
+    """Return the device override for Hugging Face embeddings, if provided."""
+    value = os.getenv(config.device_env_var)
+    return value if value else None
+
+
+def resolve_huggingface_pooling(config: HuggingFaceEmbeddingConfig) -> str:
+    """Return the pooling strategy for Hugging Face embeddings."""
+    return config.pooling_strategy
+
+
+def resolve_huggingface_max_length(config: HuggingFaceEmbeddingConfig) -> int:
+    """Return the max token length for Hugging Face embeddings."""
+    return config.max_length
+
+
+def resolve_huggingface_batch_size(config: HuggingFaceEmbeddingConfig) -> int:
+    """Return the batch size for Hugging Face embedding generation."""
+    return config.batch_size
+
+
+def resolve_huggingface_cache_key(config: HuggingFaceEmbeddingConfig) -> str:
+    """Return cache key for Hugging Face embeddings."""
+    model_name = resolve_huggingface_model_name(config)
+    pooling = resolve_huggingface_pooling(config)
+    max_length = resolve_huggingface_max_length(config)
+    safe_model = model_name.replace("/", "-").replace(":", "-")
+    return f"{safe_model}-{pooling}-len{max_length}"

@@ -5,7 +5,14 @@ semantic similarity of original samples with their variations.
 """
 
 from .sample import MedicalSample, SampleVariation, SamplePair
-from .embedder import EmbeddingModel, DummyEmbedder, AzureOpenAIEmbedder, GeminiEmbedder, NvidiaEmbedder
+from .embedder import (
+    EmbeddingModel,
+    DummyEmbedder,
+    AzureOpenAIEmbedder,
+    GeminiEmbedder,
+    NvidiaEmbedder,
+    HuggingFaceEmbedder,
+)
 from .embedding_cache import EmbeddingCache, CachedEmbedding, compute_text_hash
 from .data_loader import load_samples_from_json, load_samples_from_directory
 from .model_config import (
@@ -15,6 +22,8 @@ from .model_config import (
     DEFAULT_GEMINI_EMBEDDING_CONFIGS,
     NvidiaEmbeddingConfig,
     DEFAULT_NVIDIA_EMBEDDING_CONFIGS,
+    HuggingFaceEmbeddingConfig,
+    DEFAULT_HUGGINGFACE_EMBEDDING_CONFIGS,
     resolve_deployment_name,
     resolve_gemini_model_name,
     resolve_gemini_task_type,
@@ -28,6 +37,12 @@ from .model_config import (
     resolve_nvidia_truncate,
     resolve_nvidia_encoding_format,
     resolve_nvidia_cache_key,
+    resolve_huggingface_model_name,
+    resolve_huggingface_device,
+    resolve_huggingface_pooling,
+    resolve_huggingface_max_length,
+    resolve_huggingface_batch_size,
+    resolve_huggingface_cache_key,
 )
 from .evaluator import EmbeddingEvaluator
 from .metrics import (
@@ -48,6 +63,7 @@ __all__ = [
     "AzureOpenAIEmbedder",
     "GeminiEmbedder",
     "NvidiaEmbedder",
+    "HuggingFaceEmbedder",
     "EmbeddingCache",
     "CachedEmbedding",
     "compute_text_hash",
@@ -64,6 +80,8 @@ __all__ = [
     "DEFAULT_GEMINI_EMBEDDING_CONFIGS",
     "NvidiaEmbeddingConfig",
     "DEFAULT_NVIDIA_EMBEDDING_CONFIGS",
+    "HuggingFaceEmbeddingConfig",
+    "DEFAULT_HUGGINGFACE_EMBEDDING_CONFIGS",
     "resolve_deployment_name",
     "resolve_gemini_model_name",
     "resolve_gemini_task_type",
@@ -77,4 +95,10 @@ __all__ = [
     "resolve_nvidia_truncate",
     "resolve_nvidia_encoding_format",
     "resolve_nvidia_cache_key",
+    "resolve_huggingface_model_name",
+    "resolve_huggingface_device",
+    "resolve_huggingface_pooling",
+    "resolve_huggingface_max_length",
+    "resolve_huggingface_batch_size",
+    "resolve_huggingface_cache_key",
 ]

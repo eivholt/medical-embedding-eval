@@ -330,3 +330,103 @@ class NvidiaEmbedder(EmbeddingModel):
 
     def get_cache_key(self) -> str:
         return self._cache_key
+
+
+class HuggingFaceEmbedder(EmbeddingModel):
+    """Embedding model backed by a Hugging Face transformer."""
+
+    def __init__(
+        self,
+        model_name: str,
+        *,
+        tokenizer_name: Optional[str] = None,
+        device: Optional[str] = None,
+        embedding_dim: Optional[int] = None,
+        display_name: Optional[str] = None,
+        pooling: str = "mean",
+        max_length: int = 512,
+        batch_size: int = 16,
+        cache_key: Optional[str] = None,
+    ) -> None:
+        try:
+            import torch
+            from transformers import AutoModel, AutoTokenizer
+        except ImportError as exc:  # pragma: no cover - optional dependency
+            raise ImportError(
+                "The transformers and torch packages are required for HuggingFaceEmbedder. Install them via 'pip install transformers torch'."
+            ) from exc
+
+        self._torch = torch
+        self._tokenizer = AutoTokenizer.from_pretrained(tokenizer_name or model_name)
+        self._model = AutoModel.from_pretrained(model_name)
+        self._model.eval()
+
+        if device is None:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        self._device = torch.device(device)
+        self._model.to(self._device)
+
+        self._pooling = pooling.lower()
+        if self._pooling not in {"mean", "cls"}:
+            raise ValueError("Unsupported pooling strategy. Use 'mean' or 'cls'.")
+
+        self._max_length = max_length
+        self._batch_size = batch_size
+        self.embedding_dim = embedding_dim or getattr(self._model.config, "hidden_size", None)
+        if self.embedding_dim is None:
+            raise ValueError("Unable to determine embedding dimension from model configuration. Provide embedding_dim explicitly.")
+
+        self._model_name = model_name
+        self._display_name = display_name or model_name
+        safe_model = model_name.replace("/", "-").replace(":", "-")
+        self._cache_key = cache_key or f"{safe_model}-{self._pooling}-len{self._max_length}"
+
+    def embed(self, texts: Union[str, List[str]]) -> np.ndarray:
+        if isinstance(texts, str):
+            texts = [texts]
+        if not texts:
+            return np.empty((0, self.embedding_dim), dtype=np.float32)
+
+        embeddings: List[np.ndarray] = []
+
+        with self._torch.no_grad():
+            for start in range(0, len(texts), self._batch_size):
+                batch_texts = texts[start : start + self._batch_size]
+                inputs = self._tokenizer(
+                    batch_texts,
+                    padding=True,
+                    truncation=True,
+                    max_length=self._max_length,
+                    return_tensors="pt",
+                )
+                inputs = {key: value.to(self._device) for key, value in inputs.items()}
+                outputs = self._model(**inputs)
+                hidden_states = outputs.last_hidden_state
+
+                if self._pooling == "cls":
+                    pooled = hidden_states[:, 0]
+                else:
+                    attention_mask = inputs.get("attention_mask")
+                    if attention_mask is None:
+                        pooled = hidden_states.mean(dim=1)
+                    else:
+                        mask = attention_mask.unsqueeze(-1).expand(hidden_states.size()).float()
+                        summed = (hidden_states * mask).sum(dim=1)
+                        counts = mask.sum(dim=1).clamp(min=1e-9)
+                        pooled = summed / counts
+
+                embeddings.append(pooled.cpu().numpy())
+
+        matrix = np.concatenate(embeddings, axis=0)
+        norms = np.linalg.norm(matrix, axis=1, keepdims=True)
+        matrix = matrix / (norms + 1e-12)
+        return matrix.astype(np.float32)
+
+    def get_embedding_dimension(self) -> int:
+        return int(self.embedding_dim)
+
+    def get_model_name(self) -> str:
+        return self._display_name
+
+    def get_cache_key(self) -> str:
+        return self._cache_key

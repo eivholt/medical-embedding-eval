@@ -13,10 +13,12 @@ from medical_embedding_eval import (
     AzureOpenAIEmbedder,
     GeminiEmbedder,
     NvidiaEmbedder,
+    HuggingFaceEmbedder,
     CachedEmbedding,
     DEFAULT_AZURE_EMBEDDING_CONFIGS,
     DEFAULT_GEMINI_EMBEDDING_CONFIGS,
     DEFAULT_NVIDIA_EMBEDDING_CONFIGS,
+    DEFAULT_HUGGINGFACE_EMBEDDING_CONFIGS,
     MedicalSample,
     SampleVariation,
     compute_text_hash,
@@ -32,6 +34,12 @@ from medical_embedding_eval import (
     resolve_nvidia_input_type,
     resolve_nvidia_truncate,
     resolve_nvidia_encoding_format,
+    resolve_huggingface_model_name,
+    resolve_huggingface_device,
+    resolve_huggingface_pooling,
+    resolve_huggingface_max_length,
+    resolve_huggingface_batch_size,
+    resolve_huggingface_cache_key,
 )
 from medical_embedding_eval.embedding_cache import EmbeddingCache
 
@@ -206,6 +214,43 @@ def main() -> None:
         except (ImportError, ValueError) as exc:
             print(f"Skipping {config.display_name}: {exc}")
             continue
+
+        refreshed = update_cache_for_model(embedder, cache, samples, variations)
+        processed_any = True
+        if refreshed:
+            print(f"Cached {refreshed} embeddings for {config.display_name}.")
+        else:
+            print(f"Cache already up to date for {config.display_name}.")
+
+    for config in DEFAULT_HUGGINGFACE_EMBEDDING_CONFIGS:
+        model_name = resolve_huggingface_model_name(config)
+        device_override = resolve_huggingface_device(config)
+        pooling = resolve_huggingface_pooling(config)
+        max_length = resolve_huggingface_max_length(config)
+        batch_size = resolve_huggingface_batch_size(config)
+        cache_key = resolve_huggingface_cache_key(config)
+
+        print()
+        print(f"Processing model {config.display_name} (HuggingFace '{model_name}')")
+
+        try:
+            embedder = HuggingFaceEmbedder(
+                model_name=model_name,
+                tokenizer_name=model_name,
+                device=device_override,
+                embedding_dim=config.embedding_dim,
+                display_name=config.display_name,
+                pooling=pooling,
+                max_length=max_length,
+                batch_size=batch_size,
+                cache_key=cache_key,
+            )
+        except (ImportError, ValueError) as exc:
+            print(f"Skipping {config.display_name}: {exc}")
+            continue
+
+        # Override cache key with resolved configuration to ensure consistency
+        embedder._cache_key = cache_key  # type: ignore[attr-defined]
 
         refreshed = update_cache_for_model(embedder, cache, samples, variations)
         processed_any = True
