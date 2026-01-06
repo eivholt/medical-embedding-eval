@@ -143,6 +143,14 @@ DEFAULT_HUGGINGFACE_EMBEDDING_CONFIGS: List[HuggingFaceEmbeddingConfig] = [
         default_model="NbAiLab/nb-bert-large",
         embedding_dim=1024,
     ),
+    HuggingFaceEmbeddingConfig(
+        display_name="multilingual-e5-large-instruct 1024,mean",
+        model_env_var="HF_E5_EMBED_MODEL",
+        default_model="intfloat/multilingual-e5-large-instruct",
+        embedding_dim=1024,
+        max_length=512,
+        batch_size=16,
+    ),
 ]
 
 
