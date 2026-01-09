@@ -4,10 +4,12 @@
       "sample_id": "icd10_no_breast_cancer_001",
       "text": "Infiltrerende duktalt adenokarscinom i venstre bryst, HER2-positivt",
       "metadata": {
-        "language": "norwegian",
+        "language": "nb-NO",
         "domain": "icd10",
         "purpose": "classification_test",
-        "notes": "Primær invasiv brystkreft med HER2-positiv status"
+        "notes": "Primær invasiv brystkreft med HER2-positiv status",
+        "author": "Utvikler",
+        "verified": true
       },
       "variations": [
         {

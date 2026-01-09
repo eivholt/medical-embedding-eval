@@ -4,9 +4,11 @@
       "sample_id": "histology_plica_fimbriata_001",
       "text": "Klinisk diagnose: uspes. utvekst plica fimbriata venstre side. Kort sykehistorie: over en lang periode residiverende smerter og hevelse underside av tunge venstre side på plica fimbriata. Man ser en liten utvekst direkte på plica, cyste-lignende, palperes hardt og er øm. Materialet består av: 1 glass. Tatt fra (organ, region, side): Plica fimbriata, underside tunge venstre side.",
       "metadata": {
-        "language": "norwegian",
+        "language": "nb-NO",
         "domain": "dermatologi",
-        "purpose": "histologisvar"
+        "purpose": "histologisvar",
+        "author": "Ortoped",
+        "verified": true
       },
       "variations": [
         {
@@ -144,9 +146,11 @@
       "sample_id": "histology_cecum_biopsy_001",
       "text": "Kort sykehistorie: episoder med friskt blod på papiret og i avføringen. Koloskopi uten patologiske funn. I coekum sees et lite punkt, usikkert om sugepolypp fra scopet eller tidlig polyppanlegg, og det tas biopsi. Spørsmål om neoplasi? Materialet består av biopsi fra cøkum ved valvula Bauhini, fiksert i formalin. Preparatbeskrivelsen skal ikke brukes til publisering uten samtykke fra laboratoriet.",
       "metadata": {
-        "language": "norwegian",
+        "language": "nb-NO",
         "domain": "gastroenterologi",
-        "purpose": "histologisvar"
+        "purpose": "histologisvar",
+      "author": "Ortoped",
+      "verified": true
       },
       "variations": [
         {
@@ -284,9 +288,11 @@
       "sample_id": "histology_mirena_menometroragia_001",
       "text": "Klinisk diagnose: menometroragi til tross for Mirena (N92.4). Kort sykehistorie: Mirena innsatt for over fem år siden, fortsatt menometroragi. Materialet består av endometriespåner tatt fra uterus. Spesielle ønsker: obs adenomyose eller karforandringer? Fiksert i formalin.",
       "metadata": {
-        "language": "norwegian",
+        "language": "nb-NO",
         "domain": "gynekologi",
-        "purpose": "histologisvar"
+        "purpose": "histologisvar",
+        "author": "Ortoped",
+        "verified": true
       },
       "variations": [
         {

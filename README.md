@@ -56,7 +56,7 @@ from medical_embedding_eval import (
 sample = MedicalSample(
     text="Pasienten har høyt blodtrykk og diabetes type 2.",
     sample_id="sample_001",
-    metadata={"language": "norwegian", "domain": "cardiology"}
+    metadata={"language": "nb-NO", "domain": "cardiology"}
 )
 
 # Create a semantic variation
@@ -140,7 +140,7 @@ Represents original medical text with metadata:
 sample = MedicalSample(
     text="Pasienten har høyt blodtrykk",
     sample_id="sample_001",
-    metadata={"language": "norwegian", "domain": "cardiology"}
+    metadata={"language": "nb-NO", "domain": "cardiology"}
 )
 ```
 

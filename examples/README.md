@@ -118,7 +118,7 @@ from medical_embedding_eval import MedicalSample, SampleVariation
 my_sample = MedicalSample(
     text="Your Norwegian medical text here",
     sample_id="custom_001",
-    metadata={"domain": "your_domain", "language": "norwegian"}
+    metadata={"domain": "your_domain", "language": "nb-NO"}
 )
 
 # Create variation
@@ -141,7 +141,7 @@ Create a JSON file in `../data/` directory:
     {
       "sample_id": "sample_001",
       "text": "Your text",
-      "metadata": {"language": "norwegian", "domain": "cardiology"}
+      "metadata": {"language": "nb-NO", "domain": "cardiology"}
     }
   ],
   "variations": [

@@ -28,17 +28,17 @@ def main():
         MedicalSample(
             text="Pasienten har høyt blodtrykk og diabetes type 2.",
             sample_id="sample_001",
-            metadata={"language": "norwegian", "domain": "cardiology"}
+            metadata={"language": "nb-NO", "domain": "kardiologi"}
         ),
         MedicalSample(
             text="Undersøkelsen viser symptomer på lungebetennelse.",
             sample_id="sample_002",
-            metadata={"language": "norwegian", "domain": "pulmonology"}
+            metadata={"language": "nb-NO", "domain": "pulmonologi"}
         ),
         MedicalSample(
             text="Pasienten rapporterer sterke smerter i høyre kne.",
             sample_id="sample_003",
-            metadata={"language": "norwegian", "domain": "orthopedics"}
+            metadata={"language": "nb-NO", "domain": "ortopedi"}
         ),
     ]
     print(f"Created {len(samples)} medical samples")

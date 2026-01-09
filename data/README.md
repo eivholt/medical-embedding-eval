@@ -15,7 +15,7 @@ You can organize your data in various formats:
       "sample_id": "sample_001",
       "text": "Pasienten har høyt blodtrykk",
       "metadata": {
-        "language": "norwegian",
+        "language": "nb-NO",
         "domain": "cardiology"
       }
     }

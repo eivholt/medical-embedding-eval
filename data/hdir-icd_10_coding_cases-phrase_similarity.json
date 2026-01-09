@@ -1,0 +1,171 @@
+{
+  "samples": [
+    {
+      "sample_id": "gallestein_utredning_ultralyd_001",
+      "text": "Hans er henvist fra fastlegen på grunn av smerter i øvre del av magen. Han hadde hjerteinfarkt for syv år siden og bruker medisiner som er blodfortynnende, som senker kolesterolet og som senker blodtrykket. Bortsett fra dette kjenner han seg frisk. Gastrokirurgen tar opp anamnese og undersøker Hans. Hun tror han kan ha gallesteinssmerter, men er ikke sikker på diagnosen og vil ha en ultralyd.",
+      "metadata": {
+        "language": "nb-NO",
+        "domain": "gastrokirurgi",
+        "purpose": "Helsedirektoratets e-læringskurs",
+        "author": "gpt-5.2-pro",
+        "verified": false
+      },
+      "variations": [
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_pos_01",
+          "variation_text": "Henvises fra fastlege pga smerter i øvre abdomen/epigastriet. Tidligere hjerteinfarkt for 7 år siden. Bruker blodfortynnende, kolesterolsenkende og blodtrykksenkende medikasjon. For øvrig frisk. Gastrokirurg tar anamnese og gjør klinisk undersøkelse. Vurdering: mulig gallesteinsanfall, men usikker. Plan: UL øvre abdomen/galleblære.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskrev fortellende tekst til kort journalnotat med vanlige forkortelser (pga, UL) – modeller må tåle stilskifte uten å miste mening.",
+            "Byttet «øvre del av magen» til «øvre abdomen/epigastriet» – anatomiske synonymer med klinisk overlapp kan gi små, men viktige nyanser.",
+            "Beholdt medikamentgrupper i generelle termer – krever at modellen forstår at «blodfortynnende/kolesterol-/blodtrykksenkende» er klinisk relevante kategorier."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_pos_02",
+          "variation_text": "Mann henvist fra fastlege pga smerter i øvre mage. Gjennomgått hjerteinfarkt for 7 år siden, står på ASA/annen platehemmer, statin og BT-medikasjon. Ellers frisk. Etter anamnese og status mistenkes biliær kolikk, men diagnosen er ikke sikker. Ønsker UL av galleblære og galleveier.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Konkretiserte «blodfortynnende» til platehemmer (f.eks. ASA) – semantisk likt, men krever legemiddelkunnskap for å koble begrepene.",
+            "Byttet «gallesteinssmerter» til «biliær kolikk» – medisinsk synonym som ofte brukes i journaler, men som kan misforstås av overfladiske modeller.",
+            "La inn «status»/«anamnese» som standard journalterminologi – tester robusthet mot typiske journalmarkører."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_pos_03",
+          "variation_text": "Hans kommer til gastrokirurgisk vurdering etter henvisning fra fastlege grunnet smerter i øvre del av abdomen. Tidligere hjerteinfarkt (7 år siden); bruker blodfortynnende, kolesterolsenkende og antihypertensiv behandling. Ingen andre kjente sykdommer. Gastrokirurg vurderer gallesteinsrelaterte smerter som mulig årsak, men vil avklare med ultralyd.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Beholdt navn/pasientrolle, men strammet opp til poliklinikk-formulering – små tekstlige endringer som ikke skal endre semantisk kjerne.",
+            "Normaliserte «senker blodtrykket» til «antihypertensiv behandling» – krever at modellen forstår faglig omformulering.",
+            "Presiserte at ultralyd er for avklaring – tester om modellen fanger forskjellen mellom mistanke og bekreftet diagnose."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_pos_04",
+          "variation_text": "Fastlegehenvist med smerter i øvre del av magen. Tidligere MI for 7 år siden, på blodfortynnende, statin og blodtrykksbehandling. Gastrokirurg vurderer mulig gallestein, men ikke typisk klinikk. Bestiller UL øvre abdomen.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Sterkt komprimert tekst til «telegramstil» – semantikk må gjenkjennes selv når kontekst er kortet ned.",
+            "Byttet «hjerteinfarkt» til «MI» – vanlig norsk journalforkortelse som kan gi svakere matching uten medisinsk kontekstforståelse.",
+            "La inn «ikke typisk klinikk» – subtil formulering som bevarer usikkerhetsmomentet i diagnostikken."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_hard_pos_01",
+          "variation_text": "Henvises pga anfallsvis smerte i epigastriet/under høyre costalbue, til dels med utstråling mot rygg. Ikke feber eller ikterus opplyst. Tidligere hjerteinfarkt for 7 år siden; står på platehemmer, statin og blodtrykksbehandling. Klinisk u.s. uten peritoneal irritasjon. Vurdering: mistenkt biliær kolikk, men ikke sikker. Plan: UL øvre abdomen.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til typiske gallesteinskarakteristika (anfallsvis, kostalbue, utstråling) – kan også ses ved andre tilstander (f.eks. ulcus/pankreatitt), og utfordrer semantisk presisjon.",
+            "La til negative funn (ingen feber/ikterus, ingen peritoneal irritasjon) – kliniske avgrensninger som modeller ofte overser.",
+            "Skiftet til mer «status»-preget språk – tester om modellen håndterer funn vs fortelling."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_hard_pos_02",
+          "variation_text": "Pasient med epigastriske smerter, henvist fra fastlege. Gjennomgått hjerteinfarkt for 7 år siden og står på antitrombotisk behandling, statin og antihypertensiva. Ellers frisk. Ved gastrokirurgisk vurdering mistenkes gallesteinssykdom, men det foreligger også differensialdiagnostisk vurdering mot dyspepsi/ulcus. UL av galleblære bestilles for avklaring.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Introduserte differensialdiagnoser (dyspepsi/ulcus) uten å endre hovedmistanken – kan «dra» embeddings mot feil tema hvis modellen overvekter enkeltord.",
+            "Byttet «blodfortynnende» til «antitrombotisk» – samme kliniske konsept, men mer faglig presist og dermed mer krevende.",
+            "Beholdt usikker diagnose og UL som avklarende test – semantisk likt, men med mer kompleks klinisk resonnering i teksten."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_hard_pos_03",
+          "variation_text": "Problemstilling: øvre abdominalsmerter. Bakgrunn: hjerteinfarkt for 7 år siden, med pågående behandling med platehemmer, statin og BT-medikasjon. Allment upåvirket ellers. Vurdering etter anamnese og klinisk undersøkelse: mulig gallestein/biliær kolikk, ikke avklart. Tiltak: bestiller ultralyd av øvre abdomen.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskrev til problem–vurdering–tiltak-struktur – samme innhold, men annen dokumentasjonsform kan gi annen vektlegging i embeddings.",
+            "Brukte både lekmannsterm og fagterm (gallestein/biliær kolikk) – tester om modellen forstår at dette er samme kliniske spor.",
+            "La inn «allment upåvirket» – subtilt klinisk signal som ofte påvirker hastegrad, men ikke nødvendigvis ordene modellen matcher på."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_related_01",
+          "variation_text": "Henvises fra fastlege pga smerter i epigastriet. Tidligere hjerteinfarkt og står på platehemmer/blodfortynnende, statin og blodtrykksmedisin. Gastrokirurg vurderer at symptomene kan passe med gastritt/ulcus, særlig med tanke på platehemming. Plan: oppstart PPI og bestilling av gastroskopi; UL galleblære vurderes sekundært.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endret mest sannsynlig diagnose fra gallestein til ulcussykdom – samme symptom (epigastralgi), men annen patofysiologi og utredning.",
+            "Knyttet medikamentbruk til økt ulcusrisiko – krever klinisk kontekstforståelse, ikke bare ordlikhet.",
+            "Byttet hovedundersøkelse fra UL til gastroskopi – semantisk nært, men diagnostisk retning er vesentlig forskjellig."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_related_02",
+          "variation_text": "Fastlegehenvist med smerter under høyre costalbue og i øvre abdomen, kvalme og feber. Tidligere hjerteinfarkt (7 år siden), på platehemmer, statin og blodtrykksbehandling. Ved status tydelig ømhet under høyre costalbue, mulig Murphy. Vurdering: mistenkt akutt kolecystitt. Plan: akutt UL galleblære, blodprøver og oppstart behandling etter vurdering.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Skiftet fra «gallesteinssmerter» (kolikk) til akutt kolecystitt – nært beslektet, men klinisk alvorlighet og håndtering er annerledes.",
+            "La til systemiske infeksjonstegn (feber) og Murphy-tegn – små funn som gir stor diagnostisk betydning.",
+            "Beholdt UL, men endret indikasjon/hastegrad – utfordrer modeller som matcher på «UL + galle» uten å fange konteksten."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_related_03",
+          "variation_text": "Henvises til gastrokirurg pga øvre abdominalsmerter. Tidligere hjerteinfarkt og bruker blodfortynnende, statin og blodtrykksmedisin. Ultralyd bestilt i primærhelsetjenesten viser gallestein uten tegn til kolecystitt. Ønsker vurdering for videre oppfølging og ev. elektiv kolecystektomi.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Flyttet pasientforløpet fra «mistanke og bestilling» til «allerede påvist gallestein» – samme tema, men annen fase i utredningen.",
+            "Introduserte behandlingsspørsmål (elektiv kolecystektomi) – semantisk nært, men endrer formålet med teksten.",
+            "Beholdt samme bakgrunn (MI/medisiner) for å øke ordlikhet – utfordrer modeller til å skille «utredning» fra «bekreftet funn/plan»."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_hard_neg_01",
+          "variation_text": "Hans henvises fra fastlege pga smerter i øvre del av magen med trykkende karakter og lett kvalme. Tidligere hjerteinfarkt for 7 år siden, på platehemmer, statin og blodtrykksbehandling. Ved vurdering vurderes dette som mulig atypisk angina/akutt koronarsyndrom snarere enn gallestein. Plan: EKG og troponiner, observasjon i akuttmottak.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholdt epigastriske smerter og samme kardiovaskulære medikamentprofil – høy ordlikhet, men helt annen sykdomsmistanke.",
+            "Skiftet klinisk prioritering til koronarsykdom (EKG/troponin) – tester om modellen fanger diagnostisk retning, ikke bare symptombeskrivelse.",
+            "Utnytter klinisk overlapp (infarkt kan gi «magesmerter») – et klassisk sted embeddings kan feile ved å «overmatche»."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_hard_neg_02",
+          "variation_text": "Henvises med akutt debut av sterke smerter i epigastriet med utstråling til rygg. Tidligere hjerteinfarkt for 7 år siden, bruker blodfortynnende, statin og blodtrykksmedikasjon. Ved undersøkelse er pasienten blek og kaldsvett, BT lavt. Klinisk mistenkes ruptur/akutt aortapatologi. Plan: øyeblikkelig hjelp CT-angio (evt UL aorta ved behov) – ikke primært gallestein.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholdt «øvre magesmerter + rygg» og samme risikoprofil – ord og symptomer kan ligne biliær kolikk, men alvorligheten og vurderingen er helt annerledes.",
+            "Skiftet diagnostisk mål fra galleveier til aorta (CT-angio/UL aorta) – utfordrer modeller til å skille «ultralyd av hva».",
+            "La inn hemodynamiske faresignaler (hypotensjon, kaldsvette) – små kliniske signalord som bør endre semantisk nærhet kraftig."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_hard_neg_03",
+          "variation_text": "Fastlegehenvist pga smerter i øvre del av magen som forverres ved dyp inspirasjon. Har hoste og feber. Tidligere hjerteinfarkt for 7 år siden og bruker blodfortynnende, statin og blodtrykksmedisin. Ved klinisk undersøkelse høres grove knatrelyder basalt på høyre side. Vurdering: basalpneumoni/pleuritt. Plan: rtg thorax og antibiotika.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholdt smerter «høyt i magen», men flyttet årsak til lunge/pleura – basale pneumonier kan gi referert smerte og narrer semantiske modeller.",
+            "Gjenbrukte samme bakgrunn (MI/medisiner) for å øke tekstlig likhet – tester om modellen vektlegger funn og vurdering mer enn bakgrunn.",
+            "Byttet utredning fra UL til rtg thorax – diagnostisk spor endres tydelig, men ord som «smerter» og «undersøkelse» forblir like."
+          ]
+        },
+        {
+          "variation_id": "gallestein_utredning_ultralyd_001_easy_neg_01",
+          "variation_text": "Henvises til hudpoliklinikk for vurdering av pigmentert hudlesjon på ryggen som har endret seg siste måneder. Tidligere hjerteinfarkt for 7 år siden, bruker blodfortynnende, statin og blodtrykksmedisin. Plan: eksisjon i lokalanestesi og histologisk undersøkelse.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Skiftet fullstendig problemstilling og organ (hudlesjon i stedet for magesmerter) – skal gi lav semantisk likhet.",
+            "Beholdt samme komorbiditet/medikamentliste for å «lure» modeller som overvekter faste bakgrunnsfraser.",
+            "Introduserte prosedyrer (eksisjon/histologi) som er typiske i journaler, men irrelevante for gallesteinutredning."
+          ]
+        }
+      ]
+    }
+  ]
+}

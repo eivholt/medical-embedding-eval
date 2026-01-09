@@ -4,9 +4,11 @@
       "sample_id": "recipient_registry_fauske_001",
       "text": "fauske legevakt",
       "metadata": {
-        "language": "norwegian",
+        "language": "nb-NO",
         "domain": "recipient_registry",
-        "purpose": "entity_matching_test"
+        "purpose": "entity_matching_test",
+        "author": "Utvikler",
+        "verified": false
       },
       "variations": [
         {
@@ -96,9 +98,11 @@
       "sample_id": "recipient_registry_fauske_002",
       "text": "fauske vaksinesenter",
       "metadata": {
-        "language": "norwegian",
+        "language": "nb-NO",
         "domain": "recipient_registry",
-        "purpose": "entity_matching_test"
+        "purpose": "entity_matching_test",
+        "author": "Utvikler",
+        "verified": false
       },
       "variations": [
         {
@@ -170,9 +174,11 @@
       "sample_id": "recipient_registry_kristiansand_001",
       "text": "kvinnesykdommer kristiansand",
       "metadata": {
-        "language": "norwegian",
+        "language": "nb-NO",
         "domain": "recipient_registry",
-        "purpose": "entity_matching_test"
+        "purpose": "entity_matching_test",
+        "author": "Utvikler",
+        "verified": false
       },
       "variations": [
         {

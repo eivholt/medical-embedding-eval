@@ -14,11 +14,11 @@ class TestMedicalSample:
         sample = MedicalSample(
             text="Pasienten har høyt blodtrykk",
             sample_id="sample_001",
-            metadata={"language": "norwegian"}
+            metadata={"language": "nb-NO"}
         )
         assert sample.text == "Pasienten har høyt blodtrykk"
         assert sample.sample_id == "sample_001"
-        assert sample.metadata["language"] == "norwegian"
+        assert sample.metadata["language"] == "nb-NO"
         assert isinstance(sample.created_at, datetime)
     
     def test_empty_text_raises_error(self):

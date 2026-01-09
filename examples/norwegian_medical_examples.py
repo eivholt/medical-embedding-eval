@@ -18,7 +18,7 @@ def get_norwegian_medical_samples():
             text="Pasienten har høyt blodtrykk og diabetes type 2.",
             sample_id="no_001",
             metadata={
-                "language": "norwegian",
+                "language": "nb-NO",
                 "domain": "cardiology/endocrinology",
                 "type": "diagnosis"
             }
@@ -27,7 +27,7 @@ def get_norwegian_medical_samples():
             text="Undersøkelsen viser symptomer på lungebetennelse med feber og hoste.",
             sample_id="no_002",
             metadata={
-                "language": "norwegian",
+                "language": "nb-NO",
                 "domain": "pulmonology",
                 "type": "examination"
             }
@@ -36,7 +36,7 @@ def get_norwegian_medical_samples():
             text="Pasienten rapporterer sterke smerter i høyre kne etter fall.",
             sample_id="no_003",
             metadata={
-                "language": "norwegian",
+                "language": "nb-NO",
                 "domain": "orthopedics",
                 "type": "complaint"
             }
@@ -45,7 +45,7 @@ def get_norwegian_medical_samples():
             text="Behandling med Paracet 500mg tre ganger daglig i fem dager.",
             sample_id="no_004",
             metadata={
-                "language": "norwegian",
+                "language": "nb-NO",
                 "domain": "pharmacy",
                 "type": "prescription"
             }
@@ -54,7 +54,7 @@ def get_norwegian_medical_samples():
             text="Blodprøven viser forhøyede verdier av kolesterol og triglyserider.",
             sample_id="no_005",
             metadata={
-                "language": "norwegian",
+                "language": "nb-NO",
                 "domain": "laboratory",
                 "type": "test_result"
             }
@@ -63,7 +63,7 @@ def get_norwegian_medical_samples():
             text="Pasienten har allergi mot pollen og får Zyrtec i pollensesongen.",
             sample_id="no_006",
             metadata={
-                "language": "norwegian",
+                "language": "nb-NO",
                 "domain": "allergy",
                 "type": "treatment"
             }
