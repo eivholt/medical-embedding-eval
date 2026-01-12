@@ -166,6 +166,803 @@
           ]
         }
       ]
+    },
+    {
+      "sample_id": "op_kolecystektomi_jka21_001",
+      "text": "Hans innlegges og opereres. Gastrokirurgen fører inn operasjonskoden for laparoskopisk kolecystektomi fra prosedyrekodeverket når hun skriver operasjonsbeskrivelsen. JKA 21 Laparoskopisk kolecystektomi",
+      "metadata": {
+        "language": "nb-NO",
+        "domain": "gastrokirurgi",
+        "purpose": "Helsedirektoratets e-læringskurs",
+        "author": "gpt-5.2-pro",
+        "verified": false
+      },
+      "variations": [
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_pos_01",
+          "variation_text": "Operasjonsnotat: Laparoskopisk kolecystektomi utført. Prosedyrekode fra prosedyrekodeverket registreres i operasjonsbeskrivelsen: JKA21.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskrev til typisk «operasjonsnotat»-stil – samme innhold, men annen dokumentstruktur som kan påvirke semantisk matching.",
+            "Normaliserte skrivemåte av kode (JKA21 uten mellomrom) – tester robusthet mot kodeformat-variasjon."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_pos_02",
+          "variation_text": "Innlegges til laparoskopisk kolecystektomi. Ved diktering av operasjonsbeskrivelsen settes prosedyrekoden inn: JKA 21 (laparoskopisk kolecystektomi).",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "La inn journaltypisk formulering («diktering») – realistisk kontekst uten å endre prosedyre.",
+            "Beholdt kode med mellomrom (JKA 21) og parentesforklaring – utfordrer modeller på tokenisering og nær-synonyme uttrykk."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_pos_03",
+          "variation_text": "Gastrokirurg dokumenterer inngrepet og koder prosedyren i henhold til prosedyrekodeverket som JKA21 – laparoskopisk kolecystektomi – i operasjonsbeskrivelsen.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskrev «fører inn operasjonskoden» til «koder prosedyren» – semantisk likt, men faglig mer kodingsspråk.",
+            "Flyttet informasjon (kode + prosedyre) inn i setningsinnskudd – endrer syntaks uten å endre medisinsk betydning."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_pos_04",
+          "variation_text": "Utført inngrep: kolecystektomi, laparoskopisk. Operasjonskode/prosedyrekode: JKA21.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Sterkt komprimert til «telegramstil» slik det ofte står i operasjonslogg – modeller må hente riktig semantikk fra få ord.",
+            "Brukte både «operasjonskode» og «prosedyrekode» – nærbegreper som kan blandes, men peker på samme kodehendelse her."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_hard_pos_01",
+          "variation_text": "Operasjonsbeskrivelse: Laparoskopisk kolecystektomi. Pneumoperitoneum anlagt, 4 trokarer. Disseksjon i Calots triangel, clips på ductus cysticus og a. cystica. Galleblære fridissekert fra leverleiet og fjernet i pose. Hemostase tilfredsstillende. Prosedyrekode: JKA21.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til realistiske operative deltrinn (trokarer, Calots triangel, ductus cysticus) – mye ekstra fagterminologi kan «drukne» koden/prosedyren for svakere embeddings.",
+            "Beholdt samme kjerne (laparoskopisk kolecystektomi + JKA21) – tester om modellen prioriterer riktig signal i lang tekst."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_hard_pos_02",
+          "variation_text": "Laparoskopisk kolecystektomi gjennomført uten komplikasjoner. Ingen peroperativ cholangiografi. Prosedyre registrert i kodeverket som JKA 21.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til negative/avgrensende operative opplysninger (ingen cholangiografi) – klinisk relevant, men skal ikke endre hovedprosedyren.",
+            "Varierte kodeformat (JKA 21) og fjernet direkte gjentakelse av prosedyren i kode-linjen – utfordrer modeller som er avhengige av eksakt ordrekkefølge."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_hard_pos_03",
+          "variation_text": "Etter inngrepet registrerer operatør korrekt prosedyrekode i journalsystemet i tråd med prosedyrekodeverket: JKA21 laparoskopisk kolecystektomi. Koden fremgår av operasjonsnotatet.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Flyttet fokus til kodingsarbeidsflyt (registrering i journalsystem) – samme semantiske kjerne, men mer administrativt språk.",
+            "Gjentar både kode og prosedyre i én linje – tester om modellen håndterer «kode + tekst»-koblingen som ofte finnes i praksis."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_related_01",
+          "variation_text": "Planlagt laparoskopisk kolecystektomi, men inngrepet konverteres til åpen operasjon grunnet adheranser og uoversiktlig Calot. Operatør registrerer prosedyrekode for åpen kolecystektomi i operasjonsbeskrivelsen.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Beholder samme organ og samme hovedinngrep (kolecystektomi), men endrer tilgang (laparoskopi → åpen) – nært relatert, men ikke semantisk identisk prosedyre.",
+            "Innfører typisk konverteringsårsak (adheranser/uoversiktlig Calot) – realistisk, men gir viktige kliniske forskjeller som bør fanges."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_related_02",
+          "variation_text": "Endoskopibeskrivelse: ERCP med papillotomi og steinekstraksjon fra ductus choledochus. Prosedyrekode føres fra kodeverket i prosedyrefeltet, men det er ikke utført kolecystektomi.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Samme «galle/steinsykdom»-felt, men helt annen prosedyre (ERCP vs kolecystektomi) – ofte semantisk nært i tekst, men klinisk og kodemessig ulikt.",
+            "Beholder kodingskontekst («prosedyrekode føres») – utfordrer modeller som overvekter kodingsspråk fremfor selve inngrepet."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_hard_neg_01",
+          "variation_text": "Operasjonsbeskrivelse: Laparoskopisk appendektomi. Ved registrering i operasjonsnotatet er prosedyrekoden JKA21 blitt skrevet inn, men dette samsvarer ikke med inngrepet (appendektomi).",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder «laparoskopisk» og kodetekst, og inkluderer samme kode (JKA21), men bytter faktisk prosedyre til appendektomi – høy ordlikhet, men feil semantikk.",
+            "Utnytter vanlig journalsituasjon (kodefeil/mismatch) – svært krevende for embeddings som primært matcher på kode eller enkeltord."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_hard_neg_02",
+          "variation_text": "Planlagt laparoskopisk kolecystektomi (JKA21), men operasjonen avlyses etter anestesi grunnet nyoppståtte brystsmerter. Ingen kirurgi utført og prosedyrekode for kolecystektomi skal ikke registreres som gjennomført.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder samme planlagte prosedyre og kode, men endrer hendelsesforløpet til «avlyst/ikke utført» – subtil, men avgjørende journalbetydning.",
+            "Tester forståelse av forskjellen mellom planlagt vs gjennomført prosedyre, som ofte uttrykkes med få ord."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_hard_neg_03",
+          "variation_text": "Radiologisk prosedyre: ultralydveiledet perkutan cholecystostomi med drenasje. Prosedyrekode for drenasje registreres. Det er ikke utført laparoskopisk kolecystektomi.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Samme anatomiske område (galleblære) og prosedyrerelatert språk, men bytter til drenasjeprosedyre – klinisk nært, men helt annet inngrep.",
+            "Innfører «ultralydveiledet/perkutan» som kan trigge feil likhet hvis modellen ikke skiller kirurgi fra radiologisk intervensjon."
+          ]
+        },
+        {
+          "variation_id": "op_kolecystektomi_jka21_001_easy_neg_01",
+          "variation_text": "Operasjonsbeskrivelse: total hofteprotese høyre. Prosedyrekode registrert i operasjonsnotat. Ingen abdominal kirurgi.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Flyttet til helt annet fagområde og inngrep (ortopedi) – skal gi lav semantisk likhet.",
+            "Beholdt generiske ord som «operasjonsbeskrivelse» og «prosedyrekode» for å teste om modellen lar seg lure av felles journalrammeverk."
+          ]
+        }
+      ]
+    },
+    {
+      "sample_id": "pci_stent_hjerteinfarkt_fnq05b_001",
+      "text": "Astrid blir innlagt med brystsmerte. EKG og blodprøver viser tegn på hjerteinfarkt og hun får gjort en vellykket koronar intervensjon. FNQ05B Endovaskulær angioplastikk med stentimplantasjon i koronararterie.",
+      "metadata": {
+        "language": "nb-NO",
+        "domain": "kardiologi",
+        "purpose": "Helsedirektoratets e-læringskurs",
+        "author": "gpt-5.2-pro",
+        "verified": false
+      },
+      "variations": [
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_pos_01",
+          "variation_text": "Akutt innkomst med retrosternale brystsmerter. EKG og troponiner forenlig med akutt hjerteinfarkt. Det utføres perkutan koronar intervensjon (PCI) med stent i koronararterie med godt resultat. Prosedyrekode: FNQ05B.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskrev til akuttmottaks-/epikrisestil med vanlige faguttrykk (retrosternal, troponiner, PCI) – samme hendelse, men annen dokumentform.",
+            "La inn «stent» eksplisitt (som i koden) selv om det ofte ikke gjentas i korttekst – tester om modellen kobler narrativ og prosedyrekode.",
+            "Brukte «forenlig med» og «godt resultat» – kliniske standardfraser som kan endre overflatetekst uten å endre semantisk kjerne."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_pos_02",
+          "variation_text": "Innlegges med brystsmerter, EKG med iskemiske forandringer og stigende troponin. Behandles som akutt koronarsyndrom og gjennomgår vellykket PCI med stentimplantasjon. FNQ 05B endovaskulær angioplastikk med stent i koronararterie.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Byttet «hjerteinfarkt» til rammebegrepet «akutt koronarsyndrom» – klinisk nært, men språklig mer abstrakt.",
+            "Varierte kodeformatet (FNQ 05B med mellomrom) – utfordrer modeller på kode-tokenisering og robusthet mot små formateringsendringer.",
+            "Brukte «iskemiske forandringer» i stedet for spesifikke EKG-funn – samme diagnose-retning, mindre eksplisitt tekstsignal."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_pos_03",
+          "variation_text": "Diagnose: akutt hjerteinfarkt. Tiltak: koronar angiografi med påfølgende PCI og stent i koronararterie. Forløp ukomplisert. Prosedyrekode FNQ05B.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Strukturerte teksten som «diagnose/tiltak/forløp» – samme innhold, men journaltypisk oppsett kan endre semantisk vektlegging.",
+            "La til «koronar angiografi med påfølgende PCI» – realistisk sekvens som ofte dokumenteres, men kan forvirre modeller som ikke skiller diagnostikk fra intervensjon.",
+            "Komprimerte kliniske funn til korte stikkord – tester om modellen klarer å hente mening fra minimal kontekst."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_pos_04",
+          "variation_text": "Astrid innlegges med brystsmerter og får påvist infarkt på EKG/blodprøver. Hun behandles invasivt med koronar angioplastikk og stentimplantasjon, med vellykket resultat. FNQ05B.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Byttet «koronar intervensjon» til «koronar angioplastikk» – nær-synonymer som krever at modellen kjenner prosedyrespråket.",
+            "Flettet sammen EKG/blodprøver til en samlet markør – mindre detaljert, men samme diagnostiske innhold.",
+            "Plasserte koden alene til slutt – vanlig i notater, men gir mindre støtte fra omkringliggende tekst."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_hard_pos_01",
+          "variation_text": "Akutt innkomst med sterke brystsmerter. EKG viser forandringer forenlig med akutt infarkt og troponin stiger. Koronar angiografi påviser signifikant stenose i koronararterie og det legges inn stent etter ballongdilatasjon. Sluttresultat tilfredsstillende. Prosedyrekode: FNQ05B.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til angiografi-funn (stenose) og tekniske trinn (ballongdilatasjon før stent) – mer detaljert prosedyrebeskrivelse kan «drukne» kodesignalet.",
+            "Brukte «forandringer forenlig med» og «troponin stiger» i stedet for «tegn på hjerteinfarkt» – samme medisinske beslutningsgrunnlag, annen ordlyd.",
+            "Beholder stent + koronararterie som må samsvare med FNQ05B – tester om modellen holder fast ved riktig prosedyrekjerne."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_hard_pos_02",
+          "variation_text": "Innlegges med brystsmerter. Troponinpositiv og EKG med iskemiske forandringer. Det gjennomføres PCI med stent i koronararterie, og pasienten settes på dobbel platehemming postoperativt. Prosedyrekode FNQ05B.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til behandlingskonsekvens (dobbel platehemming) – klinisk logisk ved stent, men kan trekke embeddings mot medikament-tema.",
+            "Brukte «troponinpositiv» som kortform – realistisk, men krever at modellen forstår implikasjonen.",
+            "Beholder prosedyrekode + stent i koronararterie – må matches selv når mye av teksten handler om etterbehandling."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_hard_pos_03",
+          "variation_text": "Mistenkt STEMI ved innkomst. Tas direkte til koronar angiografi med akutt PCI og stentimplantasjon i koronararterie. Klinisk bedring og smertefri etter inngrepet. FNQ05B.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Introduserte forkortelsen STEMI – vanlig i norsk klinikk, men kan gi semantisk glipp hvis modellen ikke kjenner forkortelser.",
+            "Endret «EKG og blodprøver viser tegn» til «mistenkt STEMI» – samme kliniske scenario, mer implisitt diagnostikk.",
+            "Fremhever tidskritisk arbeidsflyt (direkte til angiografi) – realistisk og språklig annerledes, men samme prosedyre."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_related_01",
+          "variation_text": "Innlegges med brystsmerter og EKG/blodprøver forenlig med hjerteinfarkt. Det gjøres koronar angiografi, men det utføres ingen angioplastikk og ingen stent legges inn. Videre behandling konservativt.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Beholder infarkt-kontekst og invasiv utredning (koronar angiografi), men fjerner selve intervensjonen (ingen PCI/stent) – nært relatert, men annen prosedyre og kode.",
+            "Tester om modellen skiller «angiografi» fra «angioplastikk med stent» – en klassisk, subtil men viktig forskjell.",
+            "Konservativ behandling kan ligne språklig (samme setting), men er semantisk en annen hendelse enn FNQ05B."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_related_02",
+          "variation_text": "Innlegges med anstrengelsesutløste brystsmerter, uten troponinstigning. Utredes med koronar angiografi som viser betydelig stenose, og det utføres elektiv PCI med stent i koronararterie. Prosedyrekoden som registreres er FNQ05B.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Samme prosedyre (PCI med stent / FNQ05B), men endrer klinisk diagnose fra infarkt til stabil/ustabil angina uten troponinstigning – samme inngrep, annen medisinsk begrunnelse.",
+            "Fravær av troponinstigning er et lite tekstsignal med stor diagnostisk betydning – utfordrer modeller som overvekter «brystsmerter + stent».",
+            "Elektiv vs akutt setting endrer forløpet, men ordforrådet overlapper sterkt."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_related_03",
+          "variation_text": "Innlegges med brystsmerter og infarktforandringer. Koronar angiografi viser utbredt koronarsykdom, og hun overflyttes til thoraxkirurgi for koronar bypass-operasjon. Ingen PCI med stent utføres.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Beholder koronar sykdom og akutt infarktsetting, men endrer revaskularisering fra PCI/stent til bypass – nært relatert tematisk, men annen prosedyre og kode.",
+            "Tester om modellen skiller «koronar revaskularisering» i brede trekk fra spesifikk stentimplantasjon.",
+            "Språklig likhet (angiografi, koronarsykdom) kan gi falsk nærhet om modellen ikke fanger prosedyredetaljene."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_hard_neg_01",
+          "variation_text": "Innlegges med brystsmerter. EKG viser diffuse ST-elevasjoner, men blodprøver gir ikke tydelig troponinstigning. Klinikken vurderes som perikarditt. Behandles med antiinflammatorisk, og det utføres ingen koronar intervensjon eller stentbehandling.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder brystsmerter og EKG-avvik (ST-elevasjoner), men endrer årsak til perikarditt – kan ligne infarkt i overflatetekst.",
+            "Subtilt skille: «diffuse» EKG-forandringer og manglende troponinstigning – små ord som bør endre semantisk tolkning kraftig.",
+            "Ingen intervensjon/stent – tester om modellen klarer å vekte negasjoner og klinisk konklusjon."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_hard_neg_02",
+          "variation_text": "Innlegges med akutte brystsmerter. EKG og blodprøver gir mistanke om hjerteinfarkt, men koronar angiografi viser ingen signifikante stenoser og det legges derfor ikke inn stent (MINOCA-mistenkt). Videre utredning planlegges.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder infarkt-mistanke og invasiv utredning, men ender i ingen stent/ingen PCI – svært likt forløp frem til et kritisk vendepunkt.",
+            "Introduserer MINOCA som klinisk begrep – kan være ukjent for enkelte modeller og skape feilmatching.",
+            "Tester om modellen skiller «mistanke om infarkt» fra «utført angioplastikk med stent» som kreves av FNQ05B."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_hard_neg_03",
+          "variation_text": "Innlegges med brystsmerter og får påvist hjerteinfarkt. Det gjennomføres koronar angiografi uten intervensjon. I operasjons-/prosedyrefeltet er FNQ05B likevel registrert, men dette er ikke i samsvar med utført prosedyre (ingen stent).",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder samme diagnose og nesten samme ordbruk, men introduserer kodingsfeil – en realistisk journalfelle der koden kan dominere embeddings feilaktig.",
+            "Tester om modellen forstår «ikke i samsvar»/«ingen stent» og ikke lar seg lure av tilstedeværelsen av FNQ05B.",
+            "Skiller mellom dokumentert kode og faktisk utført prosedyre – semantisk krevende ved ren tekstmatching."
+          ]
+        },
+        {
+          "variation_id": "pci_stent_hjerteinfarkt_fnq05b_001_easy_neg_01",
+          "variation_text": "Innlegges for planlagt kneproteseoperasjon grunnet artrose. Postoperativt forløp ukomplisert. Prosedyrekode registrert i operasjonsnotat. Ingen brystsmerter eller hjertemedisinsk intervensjon.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Flyttet til helt annet fagområde (ortopedi) – skal gi tydelig lav semantisk likhet.",
+            "Beholdt generiske journalord som «innlegges», «operasjonsnotat» og «prosedyrekode» – tester om modellen lar seg forlede av felles dokumentramme."
+          ]
+        }
+      ]
+    },
+    {
+      "sample_id": "epikrise_kols_pneumoni_sepsis_aki_001",
+      "text": "Epikrise – 18.02.2025\nAvdeling: Medisinsk avdelingInnlagt: 14.02.25Utskrevet: 18.02.25\nDiagnoser\nJ44.0 Kronisk obstruktiv lungesykdom med akutt infeksjon i nedre luftveier.\nJ18.9 Pneumoni, uspesifisert\nN17.9 Akutt nyresvikt (forbigående)\nE86 Dehydrering\nF17.1 Skadelig bruk av tobakk\n67 år gammel kvinne med KOLS, osteoprose og hypertensjon innlagt med akutt forverring av KOLS og pneumoni i hø. underlapp. Fått behandling med Doxycyclin i 2 dager uten effekt. Lite mat og drikke siste dager.\nUtredning / funn\nRtg thorax viste infiltrat i høyre underlapp.Forverret blodgass og respirasjons-svikt.Høy CRP 256 og LPK 17,8.\nBehandling / forløp\nI akuttmottaket fyller hun sepsiskriteriene pga takypné, febril, høy CRP og LPK samt påvirket allmenntilstand). Respirasjonssvikt type II og delvis kompensert respiratorisk acidose. Også nyoppstått nyresvikt, sannsynlig prerenal. Oppfattes som infeksjonsbetinget KOLS-forverring, og startet behandling med ampicillin i.v., inhalasjoner og prednisolon. Fått lungefysioterapi og i.v. væske.\nVed utreise er CRP 70, kreatinin 80 og SpO2 94 % uten O2-tilskudd.\nMedikamenter ved utskrivelse\nKUR: Amoxicillin 750 mg x 3 p.o. i 2 dager\nKUR: Prednisolon 30 mg x 1 i 3 dager, deretter nedtrapping med 5 mg per 3. dag\nSeretide 50/500 1 x 2\nSpiriva 1 x 1\nAmlodipin 5 mg x 1\nAlbyl-E 75 mg x 1\nVentoline inhalasjon ved behov\nNY: nicotinelle røykeplaster.\nVidere plan\nKontroll hos fastlege om 7 dager med nye blodprøver (CRP og kreatinin). Ny røntgen thorax om 8 uker.\nVennlig hilsenOverlege Storm",
+      "metadata": {
+        "language": "nb-NO",
+        "domain": "lungemedisin",
+        "purpose": "Helsedirektoratets e-læringskurs",
+        "author": "gpt-5.2-pro",
+        "verified": false
+      },
+      "variations": [
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_pos_01",
+          "variation_text": "Epikrise (utskrivelse 18.02.2025) – Medisinsk avdeling. 67 år gammel kvinne med kjent KOLS, hypertensjon og osteoporose. Innlagt med infeksjonsutløst eksaserbasjon av KOLS og pneumoni i høyre underlapp, med sepsispreg ved innkomst. Rtg thorax: infiltrat høyre underlapp. Blodgass viste hyperkapnisk respirasjonssvikt (type II) med delvis kompensert respiratorisk acidose. CRP 256, LPK 17,8. Samtidig forbigående nyresvikt, sannsynlig prerenal pga dehydrering. Ikke effekt av doxycyklin i 2 døgn før innleggelse. Behandlet med ampicillin i.v., inhalasjoner og prednisolon, lungefysioterapi og i.v. væske. Ved utreise: CRP 70, kreatinin 80, SpO2 94 % på romluft. Utskrivningsmedikasjon: amoxicillin 750 mg x 3 i 2 døgn og prednisolon 30 mg x 1 i 3 døgn med videre nedtrapping; Seretide/Spiriva videreføres, Ventoline vb, Nicotinelle plaster. Plan: fastlegekontroll om 1 uke med CRP/kreatinin og kontroll-rtg thorax om 8 uker. Diagnoser: J44.0, J18.9, N17.9, E86, F17.1.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskrev til mer «standard epikrise»-språk med tydeligere struktur – samme innhold, men annen dokumentform kan endre semantisk vektlegging.",
+            "Normaliserte og presiserte kliniske termer (eksaserbasjon, hyperkapnisk/type II) – krever at modellen kobler fagbegrepene til originalens mer ujevne formuleringer.",
+            "Samlet diagnoser/koder på slutten – tester om modellen fanger innhold selv når koder flyttes eller kommer i «kodeblokk»."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_pos_02",
+          "variation_text": "67-åring med KOLS og hypertensjon innlegges med økende dyspné og allmennpåvirkning. Rtg thorax viser pneumonisk infiltrat i høyre underlapp. Ved innkomst takypné og feber, CRP 256 og LPK 17,8, forenlig med sepsis. Blodgass med hyperkapni og respiratorisk acidose (type II respirasjonssvikt). Samtidig kreatininøkning som vurderes prerenal pga dehydrering og lite inntak. Hatt 2 dagers doxycyklin uten bedring før innleggelse. Behandles med ampicillin i.v., systemiske steroider og inhalasjonsbehandling, samt i.v. væske og lungefysioterapi. Bedres og utskrives med amoxicillin-kur (2 døgn) og prednisolon med nedtrapping. Ved utreise CRP 70, kreatinin 80 og SpO2 94 % uten O2. Oppfølging hos fastlege om 7 dager (CRP/kreatinin) og rtg thorax om 8 uker.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Byttet fra «liste/overskrift»-format til sammenhengende klinisk sammendrag – samme semantikk, men annen tekstflyt utfordrer matching.",
+            "Brukte mer indirekte formuleringer (forenlig med, vurderes prerenal) – små modalitetsord påvirker klinisk mening og kan overses av svake modeller.",
+            "Omgjorde «medikamentliste» til narrativ behandling/utskrivelse – tester om modellen fortsatt gjenkjenner samme forløp uten punktliste."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_pos_03",
+          "variation_text": "Utskrivningsnotat: KOLS-eksaserbasjon utløst av pneumoni (infiltrat HUL) med sepsiskriterier ved innkomst. CRP 256, LPK 17,8. Hyperkapnisk respirasjonssvikt (type II) med delvis kompensert resp. acidose. Forbigående prerenal AKI og dehydrering. Behandlet med ampicillin i.v. + inhalasjoner + prednisolon, lungefysio og i.v. væske. Ved utreise: CRP 70, krea 80, SpO2 94 % på luft. Hjem med amoxicillin 750 mg x 3 i 2 døgn og prednisolon nedtrapping. Kontroll fastlege 7 dager (CRP/krea), rtg thorax 8 uker. Røykeslutt-tiltak: Nicotinelle plaster.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Kraftig komprimering og bruk av forkortelser (HUL, krea, resp.) – realistisk journalstil som kan gi lavere overflatelikhet.",
+            "Beholdt nøkkelrelasjoner (infeksjon → KOLS-eksaserbasjon, sepsis, prerenal AKI) i tettere tekst – modellen må prioritere årsakssammenheng, ikke bare enkeltord.",
+            "Normaliserte «uten O2-tilskudd» til «på luft» – små språklige varianter med samme kliniske betydning."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_pos_04",
+          "variation_text": "Diagnoser ved utskrivelse: J44.0 (KOLS med akutt nedre luftveisinfeksjon), J18.9 pneumoni, N17.9 forbigående akutt nyresvikt, E86 dehydrering, F17.1 skadelig tobakksbruk. Innlagt etter manglende effekt av doxycyklin og redusert inntak. Funn: infiltrat høyre underlapp på rtg thorax, CRP 256 og LPK 17,8, hyperkapnisk respirasjonssvikt type II. Behandlet med ampicillin i.v., inhalasjoner og prednisolon samt i.v. væske/lungefysioterapi. Utskrives i bedring: CRP 70, kreatinin 80, SpO2 94 % uten O2. Kur: amoxicillin 750 mg x 3 i 2 dager og prednisolon 30 mg x 1 i 3 dager med nedtrapping. Plan: fastlegekontroll 1 uke med CRP/kreatinin og rtg thorax om 8 uker.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Startet med kode-/diagnoseblokk (ICD-10 først) – kan trigge modeller som overvekter koder fremfor klinisk tekst.",
+            "Strammet opp og korrigerte språklige ujevnheter fra originalen – tester robusthet mot stavefeil og «kopiert fra journal»-format.",
+            "Reorganiserte tidslinje (hjemmebehandling → innkomst → behandling → utreise) uten å endre medisinsk innhold."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_hard_pos_01",
+          "variation_text": "Innkomst: KOLS-pasient, febril og takypné, påvirket allmenntilstand. Rtg thorax med konsolidering i høyre underlapp. A-gass med hyperkapni og pH i acidoseområde, delvis kompensert. CRP 256 og LPK 17,8. Oliguri/tørrhetstegn og kreatininforhøyelse som vurderes prerenal. Behandles som infeksjonsbetinget KOLS-eksaserbasjon med sepsispreg: ampicillin i.v., bronkodilaterende inhalasjoner og prednisolon, samt lungefysioterapi og væske i.v. Utskrives i klinisk bedring med CRP 70, kreatinin 80 og SpO2 94 % på romluft. Videre amoxicillin p.o. i 2 døgn og steroidenedtrapping. Kontroll fastlege 7 dager og rtg thorax om 8 uker.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Gjorde blodgass mer implisitt (beskriver hyperkapni/pH uten eksakte tall) – krever at modellen forstår at dette fortsatt er type II-svikt/respiratorisk acidose.",
+            "La inn kliniske tørre-/oliguri-markører for prerenal årsak – små kliniske signaler som styrker samme diagnose, men endrer tekstoverflate.",
+            "Brukte «sepsispreg» i stedet for «fyller sepsiskriterier» – nært beslektet, men ikke identisk formulering."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_hard_pos_02",
+          "variation_text": "Forløp: Innlagt 14.02 med pneumoni i hø. underlapp og KOLS-eksaserbasjon. Oppfylte sepsiskriterier i akuttmottak. Startet ampicillin i.v. og væske, samt prednisolon og inhalasjoner. Nyresvikt ved innkomst vurdert prerenal (E86) og normaliserte seg under rehydrering. Antibiotika ble konvertert til peroral amoxicillin ved utreise 18.02 for å fullføre kort kur. Ved utskrivelse: CRP 70, krea 80, SpO2 94 % uten O2. Plan: fastlege om 7 dager (CRP/krea) og kontroll-rtg om 8 uker. Røykeslutt: Nicotinelle plaster.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Vektla «i.v. → p.o.»-overgang i antibiotikabehandlingen – samme hendelse, men fokus på behandlingslogikk kan endre semantisk «tyngdepunkt».",
+            "Brukte diagnosekodene indirekte (E86) uten full diagnoseblokk – tester om modellen forstår koder i løpende tekst.",
+            "Skrev nyresvikt som «normaliserte seg under rehydrering» – indirekte beskrivelse av forbigående prerenal AKI."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_hard_pos_03",
+          "variation_text": "Status ved innkomst: AF høy, feber, slapp. CRP 256, LPK 17,8. Blodgass: hyperkapni, resp. acidose (delvis kompensert) → type II resp.svikt. Rtg thorax: infiltrat høyre underlapp. Krea forhøyet, sannsynlig prerenal (lite PO). Behandlet: Ampicillin i.v., inhalasjoner (korttids bronkodilatator vb + vedlikehold), Prednisolon, lungefysio + væske i.v. Ved utreise: CRP 70, krea 80, SpO2 94 % på luft. Utskr: Amoxicillin 750 mg x 3 i 2 dager + steroidenedtrapping. Plan: fastlegekontroll 7 dager, rtg thorax 8 uker.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Tung bruk av forkortelser (AF, PO, vb., resp.) – realistisk, men kan redusere likhet for modeller uten god norsk journalforståelse.",
+            "La inn «vedlikehold vs behov»-språk rundt inhalasjoner – samme behandling, men mer detaljert og potensielt distraherende.",
+            "Endret setningsstruktur til «punktvis status» – samme fakta, annen syntaks og rytme."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_related_01",
+          "variation_text": "Epikrise: 67 år gammel kvinne med KOLS innlagt med akutt forverring med hyperkapni og behov for tett inhalasjonsbehandling. Rtg thorax uten sikkert infiltrat, CRP moderat forhøyet. Influensa A påvist ved PCR, vurdert som utløsende årsak til eksaserbasjon. Behandlet med prednisolon, inhalasjoner og væske; antibiotika seponert etter negativ rtg og lave bakteriemarkører. Utskrives i bedring med SpO2 tilfredsstillende på romluft og planlagt fastlegekontroll.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Beholder KOLS-eksaserbasjon og hyperkapni, men bytter utløsende årsak fra bakteriell pneumoni til virusinfeksjon (influensa) – klinisk nært, men vesentlig forskjellig i diagnostikk/behandling.",
+            "Fjerner tydelig pneumonidiagnose/infiltrat – tester om modellen skiller «infeksjonsutløst eksaserbasjon» fra «pneumoni i underlapp».",
+            "Endrer antibiotikahåndtering (seponert) – små formuleringer med stor behandlingsmessig betydning."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_related_02",
+          "variation_text": "67 år gammel kvinne med hypertensjon innlagt med høy feber, takypné og allmennpåvirkning. Rtg thorax viser infiltrat i høyre underlapp, CRP 250 og LPK 18. Oppfyller sepsiskriterier. Samtidig prerenal nyresvikt og dehydrering etter flere døgn med redusert inntak. Behandlet med i.v. antibiotika og i.v. væske med god respons. Utskrives med kort peroral antibiotikakur og planlagt kontroll-rtg thorax om 6–8 uker samt fastlegekontroll med blodprøver.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Beholder pneumoni + sepsisbilde + prerenal AKI/dehydrering, men fjerner KOLS-komponenten og inhalasjons-/steroidbehandlingen – nært, men ikke samme sykdomskompleks.",
+            "Gjenbruker mange av de samme «signalordene» (takypné, CRP/LPK, infiltrat, i.v. væske) – kan gi falsk høy likhet uten at helheten er identisk.",
+            "Gjør antibiotikavalget uspesifikt – tester om modellen legger for stor vekt på enkeltnavn (ampicillin/amoxicillin) i originalen."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_related_03",
+          "variation_text": "Kjent KOLS-pasient innlagt med pneumoni og forverring av respirasjon. Rtg thorax viser infiltrat i høyre underlapp, CRP rundt 200. Blodgass viser primært hypoksemi uten uttalt hyperkapni (type I respirasjonssvikt). Behandlet med i.v. antibiotika, inhalasjoner og prednisolon. Nyrefunksjon var normal gjennom oppholdet. Utskrives med SpO2 92–93 % på romluft og anbefalt kontroll hos fastlege samt kontroll-rtg thorax om 8 uker.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Beholder KOLS + pneumoni og omtrent samme oppfølging, men endrer respirasjonssvikt fra type II (hyperkapni) til type I (hypoksemi) – medisinsk viktig nyanse som kan overses av embeddings.",
+            "Fjerner prerenal AKI/dehydrering – gjør caset klinisk nært, men ikke identisk multisystemforløp.",
+            "Utskrivnings-SpO2 er lavere og antyder mulig behovsvurdering – små tallforskjeller kan være diagnostisk/klinisk relevante."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_hard_neg_01",
+          "variation_text": "Epikrise: 67 år gammel kvinne med hypertensjon og kjent KOLS innlagt med akutt dyspné og ortopné. Rtg thorax viser stuvning og små pleuravæsker bilateralt, ingen fokalt pneumonisk infiltrat. CRP lett forhøyet, LPK normal. Blodgass med hypoksemi uten hyperkapni. Vurderes som akutt hjertesvikt/lungeødem. Behandlet med diuretika i.v., nitrat og O2, med rask klinisk bedring. Ingen antibiotika gitt. Utskrives med justert hjertesviktbehandling og fastlegeoppfølging.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder «dyspné + rtg thorax + SpO2/blodgass»-rammeverket, men bytter årsak fra pneumoni/KOLS-sepsis til hjertesvikt/lungeødem – svært lik overflate, ulik patologi.",
+            "Subtile skiller (ingen hyperkapni, manglende konsolidering, lave infeksjonsmarkører) endrer hele diagnosetolkningen.",
+            "Bytter behandling fra antibiotika/steroider til diuretika/nitrat – utfordrer modeller som primært matcher på symptomord."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_hard_neg_02",
+          "variation_text": "67 år gammel kvinne med KOLS innlagt med akutt dyspné, takypné og lett feberfølelse. Rtg thorax uten infiltrat. CRP moderat forhøyet. D-dimer forhøyet og CT lungearterier påviser lungeemboli. Blodgass viser hypoksemi. Startet antikoagulasjon og overvåket på sengepost med gradvis bedring. Ingen tegn til pneumoni og ingen i.v. antibiotika. Utskrives med blodfortynnende behandling og kontrollopplegg.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder akutt respirasjonsproblematikk og noen infeksjonslignende trekk, men årsak er tromboembolisk (lungeemboli) – ofte semantisk «nær» i tekst, men diagnostisk helt annerledes.",
+            "Utnytter at CRP kan være moderat forhøyet også ved ikke-infeksiøse tilstander – kan lure modeller som overvekter CRP.",
+            "Endrer utredningsløp (CT lungearterier/D-dimer) og behandling (antikoagulasjon) – viktige signalord som bør gi lav likhet mot pneumoni/KOLS-sepsis-caset."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_hard_neg_03",
+          "variation_text": "Epikrise: 67 år gammel kvinne innlagt med feber, takypné og påvirket allmenntilstand. CRP 260 og LPK 18. Kreatinin forhøyet ved innkomst, vurdert prerenal pga dehydrering. Rtg thorax uten sikre infiltrater. Urinstiks positiv og urin-/blodkulturer forenlig med urinveisinfeksjon/pyelonefritt. Behandlet med i.v. antibiotika og væske med normalisering av nyrefunksjon. Utskrives med peroral antibiotikakur og fastlegekontroll med CRP/kreatinin. Ingen KOLS-eksaserbasjon eller pneumoni bekreftet.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder sepsiskriterier, høye inflammasjonsprøver og prerenal nyresvikt/dehydrering – høy tekstlig overlapp med originalen, men infeksjonsfokus flyttes til urinveier.",
+            "Rtg thorax nevnes eksplisitt som uten infiltrat – subtilt, men avgjørende for å skille fra pneumoni-caset.",
+            "Negasjonen («ingen KOLS-eksaserbasjon eller pneumoni bekreftet») tester om modellen håndterer avkreftende formuleringer."
+          ]
+        },
+        {
+          "variation_id": "epikrise_kols_pneumoni_sepsis_aki_001_easy_neg_01",
+          "variation_text": "Epikrise – Ortopedisk avdeling: 67 år gammel kvinne innlagt etter fall med smerter i venstre hofte. Rtg hofte viser pertrokantær femurfraktur. Operert med margnagle. Postoperativ mobilisering med fysioterapi og tromboseprofylakse. Utskrives til korttidsopphold for videre opptrening. Kontrolltime med røntgen om 6 uker.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Skifter fullstendig fagområde (ortopedi) og problemstilling (fraktur) – skal gi tydelig lav semantisk likhet.",
+            "Beholder enkelte generiske epikriseelementer (rtg, fysioterapi, kontrollplan) som kan gi overflatelikhet uten medisinsk relevans."
+          ]
+        }
+      ]
+    },
+    {
+      "sample_id": "medikamentliste_hjertesvikt_af_hypotyreose_001",
+      "text": "Furosemid (40 mg x 1) – vanndrivende for å håndtere hjertesvikt og overhydrering\nEliquis 5 mg x 2– fortsatt antikoagulasjon pga kronisk atrieflimmer\nLevaxin (50 mcg x 1) – for behandling av hypothyreose\nRamipril 10 mg x 1 – hjertesviktmedisin\nMetoprolol depot 75 mg x 1 - hjertesviktmedisin",
+      "metadata": {
+        "language": "nb-NO",
+        "domain": "kardiologi",
+        "purpose": "Helsedirektoratets e-læringskurs",
+        "author": "gpt-5.2-pro",
+        "verified": false
+      },
+      "variations": [
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_pos_01",
+          "variation_text": "Faste medisiner:\n- Furosemid 40 mg x 1 (vanndrivende ved hjertesvikt/væskeretensjon)\n- Apiksaban (Eliquis) 5 mg x 2 (antikoagulasjon pga kronisk atrieflimmer)\n- Levotyroksin (Levaxin) 50 mikrogram x 1 (hypotyreose)\n- Ramipril 10 mg x 1 (ACE-hemmer ved hjertesvikt)\n- Metoprolol depottablett 75 mg x 1 (betablokker ved hjertesvikt)",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Normaliserte legemiddelnavn med generisk navn i parentes (apiksaban/levotyroksin) – krever at modellen forstår samme virkestoff bak ulike navn.",
+            "Byttet «overhydrering» til «væskeretensjon» – samme kliniske konsept, men typisk norsk journalterminologi.",
+            "La inn legemiddelklasser (ACE-hemmer/betablokker) – kan «støye» teksten, men skal ikke endre semantisk kjerne."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_pos_02",
+          "variation_text": "Medikamenter:\nFurosemid 40 mg 1 tablett daglig for avlastning ved hjertesvikt med overvæsking.\nEliquis 5 mg 1 tablett x 2 som blodfortynnende behandling ved permanent atrieflimmer.\nLevaxin 50 mikrogram 1 tablett daglig for lavt stoffskifte.\nRamipril 10 mg 1 tablett daglig som del av hjertesviktbehandling.\nMetoprolol depot 75 mg 1 tablett daglig som del av hjertesviktbehandling.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Byttet «kronisk atrieflimmer» til «permanent atrieflimmer» – klinisk nært, men annen faglig merkelapp som kan gi feil avstand i embeddings.",
+            "Byttet «hypothyreose» til «lavt stoffskifte» – lekmannsnært synonym som ofte brukes i journal, men ikke ordlikt.",
+            "Endret doseformat fra «x 1» til «1 tablett daglig» – tester robusthet mot ulike doseringskonvensjoner."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_pos_03",
+          "variation_text": "Utskrivningsmedikasjon:\n- Furosemid 40 mg x 1\n- Eliquis 5 mg x 2 (DOAK pga atrieflimmer)\n- Levaxin 50 mikrogram x 1\n- Ramipril 10 mg x 1\n- Metoprolol depot 75 mg x 1",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Fjernet detaljerte indikasjoner for flere av legemidlene – samme regime, men mindre eksplisitt semantisk støtte i teksten.",
+            "La inn «DOAK» som klassebetegnelse – forkortelser kan utfordre modeller som ikke kjenner norsk klinisk sjargong.",
+            "Strammet opp til ren medisinliste slik det ofte står i epikrise – høy relevans, men lavere overflatevariasjon."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_pos_04",
+          "variation_text": "Behandling videre:\nFurosemid 40 mg x 1 for hjertesvikt med væskeoverbelastning.\nRamipril 10 mg x 1 og Metoprolol depottablett 75 mg x 1 som hjertesviktbehandling.\nEliquis 5 mg x 2 videreføres som antikoagulasjon ved kronisk atrieflimmer.\nLevaxin 50 mikrogram x 1 videreføres for hypotyreose.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Reorganiserte til «problem → tiltak»-språk (hjertesvikt først, så antikoagulasjon og thyroidea) – samme fakta, men annen semantisk struktur.",
+            "Byttet «overhydrering» til «væskeoverbelastning» – mer presist og vanlig i norsk hjertesviktspråk.",
+            "Grupperte ramipril/metoprolol sammen som «hjertesviktbehandling» – tester om modellen tåler at indikasjon deles på flere legemidler."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_hard_pos_01",
+          "variation_text": "Pasient med kjent kronisk hjertesvikt med tendens til overvæsking og permanent atrieflimmer. I tillegg hypotyreose.\nFast medikasjon:\n- Furosemid 40 mg x 1\n- Eliquis 5 mg x 2 (antikoagulasjon ved AF)\n- Ramipril 10 mg x 1 (ACE-hemmer)\n- Metoprolol depot 75 mg x 1 (betablokker)\n- Levaxin 50 mikrogram x 1",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til klinisk kontekst (hjertesvikt/overvæsking/AF/hypotyreose) – gir mer «støy» og kan endre embeddings selv om legemiddelregimet er identisk.",
+            "Brukte forkortelsen «AF» – svært vanlig i journal, men kan gi svakere matching uten forkortelsesforståelse.",
+            "Flyttet Levaxin til slutt – tester om modellen er robust mot rekkefølgeendringer i medisinlister."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_hard_pos_02",
+          "variation_text": "Medisinliste (doseringsskjema):\nFurosemid 40 mg 1-0-0.\nEliquis 5 mg 1-0-1 (kronisk atrieflimmer).\nLevaxin 50 mikrogram 1-0-0.\nRamipril 10 mg 1-0-0.\nMetoprolol depot 75 mg 1-0-0.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Skiftet til norsk doseringsnotasjon «1-0-0 / 1-0-1» – samme dose, men helt annen tekstform som kan være krevende for modeller.",
+            "Indikasjon kun angitt på ett legemiddel – mindre eksplisitt semantikk og større krav til implisitt forståelse av hjertesviktsregime.",
+            "Tett, punktvis format uten forklarende tekst – typisk i journal, men gir færre «hint» til embeddings."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_hard_pos_03",
+          "variation_text": "Videreføres:\n- Furix (furosemid) 40 mg x 1 ved hjertesvikt/ødemtendens\n- Eliquis (apiksaban) 5 mg x 2 pga kronisk atrieflimmer\n- Levaxin (levotyroksin) 50 mikrogram x 1 for hypotyreose\n- Ramipril 10 mg x 1\n- Selo-Zok (metoprolol depot) 75 mg x 1 som del av hjertesviktbehandling",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Brukte flere varenavn (Furix/Selo-Zok) og la til virkestoff i parentes – utfordrer modeller på kobling mellom handelsnavn og generisk navn.",
+            "Varierte indikasjonstekst («ødemtendens» vs «overhydrering») – samme kliniske mål, men annen ordbruk.",
+            "Beholdt doser identisk, men endret presentasjonsnivå (mer «praktisk» enn forklarende) – kan endre semantisk avstand selv ved samme innhold."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_related_01",
+          "variation_text": "Furosemid 40 mg x 1 – vanndrivende ved væskeansamling.\nEliquis 5 mg x 2 – antikoagulasjon etter tidligere dyp venetrombose/lungeemboli (ikke pga atrieflimmer).\nLevaxin 50 mikrogram x 1 – hypotyreose.\nRamipril 10 mg x 1 – blodtrykksbehandling.\nMetoprolol depot 75 mg x 1 – frekvensregulering ved takykardi/angina.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Beholdt nesten identisk legemiddelliste og doser, men endret indikasjonene (AF/hjertesvikt → VTE/hypertensjon/angina) – høy ordlikhet, men annen medisinsk mening.",
+            "Tester om modellen skiller «hvorfor» legemidlet brukes, ikke bare at navnet er til stede.",
+            "Små formuleringer («ikke pga atrieflimmer») krever at modellen håndterer avkreftende språk."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_related_02",
+          "variation_text": "Furosemid 40 mg x 1 – ved hjertesvikt med overvæsking.\nMarevan (warfarin) – fortsatt antikoagulasjon pga kronisk atrieflimmer (INR-kontroller hos fastlege).\nLevaxin 50 mikrogram x 1 – hypotyreose.\nRamipril 10 mg x 1 – hjertesviktbehandling.\nMetoprolol depot 75 mg x 1 – hjertesviktbehandling.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Byttet DOAK (Eliquis) til warfarin (Marevan) – samme behandlingsmål (antikoagulasjon ved AF), men annet legemiddel og oppfølging.",
+            "La inn INR-oppfølging som typisk kontekst – kan trekke embeddings mot «kontroll/regulering» fremfor hjertesvikt.",
+            "Beholder resten av regimet uendret for å gjøre dette til en «nær» men ikke identisk variant."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_related_03",
+          "variation_text": "Hjertesviktbehandling:\n- Furosemid 40 mg x 1 ved væskeretensjon\n- Entresto (sakubitril/valsartan) i stedet for Ramipril\n- Metoprolol depot 75 mg x 1\nAntikoagulasjon:\n- Eliquis 5 mg x 2 pga atrieflimmer\nStoffskifte:\n- Levaxin 50 mikrogram x 1",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endret kun én sentral hjertesviktkomponent (ACE-hemmer → ARNI) – klinisk nært, men annen behandling og dermed annen semantisk «signatur».",
+            "Beholder øvrige legemidler og indikasjoner for å teste om modellen fanger at helheten er svært lik, men ikke identisk.",
+            "Strukturert i temabolker (hjertesvikt/antikoagulasjon/stoffskifte) – kan endre embeddings selv ved lignende ord."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_hard_neg_01",
+          "variation_text": "Furosemid 40 mg x 1 – vanndrivende ved hjertesvikt/overvæsking.\nEliquis 5 mg x 2 – SEponeres grunnet nylig GI-blødning, skal ikke videreføres nå.\nLevaxin 50 mikrogram x 1 – hypotyreose.\nRamipril 10 mg x 1 – hjertesviktbehandling.\nMetoprolol depot 75 mg x 1 – hjertesviktbehandling.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder identisk legemiddelnavn og dose (Eliquis 5 mg x 2), men endrer semantikken med «seponeres» – svært krevende hvis modellen ikke vektlegger negasjon/handlingsord.",
+            "Gir høy overflatelikhet til originalen, men klinisk beslutning er motsatt (fortsette vs stoppe antikoagulasjon).",
+            "Tester forståelse av kritisk journalinformasjon som ofte står i korte, lett oversette formuleringer."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_hard_neg_02",
+          "variation_text": "Furosemid 40 mg x 1 – ved ascites og perifere ødemer hos pasient med levercirrhose.\nEliquis 5 mg x 2 – antikoagulasjon etter lungeemboli.\nLevaxin 50 mikrogram x 1 – hypotyreose.\nRamipril 10 mg x 1 – hypertensjon.\nMetoprolol depot 75 mg x 1 – angina/rytmeplager.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder nesten identiske legemiddelnavn og doser, men bytter grunnsykdommene (hjertesvikt/AF → levercirrhose/VTE/hypertensjon/angina) – høy ordlikhet, lav semantisk likhet.",
+            "Indikasjoner er medisinsk plausible, så varianten er realistisk og kan «lure» modeller som ikke fanger kontekst.",
+            "Tester om modellen skiller kardiologisk behandlingspakke fra en liste med samme legemidler brukt i andre kliniske scenarioer."
+          ]
+        },
+        {
+          "variation_id": "medikamentliste_hjertesvikt_af_hypotyreose_001_easy_neg_01",
+          "variation_text": "Utskrivningsmedikasjon:\n- Metformin 1 g x 2\n- Insulin glargin 20 IE til natten\n- Atorvastatin 20 mg x 1\n- Omeprazol 20 mg x 1\n- Paracetamol 1 g ved behov",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Helt annet sykdomsbilde (diabetes/metabolsk og symptombehandling) uten hjertesvikt/AF/thyroidea-kontekst – skal gi lav semantisk likhet.",
+            "Beholder kun «medisinliste»-formatet som felles ramme – tester at modellen ikke matcher kun på dokumenttype."
+          ]
+        }
+      ]
+    },
+    {
+      "sample_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001",
+      "text": "Pasient med kjent KOLS, innlagt pga infeksiøs forverring. Behandlet med i.v cefotaksim og Prednisolon. Behov for Bipap i fire dager pga respirasjonssvikt med retensjonsproblem. Rtg thorax med basal fortetning høyre side. CT thorax inkonklusiv i forhold til infitrat eller tumor. Anbefales ny CT om fire uker, pasienten vil kalles inn.",
+      "metadata": {
+        "language": "nb-NO",
+        "domain": "lungemedisin",
+        "purpose": "Helsedirektoratets e-læringskurs",
+        "author": "gpt-5.2-pro",
+        "verified": false
+      },
+      "variations": [
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_pos_01",
+          "variation_text": "Kjent KOLS-pasient innlagt med infeksjonsutløst eksaserbasjon. Behandlet med cefotaksim i.v. og prednisolon. Trengte NIV (BiPAP) i 4 døgn grunnet hyperkapnisk respirasjonssvikt/CO2-retensjon. Rtg thorax viser basal fortetning på høyre side. CT thorax er ikke avklarende mht infiltrat versus malignitet. Anbefales kontroll-CT om ca. 4 uker; pasienten innkalles.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Normaliserte journalformuleringer (eksaserbasjon, NIV/CO2-retensjon) – samme kliniske innhold, men mer faglig språk kan gi lavere overflatelikhet.",
+            "Presiserte «retensjonsproblem» som hyperkapni/CO2-retensjon – medisinsk viktig nyanse som modeller må forstå, ikke bare matche ord.",
+            "Omgjorde «inkonklusiv» til «ikke avklarende mht infiltrat vs malignitet» – subtil, men sentral differensialdiagnostikk."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_pos_02",
+          "variation_text": "Innlagt med forverring av KOLS vurdert infeksiøst betinget. Startet cefotaksim i.v. og prednisolon. Utviklet respirasjonssvikt type II med CO2-retensjon og hadde behov for BiPAP i 4 dager. Rtg thorax viste basal fortetning høyresidig. CT thorax kunne ikke skille mellom restinfiltrat og underliggende tumor. Planlagt ny CT om 4 uker, pasienten kalles inn.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "La inn «type II» for å konkretisere respirasjonssvikten – små klassifikasjoner kan være avgjørende, men lett å overse i embeddings.",
+            "Byttet «infiltrat» til «restinfiltrat» – realistisk radiologisk nyanse som endrer tolkning uten å endre hovedhistorien.",
+            "Holdt tidslinje/tiltak identisk, men endret setningsstruktur – tester om modellen tåler omskriving og rekkefølgeendring."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_pos_03",
+          "variation_text": "KOLS-ex infeksiøst. CTX i.v. + Pred. NIV/BiPAP 4 døgn pga hyperkapnisk resp.svikt (retensjon). Rtg thorax: basal fortetning h.s. CT thorax inkonk. mht infil./tumor. Kontroll-CT om 4 uker – innkalles.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Kraftig komprimert til forkortelsesdominert journalstil (KOLS-ex, CTX, resp.svikt) – realistisk, men utfordrende for modeller uten god forkortelsesforståelse.",
+            "Beholdt samme kjerneinformasjon, men reduserte kontekstord – mindre «støtte» rundt semantikken.",
+            "Brukte radiologisk forkortelse/«mht» og «inkonk.» – små formateringsvarianter kan gi stor forskjell i embedding-rommet."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_pos_04",
+          "variation_text": "Pasient med kjent KOLS innlegges med antatt infeksiøs forverring. Behandlet med cefotaksim i.v. og prednisolon. Behov for BiPAP i fire døgn pga CO2-retensjon. Rtg thorax: basal fortetning på høyre side. CT thorax uten sikre holdepunkter for verken infiltrat eller tumor. Anbefalt kontroll-CT etter fire uker; pasienten settes opp til time.",
+          "variation_type": "positive_paraphrase",
+          "label": 1.0,
+          "changes_applied": [
+            "Omskrev «inkonklusiv» til «uten sikre holdepunkter» – samme meningsinnhold, men annen modalitet som kan gi feil avstand.",
+            "Byttet «kalles inn» til «settes opp til time» – små administrative formuleringer som likevel betyr samme oppfølging.",
+            "Holdt alle kliniske nøkkelelementer (antibiotika, steroid, BiPAP, bilde/oppfølging) intakt for å være semantisk lik."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_hard_pos_01",
+          "variation_text": "KOLS-pasient innlagt med infeksjonsmistanke og forverret dyspné. Oppstart cefotaksim i.v. og prednisolon. Blodgass forenlig med hyperkapnisk respirasjonssvikt (type II) og delvis kompensert respiratorisk acidose, behandlet med NIV/BiPAP i 4 døgn. Rtg thorax viste basal høyresidig fortetning. CT thorax er usikker med tanke på infiltrat versus underliggende malign prosess. Kontroll-CT anbefales om 4 uker, pasienten innkalles.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "La til blodgass-/syre-base-terminologi uten eksakte tall – klinisk presist, men kan «støye» og krever medisinsk forståelse.",
+            "Innførte «malign prosess» som radiologisk uttrykk – samme differensial, men mer indirekte språk enn «tumor».",
+            "Mer komplekst setningsinnhold rundt NIV/acidose – utfordrer modeller til å holde fast ved riktig hovedtema."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_hard_pos_02",
+          "variation_text": "Innlagt med infeksiøs KOLS-forverring. Får cefotaksim i.v. og prednisolon. NIV (BiPAP) i 4 dager pga CO2-retensjon. Rtg thorax viser basal fortetning på høyre side. CT thorax beskriver basale fortetninger/striper og kan ikke sikkert skille mellom pneumonisk infiltrat, atelektase eller tumor. Anbefales kontroll-CT om 4 uker; pasienten kalles inn.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Utvidet radiologisk differensial (atelektase vs infiltrat vs tumor) – svært realistisk, men gjør teksten semantisk mer «flertydig».",
+            "Beholdt alle tids- og behandlingsnøkler identiske – skal fortsatt være nær-identisk semantisk.",
+            "Små radiologiske ord (striper/atelektase) kan trekke embeddings feil hvis modellen overvekter enkelttermer."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_hard_pos_03",
+          "variation_text": "Kjent KOLS. Innlagt med mistenkt infeksiøs eksaserbasjon og respirasjonssvikt med retensjon; behov for BiPAP i fire døgn. Behandlet med cefotaksim i.v. og prednisolon. Rtg thorax viser basal høyresidig fortetning. CT thorax gir ikke sikker avklaring og det anbefales kontroll etter ca. én måned for å avklare restforandringer vs underliggende tumor. Pasienten innkalles.",
+          "variation_type": "hard_positive",
+          "label": 1.0,
+          "changes_applied": [
+            "Endret «4 uker» til «ca. én måned» – samme tidshorisont, men kan forvirre modeller som er sensitive for tall/format.",
+            "Byttet «ny CT» til «kontroll etter ca. én måned» – samme plan, annen administrativ og klinisk innpakning.",
+            "Innførte «restforandringer» – subtilt radiologisk begrep som kan påvirke semantisk tolkning."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_related_01",
+          "variation_text": "Kjent KOLS innlagt med pneumoni og forverring. Behandlet med cefotaksim i.v. og prednisolon, men hadde ikke behov for BiPAP/NIV. Rtg thorax viser basal infiltrat høyre. CT thorax bekrefter pneumoni og viser ikke tumormistanke. Plan: kontroll røntgen thorax om 6–8 uker.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Beholder KOLS + infeksjon + cefotaksim/prednisolon, men fjerner hyperkapnisk svikt/BiPAP – nært relatert, men viktig klinisk forskjell.",
+            "CT blir konklusiv (pneumoni, ingen tumor) – endrer hele behovet for kontroll-CT.",
+            "Bytter oppfølging fra CT om 4 uker til kontroll-røntgen – samme organ, annet utredningsløp."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_related_02",
+          "variation_text": "KOLS-pasient innlagt med forverring og respirasjonssvikt med CO2-retensjon. Behandlet med antibiotika og prednisolon, NIV/BiPAP i 4 døgn. Rtg thorax med basal fortetning høyre. CT thorax viser suspekt lesjon i høyre underlapp og pasienten henvises til pakkeforløp lungekreft med bronkoskopi. Kontroll-CT alene vurderes ikke tilstrekkelig.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Beholder KOLS, BiPAP og basal fortetning, men endrer CT-tolkningen fra «inkonklusiv» til «suspekt lesjon» – diagnostisk retning endres betydelig.",
+            "Endrer oppfølging fra «ny CT» til pakkeforløp/bronchoskopi – samme tematikk (tumor), men helt annet forløp.",
+            "Høy overflatelikhet (samme støttebehandling) kan lure modeller som ikke fanger endringen i radiologisk konklusjon."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_related_03",
+          "variation_text": "Kjent KOLS innlagt med infeksiøs forverring. Får i.v. antibiotika (ceftriakson) og prednisolon. NIV/BiPAP i 2 døgn pga hyperkapni. Rtg thorax viser basal fortetning venstre side. CT thorax beskrives som usikker mht infiltrat vs tumor, og det planlegges kontroll-CT om 6 uker.",
+          "variation_type": "related_condition",
+          "label": 0.5,
+          "changes_applied": [
+            "Endrer flere «nøkkelparametre» (antibiotikum, varighet NIV, side og kontrollintervall) – fortsatt samme type klinisk problem, men ikke identisk hendelse.",
+            "Bytter høyre til venstre basal fortetning – anatomisk detalj som er klinisk relevant i journal-søk.",
+            "Kontrollintervallet flyttes (4 uker → 6 uker) – nært relatert oppfølging, men ikke samme plan."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_hard_neg_01",
+          "variation_text": "Pasient med kjent KOLS innlagt med akutt dyspné og respirasjonssvikt. D-dimer forhøyet og CT lungearterier påviser lungeemboli. Rtg thorax kan vise basale fortetninger/atelektaser. Behandlet med antikoagulasjon og oksygentilskudd; ingen i.v. cefotaksim eller prednisolon som hovedbehandling. Kontroll-CT planlegges ikke.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder KOLS og respirasjonssvikt samt CT/røntgen-begreper, men bytter årsak til lungeemboli – samme symptomramme, helt annen sykdom.",
+            "Utnytter at basale fortetninger kan nevnes også ved LE/atelektase – kan gi falsk semantisk nærhet.",
+            "Endrer behandling/oppfølging fundamentalt (antikoagulasjon, ingen kontroll-CT) – viktig for å skille casene."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_hard_neg_02",
+          "variation_text": "Kjent KOLS innlagt med tungpust og hyperkapni. Klinikk og rtg thorax forenlig med hjertesvikt med stuvning og pleuravæske basalt, ikke pneumoni. Behandlet med i.v. diuretika og NIV, ingen i.v. cefotaksim. CT thorax gjort for avklaring viser stuvningsforandringer uten mistanke om tumor. Kontroll-CT om 4 uker er ikke aktuelt.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder NIV/retensjon og basal røntgenfunn, men endrer årsak til hjertesvikt/stuvning – klinisk vanlig forveksling med infeksjon.",
+            "Negerer behovet for antibiotika og endrer behandlingsmål (diuretika) – semantisk svært annerledes selv om ord som «NIV/CT thorax» overlapper.",
+            "Fjerner kontrollopplegget – utfordrer modeller som matcher på «CT om 4 uker» uten å forstå konteksten."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_hard_neg_03",
+          "variation_text": "KOLS-pasient med kjent kronisk hyperkapnisk respirasjonssvikt og hjemme-BiPAP (natt). Innlegges pga problemer med masken og økende CO2-retensjon, uten tegn til infeksjon. Rtg thorax uten nytt infiltrat; tidligere basal fortetning vurderes som arr/atelektase. CT thorax viser stabile forandringer, ingen tumor. Kontroll planlegges om 6–12 måneder, ikke om 4 uker.",
+          "variation_type": "hard_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Beholder KOLS, BiPAP og retensjon, men flytter scenarioet fra akutt infeksiøs forverring til teknisk/chronisk NIV-problem – semantisk annet innhold med høy ordlikhet.",
+            "CT/røntgen nevnes fortsatt, men nå som stabile arrforandringer – endrer tolkning og oppfølging.",
+            "Endrer tidsakse (kontroll måneder vs uker) – viktig for å skille akutt utredning fra langtidsoppfølging."
+          ]
+        },
+        {
+          "variation_id": "kols_infeksiøs_forverring_bipap_ct_kontroll_001_easy_neg_01",
+          "variation_text": "Pasient innlagt for akutt pyelonefritt med feber og flankesmerter. Behandlet med i.v. antibiotika og i.v. væske. CT urinveier viser hydronefrose grunnet ureterstein, og pasienten planlegges til urologisk oppfølging. Ingen respirasjonssvikt eller lungefunn.",
+          "variation_type": "easy_negative",
+          "label": 0.0,
+          "changes_applied": [
+            "Skifter organ/system til urinveier og infeksjonsfokus – tydelig ulikt originalcaset.",
+            "Beholder noen generiske sykehusord (innlagt, i.v., CT) for å teste at modellen ikke matcher kun på dokumentramme.",
+            "Ingen NIV/BiPAP, ingen thoraxfunn eller kontroll-CT thorax – skal gi lav semantisk likhet."
+          ]
+        }
+      ]
     }
   ]
 }

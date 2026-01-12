@@ -153,7 +153,7 @@ def evaluate_with_cache(
     cache: EmbeddingCache,
     records: Dict[str, CachedEmbedding],
     variations,
-) -> Tuple[EvaluationMetrics, BenchmarkMetrics, Dict[str, Optional[float]]]:
+) -> Tuple[EvaluationMetrics, BenchmarkMetrics, Dict[str, Optional[float]], Dict[str, Tuple[int, int]]]:
     results = []
     dataset_results: Dict[str, List[SimilarityResult]] = {}
     for variation in variations:
@@ -209,11 +209,13 @@ def evaluate_with_cache(
     metrics = SimilarityMetrics.compute_evaluation_metrics(results, model_name=model_name)
     benchmark = SimilarityMetrics.compute_benchmark_metrics(results)
     dataset_mrr: Dict[str, Optional[float]] = {}
+    dataset_counts: Dict[str, Tuple[int, int]] = {}
     for dataset_name, dataset_res in dataset_results.items():
         dataset_benchmark = SimilarityMetrics.compute_benchmark_metrics(dataset_res)
         value = dataset_benchmark.mean_reciprocal_rank if dataset_benchmark.evaluated_queries else None
         dataset_mrr[dataset_name] = value
-    return metrics, benchmark, dataset_mrr
+        dataset_counts[dataset_name] = (dataset_benchmark.total_queries, dataset_benchmark.evaluated_queries)
+    return metrics, benchmark, dataset_mrr, dataset_counts
 
 
 def main() -> None:
@@ -230,8 +232,17 @@ def main() -> None:
 
     cache = EmbeddingCache(CACHE_DIR)
     any_success = False
-    summary: List[Tuple[str, EvaluationMetrics, BenchmarkMetrics, Dict[str, Optional[float]]]] = []
+    summary: List[
+        Tuple[
+            str,
+            EvaluationMetrics,
+            BenchmarkMetrics,
+            Dict[str, Optional[float]],
+            Dict[str, Tuple[int, int]],
+        ]
+    ] = []
     dataset_comparison: Dict[str, Dict[str, Optional[float]]] = {}
+    dataset_query_counts: Dict[str, Tuple[int, int]] = {}
 
     for config in DEFAULT_AZURE_EMBEDDING_CONFIGS:
         deployment_name = resolve_deployment_name(config)
@@ -244,7 +255,7 @@ def main() -> None:
             continue
 
         try:
-            metrics, benchmark, dataset_mrr = evaluate_with_cache(
+            metrics, benchmark, dataset_mrr, dataset_counts = evaluate_with_cache(
                 config.display_name, deployment_name, cache, records, variations
             )
         except (KeyError, ValueError) as exc:
@@ -252,9 +263,14 @@ def main() -> None:
             continue
 
         display_results(config.display_name, metrics, benchmark)
-        summary.append((config.display_name, metrics, benchmark, dataset_mrr))
+        summary.append((config.display_name, metrics, benchmark, dataset_mrr, dataset_counts))
         for dataset_name, value in dataset_mrr.items():
             dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
+            counts = dataset_counts.get(dataset_name)
+            if counts:
+                existing_counts = dataset_query_counts.get(dataset_name)
+                if existing_counts is None or existing_counts != counts:
+                    dataset_query_counts[dataset_name] = counts
         any_success = True
 
     for config in DEFAULT_GEMINI_EMBEDDING_CONFIGS:
@@ -269,7 +285,7 @@ def main() -> None:
             continue
 
         try:
-            metrics, benchmark, dataset_mrr = evaluate_with_cache(
+            metrics, benchmark, dataset_mrr, dataset_counts = evaluate_with_cache(
                 config.display_name, cache_key, cache, records, variations
             )
         except (KeyError, ValueError) as exc:
@@ -277,9 +293,14 @@ def main() -> None:
             continue
 
         display_results(config.display_name, metrics, benchmark)
-        summary.append((config.display_name, metrics, benchmark, dataset_mrr))
+        summary.append((config.display_name, metrics, benchmark, dataset_mrr, dataset_counts))
         for dataset_name, value in dataset_mrr.items():
             dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
+            counts = dataset_counts.get(dataset_name)
+            if counts:
+                existing_counts = dataset_query_counts.get(dataset_name)
+                if existing_counts is None or existing_counts != counts:
+                    dataset_query_counts[dataset_name] = counts
         any_success = True
 
     for config in DEFAULT_NVIDIA_EMBEDDING_CONFIGS:
@@ -294,7 +315,7 @@ def main() -> None:
             continue
 
         try:
-            metrics, benchmark, dataset_mrr = evaluate_with_cache(
+            metrics, benchmark, dataset_mrr, dataset_counts = evaluate_with_cache(
                 config.display_name, cache_key, cache, records, variations
             )
         except (KeyError, ValueError) as exc:
@@ -302,9 +323,14 @@ def main() -> None:
             continue
 
         display_results(config.display_name, metrics, benchmark)
-        summary.append((config.display_name, metrics, benchmark, dataset_mrr))
+        summary.append((config.display_name, metrics, benchmark, dataset_mrr, dataset_counts))
         for dataset_name, value in dataset_mrr.items():
             dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
+            counts = dataset_counts.get(dataset_name)
+            if counts:
+                existing_counts = dataset_query_counts.get(dataset_name)
+                if existing_counts is None or existing_counts != counts:
+                    dataset_query_counts[dataset_name] = counts
         any_success = True
 
     for config in DEFAULT_HUGGINGFACE_EMBEDDING_CONFIGS:
@@ -319,7 +345,7 @@ def main() -> None:
             continue
 
         try:
-            metrics, benchmark, dataset_mrr = evaluate_with_cache(
+            metrics, benchmark, dataset_mrr, dataset_counts = evaluate_with_cache(
                 config.display_name, cache_key, cache, records, variations
             )
         except (KeyError, ValueError) as exc:
@@ -327,9 +353,14 @@ def main() -> None:
             continue
 
         display_results(config.display_name, metrics, benchmark)
-        summary.append((config.display_name, metrics, benchmark, dataset_mrr))
+        summary.append((config.display_name, metrics, benchmark, dataset_mrr, dataset_counts))
         for dataset_name, value in dataset_mrr.items():
             dataset_comparison.setdefault(dataset_name, {})[config.display_name] = value
+            counts = dataset_counts.get(dataset_name)
+            if counts:
+                existing_counts = dataset_query_counts.get(dataset_name)
+                if existing_counts is None or existing_counts != counts:
+                    dataset_query_counts[dataset_name] = counts
         any_success = True
 
     if not any_success:
@@ -337,7 +368,7 @@ def main() -> None:
         return
 
     summary_data: List[Dict[str, object]] = []
-    for model_name, metrics, benchmark, dataset_mrr in summary:
+    for model_name, metrics, benchmark, dataset_mrr, _ in summary:
         precision_lookup = benchmark.precision_at_k_by_label or {}
 
         def lookup_precision(label: str, k: int) -> Optional[float]:
@@ -516,7 +547,19 @@ def main() -> None:
         model_order = [row["model"] for row in summary_data]
         datasets = sorted(dataset_comparison.keys())
         header = ["Model"] + datasets
-        model_row_widths: Dict[str, int] = {col: len(col) for col in header}
+        header_labels: Dict[str, str] = {"Model": "Model"}
+        for dataset_name in datasets:
+            counts = dataset_query_counts.get(dataset_name)
+            if counts:
+                total_queries, evaluated_queries = counts
+                header_labels[dataset_name] = f"{dataset_name} (q={total_queries}, pos={evaluated_queries})"
+            else:
+                header_labels[dataset_name] = dataset_name
+
+        model_row_widths: Dict[str, int] = {}
+        for col in header:
+            label = header_labels.get(col, col)
+            model_row_widths[col] = len(label)
 
         dataset_best: Dict[str, Optional[float]] = {}
         dataset_worst: Dict[str, Optional[float]] = {}
@@ -561,8 +604,9 @@ def main() -> None:
         header_cells = []
         for idx, col in enumerate(header):
             align_right = idx != 0
-            label = colorize(col, CYAN) if idx != 0 and COLOR_ENABLED else col
-            header_cells.append(pad_text(label, col, model_row_widths[col], align_right=align_right))
+            plain_label = header_labels.get(col, col)
+            display_label = colorize(plain_label, CYAN) if idx != 0 and COLOR_ENABLED else plain_label
+            header_cells.append(pad_text(display_label, plain_label, model_row_widths[col], align_right=align_right))
         print(" | ".join(header_cells))
         print("-" * sum(model_row_widths[col] + (3 if i < len(header) - 1 else 0) for i, col in enumerate(header)))
 
